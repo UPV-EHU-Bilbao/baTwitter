@@ -26,8 +26,11 @@ public class LoginTest {
          
         //the following is set without accesstoken- desktop client
         cb.setDebugEnabled(true)
-      .setOAuthConsumerKey("UlV0KXPe0nKO5XV7tB9waGh6m")
-      .setOAuthConsumerSecret("unEYEwV8suhSrg2gLz9GrDD8VhTGZMvb6pUtA1rXMWBiRcQ1zZ");
+      .setOAuthConsumerKey("VZui0P0P00DX1q9SeCxLlSDYv")
+      .setOAuthConsumerSecret("ZvlLujot49kqG6qd0SJp3PLFRyHUIp9XtmEw6bYOlOmqpFC1F1")
+      .setOAuthAccessToken(null)
+      .setOAuthAccessTokenSecret(null);
+        
    
         try {
             TwitterFactory tf = new TwitterFactory(cb.build());
@@ -83,11 +86,11 @@ public class LoginTest {
                 }
             }
              
-           Status status = twitter.updateStatus(testStatus);
+         //  Status status = twitter.updateStatus(testStatus);
  
-           System.out.println("Successfully updated the status to [" + status.getText() + "].");
+           //System.out.println("Successfully updated the status to [" + status.getText() + "].");
  
-           System.out.println("ready exit");
+          // System.out.println("ready exit");
              
             System.exit(0);
         } catch (TwitterException te) {
