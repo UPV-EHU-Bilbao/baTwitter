@@ -76,7 +76,7 @@ class LoginDialog extends JDialog implements ActionListener {
         String password = login.getPassword();
 
         
-           // Twitter twitter = new Twitter(userName, password);
+           // Twitter twitter = new Twitter(userName, password); b
            // twitter.verifyCredentials();
             JOptionPane.showMessageDialog(login, "Login successful!");
          
