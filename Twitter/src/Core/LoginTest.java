@@ -23,7 +23,7 @@ public class LoginTest {
  
         ConfigurationBuilder cb = new ConfigurationBuilder();
          
-         
+         String web=null;
         //the following is set without accesstoken- desktop client
         cb.setDebugEnabled(true)
       .setOAuthConsumerKey("VZui0P0P00DX1q9SeCxLlSDYv")
@@ -57,6 +57,7 @@ public class LoginTest {
                 while (null == accessToken) {
                     System.out.println("Open the following URL and grant access to your account:");
                     System.out.println(requestToken.getAuthorizationURL());
+                    web= requestToken.getAuthorizationURL();
                     System.out.print("Enter the PIN(if available) and hit enter after you granted access.[PIN]:");
                     String pin = br.readLine();
                 
@@ -77,7 +78,8 @@ public class LoginTest {
                 System.out.println("Got access token.");
                 System.out.println("Access token: " + accessToken.getToken());
                 System.out.println("Access token secret: " + accessToken.getTokenSecret());
-                 
+                //TODO Conseguir que URL se abra en ventana
+                //Runtime.getRuntime().exec(new String[] { "\\Program Files (x86)\\Internet Explorer\\ieplore.exe", web });
             } catch (IllegalStateException ie) {
                 // access token is already available, or consumer key/secret is not set.
                 if (!twitter.getAuthorization().isEnabled()) {
@@ -85,6 +87,7 @@ public class LoginTest {
                     System.exit(-1);
                 }
             }
+            
              
          //  Status status = twitter.updateStatus(testStatus);
  
