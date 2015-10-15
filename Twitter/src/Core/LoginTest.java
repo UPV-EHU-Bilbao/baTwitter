@@ -18,10 +18,21 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class LoginTest {
 
-    public static void main(String[] args) {
-        
+public class LoginTest {
+	private static LoginTest gureLoginTest;
+	private static LoginWINDOW LW;
+
+	public static synchronized LoginTest getLoginTest(){
+		if (LoginTest.gureLoginTest == null)
+			LoginTest.gureLoginTest = new LoginTest();
+		return LoginTest.gureLoginTest;	
+	}
+    public void main(String[] args) {
+     LW=new LoginWINDOW();
+    	
+    	
+    	/*  
         String testStatus="Hello from twitter4j";
  
         ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -105,6 +116,6 @@ public class LoginTest {
             ioe.printStackTrace();
             System.out.println("Failed to read the system input.");
             System.exit(-1);
-        }
+        }*/
     }
 }
