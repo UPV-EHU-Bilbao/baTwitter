@@ -10,10 +10,13 @@ import twitter4j.conf.Configuration;
 import twitter4j.media.ImageUpload;
 import twitter4j.media.ImageUploadFactory;
 import twitter4j.media.MediaProvider;
- 
+
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class LoginTest {
 
@@ -23,7 +26,6 @@ public class LoginTest {
  
         ConfigurationBuilder cb = new ConfigurationBuilder();
          
-         String web=null;
         //the following is set without accesstoken- desktop client
         cb.setDebugEnabled(true)
       .setOAuthConsumerKey("VZui0P0P00DX1q9SeCxLlSDYv")
@@ -47,7 +49,7 @@ public class LoginTest {
                 System.out.println("Got request token.");
                 System.out.println("Request token: " + requestToken.getToken());
                 System.out.println("Request token secret: " + requestToken.getTokenSecret());
- 
+
                 System.out.println("|-----");
  
                 AccessToken accessToken = null;
@@ -57,7 +59,8 @@ public class LoginTest {
                 while (null == accessToken) {
                     System.out.println("Open the following URL and grant access to your account:");
                     System.out.println(requestToken.getAuthorizationURL());
-                    web= requestToken.getAuthorizationURL();
+                    URI url=new URI(requestToken.getAuthorizationURL());
+                    Desktop.getDesktop().browse(url);
                     System.out.print("Enter the PIN(if available) and hit enter after you granted access.[PIN]:");
                     String pin = br.readLine();
                 
@@ -78,9 +81,7 @@ public class LoginTest {
                 System.out.println("Got access token.");
                 System.out.println("Access token: " + accessToken.getToken());
                 System.out.println("Access token secret: " + accessToken.getTokenSecret());
-                //TODO Conseguir que URL se abra en ventana
-                //Runtime.getRuntime().exec(new String[] { "\\Program Files (x86)\\Internet Explorer\\ieplore.exe", web });
-            } catch (IllegalStateException ie) {
+            } catch (IllegalStateException | URISyntaxException ie) {
                 // access token is already available, or consumer key/secret is not set.
                 if (!twitter.getAuthorization().isEnabled()) {
                     System.out.println("OAuth consumer key/secret is not set.");
