@@ -3,6 +3,7 @@ package Core;
 import javax.swing.*;
 
 import twitter4j.Twitter;
+import twitter4j.examples.oauth.GetAccessToken;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -14,21 +15,16 @@ class LoginDialog extends JDialog implements ActionListener {
     JTextField textName;
     JPasswordField passField;
     JButton okButton;
-    JButton cancelButton;
+    
 
     JDialog dialog;
 
     public LoginDialog() {
-       
-
-        
-
+    	JFrame.setDefaultLookAndFeelDecorated(true);
         JPanel panelThree = new JPanel();
-        okButton = new JButton("OK");
+        okButton = new JButton("Login");
         okButton.addActionListener(this);
-        //okButton.
         panelThree.add(okButton);
-        panelThree.add(cancelButton);
 
         dialog = new JDialog();
         dialog.setResizable(false);
@@ -44,24 +40,16 @@ class LoginDialog extends JDialog implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == okButton) {
+        	LoginTest.main(null);
             dialog.dispose();
-        } else if (e.getSource() == cancelButton) {
-            System.exit(0);
-        }
+        } 
     }
 
-    public String getUserName() {
-        return textName.getText();
-    }
 
-    public String getPassword() {
-        return String.valueOf(passField.getPassword());
-    }
 
     
     public static void main(String[] args) {
         LoginDialog login = new LoginDialog();
-           
            // Twitter twitter = new Twitter(userName, password); b
            // twitter.verifyCredentials();
             JOptionPane.showMessageDialog(login, "Login successful!");
