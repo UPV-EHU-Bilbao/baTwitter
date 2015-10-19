@@ -1,11 +1,11 @@
 package Core;
 
-import graph.LoginFrame;
+import graph.OnlineOfflineFrame1;
 import twitter4j.*;
 
-public class Login {
+public class Main {
 	      public static void main(String[] args) throws TwitterException {
-	          new LoginFrame().setVisible(true);
+	          new OnlineOfflineFrame1().setVisible(true);
 	          }
 	      }
 	  

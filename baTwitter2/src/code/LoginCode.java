@@ -11,18 +11,18 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.ConfigurationBuilder;
 
-public class LoginTest2 {
+public class LoginCode {
 	String CK="VZui0P0P00DX1q9SeCxLlSDYv";
 	String CS="ZvlLujot49kqG6qd0SJp3PLFRyHUIp9XtmEw6bYOlOmqpFC1F1";
 	ConfigurationBuilder cb = new ConfigurationBuilder();
 	RequestToken RT=null;
 	AccessToken AT=null;
-	TwitterFactory tf=new TwitterFactory(cb.build());
-	Twitter twitter=tf.getInstance();
-	static LoginTest2 nireLoginTest2=new LoginTest2();
+	TwitterFactory tf=null;
+	Twitter twitter=null;
+	static LoginCode nireLoginTest2=new LoginCode();
 	
 	
-	public LoginTest2(){
+	public LoginCode(){
 		cb.setDebugEnabled(true).setOAuthConsumerKey(CK).
 		setOAuthConsumerSecret(CS).
 		setOAuthAccessTokenURL(null).
@@ -36,9 +36,9 @@ public class LoginTest2 {
             }
 		
 	}
-	public static synchronized LoginTest2 getLogintest2(){
+	public static synchronized LoginCode getLogintest2(){
 		if (nireLoginTest2==null){
-			nireLoginTest2=new LoginTest2();
+			nireLoginTest2=new LoginCode();
 		}
 		return nireLoginTest2;
 	}
@@ -54,6 +54,7 @@ public class LoginTest2 {
 	
 	public void getAccessToken(String Pin){
 		System.out.println(Pin);
+		
 		try {
             if (Pin.length() > 0) {
                 AT = twitter.getOAuthAccessToken(RT, Pin);
@@ -64,6 +65,7 @@ public class LoginTest2 {
             if (401 == te.getStatusCode()) {
                 System.out.println("Unable to get the access token.");
             } else {
+            	System.out.println(te.getStatusCode());
                 te.printStackTrace();
             }
         } 

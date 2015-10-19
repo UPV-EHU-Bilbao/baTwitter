@@ -1,25 +1,29 @@
 package graph;
 
-import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
+import java.awt.event.ActionListener;
+
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import code.LoginTest2;
+import code.LoginCode;
 
+import javax.swing.JTextField;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class LoginFrame extends JFrame {
+public class OnlineStep2 extends JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JTextField Pin;
+	private JTextField PinTitle;
 
 	/**
 	 * Launch the application.
@@ -28,7 +32,7 @@ public class LoginFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					LoginFrame frame = new LoginFrame();
+					OnlineStep2 frame = new OnlineStep2();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,35 +44,41 @@ public class LoginFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public LoginFrame() {
+	public OnlineStep2() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
-		JButton btnOffline = new JButton("OFFLINE");
-		contentPane.add(btnOffline, BorderLayout.WEST);
+		Pin = new JTextField();
+		Pin.setBounds(23, 96, 164, 41);
+		contentPane.add(Pin);
+		Pin.setColumns(10);
 		
-		JButton btnOnline = new JButton("ONLINE");
-		btnOnline.addActionListener(new ActionListener() {
+		PinTitle = new JTextField();
+		PinTitle.setText("Sartu PIN hemen");
+		PinTitle.setEditable(false);
+		PinTitle.setBounds(45, 65, 97, 20);
+		contentPane.add(PinTitle);
+		PinTitle.setColumns(10);
+		
+		JButton btnOk = new JButton("Ok");
+		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				dispose();
 				try {
-					LoginTest2.getLogintest2().openURL(LoginTest2.getLogintest2().getRT());
-					dispose();
-					new PinZone().setVisible(true);
-					contentPane.setVisible(false);
-
-				} catch (Exception e1) {
-					e1.printStackTrace();
+					LoginCode.getLogintest2().getAccessToken(Pin.getText());
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-        		
 			}
 		});
-		contentPane.add(btnOnline, BorderLayout.EAST);
+		
+		btnOk.setBounds(262, 105, 89, 23);
+		contentPane.add(btnOk);
+		
 	}
-
+	
+	
 }
