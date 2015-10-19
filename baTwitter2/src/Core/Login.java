@@ -1,11 +1,11 @@
 package Core;
 
-import graph.LoginDialog;
+import graph.LoginFrame;
 import twitter4j.*;
 
 public class Login {
 	      public static void main(String[] args) throws TwitterException {
-	          new LoginDialog();
+	          new LoginFrame().setVisible(true);
 	          }
 	      }
 	  

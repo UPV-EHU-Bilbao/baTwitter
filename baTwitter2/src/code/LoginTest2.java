@@ -16,8 +16,10 @@ public class LoginTest2 {
 	String CS="ZvlLujot49kqG6qd0SJp3PLFRyHUIp9XtmEw6bYOlOmqpFC1F1";
 	ConfigurationBuilder cb = new ConfigurationBuilder();
 	RequestToken RT=null;
-	TwitterFactory tf=null;
-	Twitter twitter=null;
+	AccessToken AT=null;
+	TwitterFactory tf=new TwitterFactory(cb.build());
+	Twitter twitter=tf.getInstance();
+	static LoginTest2 nireLoginTest2=new LoginTest2();
 	
 	
 	public LoginTest2(){
@@ -29,11 +31,19 @@ public class LoginTest2 {
             tf = new TwitterFactory(cb.build());
             twitter = tf.getInstance();
     		RT=twitter.getOAuthRequestToken();
-
             }catch(Exception e){
             	e.printStackTrace();
             }
 		
+	}
+	public static synchronized LoginTest2 getLogintest2(){
+		if (nireLoginTest2==null){
+			nireLoginTest2=new LoginTest2();
+		}
+		return nireLoginTest2;
+	}
+	public RequestToken getRT(){
+		return RT;
 	}
 	
 	
@@ -42,23 +52,28 @@ public class LoginTest2 {
         Desktop.getDesktop().browse(url);
 	}
 	
-	public void getAccessToken(String Pin, RequestToken RT2){
-		AccessToken AT=null; 
+	public void getAccessToken(String Pin){
+		System.out.println(Pin);
 		try {
-             if (Pin.length() > 0) {
-                 AT = twitter.getOAuthAccessToken(RT2, Pin);
-             } else {
-                 AT = twitter.getOAuthAccessToken(RT2);
-             }
-         } catch (TwitterException te) {
-             if (401 == te.getStatusCode()) {
-                 System.out.println("Unable to get the access token.");
-             } else {
-                 te.printStackTrace();
-             }
+            if (Pin.length() > 0) {
+                AT = twitter.getOAuthAccessToken(RT, Pin);
+            } else {
+                AT = twitter.getOAuthAccessToken(RT);
+            }
+        } catch (TwitterException te) {
+            if (401 == te.getStatusCode()) {
+                System.out.println("Unable to get the access token.");
+            } else {
+                te.printStackTrace();
+            }
+        } 
 		
-         }
+    System.out.println("Got access token.");
+    System.out.println("Access token: " + AT.getToken());
+    System.out.println("Access token secret: " + AT.getTokenSecret());
 	}	
+	
+	
 	public void showStatus(){
 		if (!twitter.getAuthorization().isEnabled()) {
             System.out.println("OAuth consumer key/secret is not set.");

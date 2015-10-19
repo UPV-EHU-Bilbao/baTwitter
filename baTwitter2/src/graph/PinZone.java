@@ -23,8 +23,8 @@ import java.awt.event.ActionEvent;
 public class PinZone extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField txtSartuPinHemen;
+	private JTextField Pin;
+	private JTextField PinTitle;
 
 	/**
 	 * Launch the application.
@@ -53,24 +53,24 @@ public class PinZone extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setBounds(23, 96, 164, 41);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		Pin = new JTextField();
+		Pin.setBounds(23, 96, 164, 41);
+		contentPane.add(Pin);
+		Pin.setColumns(10);
 		
-		txtSartuPinHemen = new JTextField();
-		txtSartuPinHemen.setText("Sartu PIN hemen");
-		txtSartuPinHemen.setEditable(false);
-		txtSartuPinHemen.setBounds(63, 58, 86, 20);
-		contentPane.add(txtSartuPinHemen);
-		txtSartuPinHemen.setColumns(10);
+		PinTitle = new JTextField();
+		PinTitle.setText("Sartu PIN hemen");
+		PinTitle.setEditable(false);
+		PinTitle.setBounds(45, 65, 97, 20);
+		contentPane.add(PinTitle);
+		PinTitle.setColumns(10);
 		
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				LoginTest2 lg2=new LoginTest2();
+				LoginTest2 lg2=LoginTest2.getLogintest2();
 				try {
-					//lg2.getAccessToken(txtSartuPinHemen.getText(), lg2.getRequestToken());
+					lg2.getAccessToken(Pin.getText());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
