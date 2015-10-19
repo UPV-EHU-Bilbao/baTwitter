@@ -1,15 +1,18 @@
-package Core;
+package graph;
 
 import javax.swing.*;
 
+import code.LoginTest;
+import code.LoginTest2;
 import twitter4j.Twitter;
+import twitter4j.auth.RequestToken;
 import twitter4j.examples.oauth.GetAccessToken;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.*;
 
-class LoginDialog extends JDialog implements ActionListener {
+public class LoginDialog extends JDialog implements ActionListener {
     JLabel labelName;
     JLabel labelPass;
     JTextField textName;
@@ -38,10 +41,19 @@ class LoginDialog extends JDialog implements ActionListener {
 
     }
 
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
         if (e.getSource() == okButton) {
-        	LoginTest.main(null);
-            dialog.dispose();
+        	LoginTest2 lg2= new LoginTest2();
+        	try {
+				//lg2.openURL(lg2.);
+				PinZone pz=new PinZone();
+				pz.setVisible(true);
+				this.setVisible(false);
+				
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         } 
     }
 
@@ -50,8 +62,7 @@ class LoginDialog extends JDialog implements ActionListener {
     
     public static void main(String[] args) {
         LoginDialog login = new LoginDialog();
-           // Twitter twitter = new Twitter(userName, password); b
-           // twitter.verifyCredentials();
+           
             JOptionPane.showMessageDialog(login, "Login successful!");
          
     }    
