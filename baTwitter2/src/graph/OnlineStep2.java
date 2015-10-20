@@ -68,7 +68,7 @@ public class OnlineStep2 extends JFrame {
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					LoginCode.getLogintest2().getAccessToken(Pin.getText());
+					LoginCode.getLoginCode().getAccessToken(Pin.getText());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

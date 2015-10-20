@@ -57,7 +57,7 @@ public class OnlineOfflineFrame1 extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
 				try {
-					LoginCode.getLogintest2().openURL(LoginCode.getLogintest2().getRT());
+					LoginCode.getLoginCode().Login();
 					dispose();
 					new OnlineStep2().setVisible(true);
 					contentPane.setVisible(false);
