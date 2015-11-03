@@ -1,8 +1,11 @@
 package code;
 
 import java.awt.Desktop;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URI;
 
+import propertyManager.TextPropertyWriter;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -51,9 +54,10 @@ public class LoginCode {
         
 	}
 	
-	public void getAccessToken(String Pin){
+	public void getAccessToken(String Pin) throws FileNotFoundException, IOException{
 		System.out.println(getRT());
 		System.out.println(Pin);
+		TextPropertyWriter prop= new TextPropertyWriter();
 		
 		try {
 			
@@ -67,6 +71,7 @@ public class LoginCode {
                 AT = twitter.getOAuthAccessToken(getRT());
             }
             twitter.setOAuthAccessToken(AT);
+            
 			
         } catch (TwitterException te) {
        System.out.println("Unable to get the access token.");
@@ -78,7 +83,6 @@ public class LoginCode {
             }
         } 
 		
-   
     
 	}	
 	
