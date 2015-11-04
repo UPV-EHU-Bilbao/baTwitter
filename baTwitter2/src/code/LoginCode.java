@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 
-import propertyManager.TextPropertyWriter;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -56,9 +55,7 @@ public class LoginCode {
 	
 	public void getAccessToken(String Pin) throws FileNotFoundException, IOException{
 		System.out.println(getRT());
-		System.out.println(Pin);
-		TextPropertyWriter prop= new TextPropertyWriter();
-		
+		System.out.println(Pin);		
 		try {
 			
             if (Pin.length() > 0) {
@@ -92,6 +89,10 @@ public class LoginCode {
             System.out.println("OAuth consumer key/secret is not set.");
             System.exit(-1);
         }
+	}
+	
+	public Twitter getTwitterInstance(){
+		return this.twitter;
 	}
 	
 	

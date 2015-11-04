@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import code.BackBone;
 import code.LoginCode;
 
 import javax.swing.JTextField;
@@ -24,12 +25,14 @@ public class OnlineStep2 extends JFrame {
 	private JPanel contentPane;
 	private JTextField Pin;
 	private JTextField PinTitle;
+	private BackBone bb=new BackBone();
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					OnlineStep2 frame = new OnlineStep2();
@@ -66,10 +69,13 @@ public class OnlineStep2 extends JFrame {
 		
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					LoginCode.getLoginCode().getAccessToken(Pin.getText());
 					dispose();
+					bb.getTimeline();
+					
 					new Twitter().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

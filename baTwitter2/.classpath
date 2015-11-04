@@ -7,6 +7,6 @@
 	<classpathentry kind="lib" path="C:/Users/Ray/Downloads/twitter4j-4.0.4/lib/twitter4j-examples-4.0.4.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Ray/Downloads/twitter4j-4.0.4/lib/twitter4j-media-support-4.0.4.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Ray/Downloads/twitter4j-4.0.4/lib/twitter4j-stream-4.0.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Ray/Desktop/UCanAccess-3.0.2-bin/ucanaccess-3.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ray/Desktop/Apoyo/UCanAccess-3.0.2-bin/ucanaccess-3.0.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

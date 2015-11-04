@@ -1,6 +1,5 @@
 package graph;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -11,6 +10,10 @@ import javax.swing.JLabel;
 
 public class Twitter extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	/**
@@ -18,6 +21,7 @@ public class Twitter extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					Twitter frame = new Twitter();
@@ -40,6 +44,7 @@ public class Twitter extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		@SuppressWarnings("rawtypes")
 		JList list = new JList();
 		list.setBounds(20, 25, 450, 450);
 		contentPane.add(list);
