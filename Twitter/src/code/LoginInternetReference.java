@@ -1,4 +1,4 @@
-package Core;
+package code;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -18,21 +18,10 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+public class LoginInternetReference {
 
-public class LoginTest {
-	private static LoginTest gureLoginTest;
-	private static LoginWINDOW LW;
-
-	public static synchronized LoginTest getLoginTest(){
-		if (LoginTest.gureLoginTest == null)
-			LoginTest.gureLoginTest = new LoginTest();
-		return LoginTest.gureLoginTest;	
-	}
-    public void main(String[] args) {
-     LW=new LoginWINDOW();
-    	
-    	
-    	/*  
+    public static void main(String[] args) {
+        
         String testStatus="Hello from twitter4j";
  
         ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -116,6 +105,6 @@ public class LoginTest {
             ioe.printStackTrace();
             System.out.println("Failed to read the system input.");
             System.exit(-1);
-        }*/
+        }
     }
 }
