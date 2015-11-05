@@ -4,7 +4,9 @@ import java.awt.Desktop;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
+import java.sql.SQLException;
 
+import dbRelated.DBK;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -19,7 +21,8 @@ public class LoginCode {
 	AccessToken AT;
 	RequestToken RT;
 	Twitter twitter;
-	static LoginCode nireLoginCode=new LoginCode();
+	private static LoginCode nireLoginCode=new LoginCode();
+	private static DBK dbk;
 	
 	
 	public LoginCode(){
@@ -52,9 +55,10 @@ public class LoginCode {
         Desktop.getDesktop().browse(url);
         
 	}
-	public void LoginWithCredentials(String AT, String ATS){
-		AccessToken AccessToken2 = new AccessToken(AT,ATS);
-		twitter.setOAuthAccessToken(AccessToken2);
+	public void LoginWithCredentials() throws SQLException{
+		dbk=new DBK();
+		String[] token=dbk.isTokenRdy();		
+		twitter.setOAuthAccessToken(new AccessToken(token[0], token[1]));
 	}
 	
 	public void getAccessToken(String Pin) throws FileNotFoundException, IOException{

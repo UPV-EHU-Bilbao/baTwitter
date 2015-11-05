@@ -60,13 +60,6 @@ public class OnlineOfflineFrame1 extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					LoginCode.getLoginCode().Login();			
-					String[] token=new DBK("C://Users//Ray//git//baTwitter//baTwitter2//src//Twitter.accdb").isTokenRdy();
-					if (!token[0].isEmpty()&& !token[1].isEmpty()){
-						dispose();
-						LoginCode.getLoginCode().LoginWithCredentials(token[0], token[1]);
-						new Twitter().setVisible(true);
-						contentPane.setVisible(false);
-					}
 					dispose();
 					new OnlineStep2().setVisible(true);
 					contentPane.setVisible(false);

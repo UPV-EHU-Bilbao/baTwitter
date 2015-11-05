@@ -75,8 +75,6 @@ public class OnlineStep2 extends JFrame {
 				try {
 					LoginCode.getLoginCode().getAccessToken(Pin.getText());
 					dispose();
-					bb.getTimeline();
-					
 					new Twitter().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

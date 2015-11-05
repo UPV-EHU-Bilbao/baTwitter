@@ -24,7 +24,7 @@ public class BackBone {
 			try{
 				int size = statuses.size();
 				Paging page = new Paging(pageno++,100);
-				statuses.addAll(LoginCode.nireLoginCode.twitter.getHomeTimeline(page));
+				statuses.addAll(LoginCode.getLoginCode().twitter.getHomeTimeline(page));
 				if (statuses.size()==size){
 					break;
 				}

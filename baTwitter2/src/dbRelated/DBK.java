@@ -6,8 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
-
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -15,10 +14,11 @@ import net.ucanaccess.converters.TypesMap.AccessType;
 import net.ucanaccess.ext.FunctionType;
 import net.ucanaccess.jdbc.UcanaccessConnection;
 import net.ucanaccess.jdbc.UcanaccessDriver;
+import net.ucanaccess.jdbc.UcanaccessSQLException;
 
 
 public class DBK {
-	static String path= "C://Users//Ray//git//baTwitter//baTwitter2//src//Twitter.accdb";
+	static String path= "C:/Users/Ray/git/baTwitter/baTwitter2/src/Twitter.accdb";
 
 	
 	
@@ -49,10 +49,8 @@ public class DBK {
 
 	private static Connection getUcanaccessConnection(String pathNewDB) throws SQLException,
 			IOException {
-		pathNewDB=path;
 		   String url = UcanaccessDriver.URL_PREFIX + pathNewDB+";newDatabaseVersion=V2003";
-
-		   return DriverManager.getConnection(url, "sa", "");
+		   return DriverManager.getConnection(url);
 	}
 
 	/*public static void main(String[] args) throws ClassNotFoundException, SQLException {
@@ -81,10 +79,10 @@ public class DBK {
 
 	private Connection ucaConn;
 
-	public DBK(String pathNewDB) {
-		pathNewDB=path;
+	public DBK() {
+		
 		try {
-			this.ucaConn=getUcanaccessConnection(pathNewDB);
+			this.ucaConn=getUcanaccessConnection(path);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -260,21 +258,26 @@ public class DBK {
 	public void saveToken(String AccessToken,String AccessTokenSecret) throws SQLException{
 		
 		Statement st =ucaConn.createStatement();
-		st.execute("INSERT into superuser (AccessToken,AccessTokenSecret) VALUES ("+AccessToken+","+AccessTokenSecret+")");
+		st.execute("INSERT into superuser (AccessToken,AccessTokenSecret)VALUES('"+AccessToken+"','"+AccessTokenSecret+"')");
 		
 	}
 	public String[] isTokenRdy() throws SQLException{
-		Statement st = null;
+       
+		Statement st =this.ucaConn.createStatement();
 		String[] token= new String[2];
-		st =this.ucaConn.createStatement();
-		ResultSet rs=st.executeQuery("SELECT (AccessToken,AccessTokenSecret) FROM superuser");
-		dump(rs,"executeQuery");
-		rs.next();
-		token[0]= rs.getString(1);
-		token[1]= rs.getString(2);
+		try{
+		ResultSet rs=st.executeQuery("SELECT AccessToken,AccessTokenSecret FROM superuser");
 		
-		if (st != null){
-				st.close();
+		if(rs.next()){
+			token[0]=rs.getString(1);
+			token[1]=rs.getString(2);
+			dump(rs,"executeQuery");
+		}
+		
+		}
+		finally {
+		if (st != null)
+			st.close();
 		}
 		return token;
 	}
