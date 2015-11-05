@@ -15,6 +15,7 @@ import code.LoginCode;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
+import javax.swing.JRadioButton;
 
 public class OnlineStep2 extends JFrame {
 
@@ -63,7 +64,7 @@ public class OnlineStep2 extends JFrame {
 		PinTitle = new JTextField();
 		PinTitle.setText("Sartu PIN hemen");
 		PinTitle.setEditable(false);
-		PinTitle.setBounds(45, 65, 97, 20);
+		PinTitle.setBounds(45, 65, 107, 20);
 		contentPane.add(PinTitle);
 		PinTitle.setColumns(10);
 		
@@ -86,7 +87,9 @@ public class OnlineStep2 extends JFrame {
 		btnOk.setBounds(262, 105, 89, 23);
 		contentPane.add(btnOk);
 		
+		JRadioButton rdbtnGogoratuPasahitza = new JRadioButton("Gogoratu pasahitza");
+		rdbtnGogoratuPasahitza.setBounds(45, 169, 107, 20);
+		contentPane.add(rdbtnGogoratuPasahitza);
+		
 	}
-	
-	
 }

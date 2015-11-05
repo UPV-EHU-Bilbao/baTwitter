@@ -15,7 +15,7 @@ public class BackBone {
 	public BackBone(){
 	}
 	
-	public void getTimeline() throws TwitterException{
+	public List getTimeline() throws TwitterException{
 		
 		int pageno=1;
 		List statuses = new ArrayList();
@@ -35,6 +35,7 @@ public class BackBone {
 		Iterator<Status> itr = statuses.iterator();
 		while (itr.hasNext()){
 			System.out.println(itr.next().getText());
+			
 		}
 		System.out.println(statuses.size());
 		
@@ -44,6 +45,7 @@ public class BackBone {
 		for(int i=0;i<statuses.size();i++){
 			System.out.println(statuses.get(i).getText());
 		}*/
+		return statuses;
 	}
 	
 	

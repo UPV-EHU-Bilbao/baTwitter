@@ -52,6 +52,10 @@ public class LoginCode {
         Desktop.getDesktop().browse(url);
         
 	}
+	public void LoginWithCredentials(String AT, String ATS){
+		AccessToken AccessToken2 = new AccessToken(AT,ATS);
+		twitter.setOAuthAccessToken(AccessToken2);
+	}
 	
 	public void getAccessToken(String Pin) throws FileNotFoundException, IOException{
 		System.out.println(getRT());
