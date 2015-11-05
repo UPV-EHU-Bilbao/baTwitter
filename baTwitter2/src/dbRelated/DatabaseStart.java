@@ -1,10 +1,10 @@
 package dbRelated;
 
-import net.ucanaccess.jdbc.UcanaccessConnection;
+//import net.ucanaccess.jdbc.UcanaccessConnection;
 
 public class DatabaseStart {
 	
-	public UcanaccessConnection UDAC;
+	//ublic UcanaccessConnection UDAC;
 	
 	public DatabaseStart(){
 		
