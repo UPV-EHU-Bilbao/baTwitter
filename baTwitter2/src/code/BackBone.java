@@ -1,8 +1,7 @@
 package code;
 
 import twitter4j.Paging;
-import twitter4j.ResponseList;
-import twitter4j.Twitter;
+
 import twitter4j.TwitterException;
 
 import java.util.*;
@@ -15,10 +14,10 @@ public class BackBone {
 	public BackBone(){
 	}
 	
-	public List getTimeline() throws TwitterException{
+	public List<Status> getTimeline() throws TwitterException{
 		
 		int pageno=1;
-		List statuses = new ArrayList();
+		List<Status> statuses = new ArrayList<Status>();
 		
 		while (true){
 			try{

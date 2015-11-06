@@ -4,9 +4,7 @@ package dbRelated;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -14,8 +12,6 @@ import net.ucanaccess.converters.TypesMap.AccessType;
 import net.ucanaccess.ext.FunctionType;
 import net.ucanaccess.jdbc.UcanaccessConnection;
 import net.ucanaccess.jdbc.UcanaccessDriver;
-import net.ucanaccess.jdbc.UcanaccessSQLException;
-
 
 public class DBK {
 	static String path= "C:/Users/Ray/git/baTwitter/baTwitter2/src/Twitter.accdb";
@@ -148,7 +144,7 @@ public class DBK {
 		
 	}**/
 
-	private void executeQueryWithCustomFunction() throws SQLException {
+	/*private void executeQueryWithCustomFunction() throws SQLException {
 		Statement st = null;
 		try {
 			UcanaccessConnection uc=(UcanaccessConnection)this.ucaConn;
@@ -255,34 +251,56 @@ public class DBK {
 
 }*/
 
-	public void saveToken(String AccessToken,String AccessTokenSecret) throws SQLException{
+	public void saveToken(String Name,String AccessToken,String AccessTokenSecret) throws SQLException{
 		
 		Statement st =ucaConn.createStatement();
-		st.execute("INSERT into superuser (AccessToken,AccessTokenSecret)VALUES('"+AccessToken+"','"+AccessTokenSecret+"')");
+		st.execute("INSERT into superuser (izena, AccessToken,AccessTokenSecret)VALUES('"+Name+"','"+AccessToken+"','"+AccessTokenSecret+"')");
 		
 	}
-	public String[] isTokenRdy() throws SQLException{
+	public String[] getATokens() throws SQLException{
        
 		Statement st =this.ucaConn.createStatement();
 		String[] token= new String[2];
-		try{
 		ResultSet rs=st.executeQuery("SELECT AccessToken,AccessTokenSecret FROM superuser");
-		
+		dump(rs,"executeQuery");
+
 		if(rs.next()){
 			token[0]=rs.getString(1);
 			token[1]=rs.getString(2);
-			dump(rs,"executeQuery");
 		}
 		
-		}
-		finally {
-		if (st != null)
+	
+		if (st != null){
 			st.close();
 		}
 		return token;
 	}
-	
-	
+	public boolean isAnyToken() throws SQLException{
+		Statement st =this.ucaConn.createStatement();
+		ResultSet rs=st.executeQuery("SELECT AccessToken,AccessTokenSecret FROM superuser");
+		if (!rs.next()){
+			return false;
+		}else{
+			return true;
+			}
+		}
+	public void saveTweetInfo(String text,boolean RT, boolean Fav, int RTCount,int FAVCount,String URL, String Image,int tweetID, boolean superuser,String USER_izena) throws SQLException{
+		Statement st =this.ucaConn.createStatement();
+		st.execute("Insert into twit (edukia,url,irudia,fav,rt,favKop,rtKop,id,SUPERUSER,USER_izena) VALUES ('"+text+"','"+URL+"','"+Image+"','"+Fav+"','"+RT+"','"+FAVCount+"','"+RTCount+"','"+tweetID+"','"+superuser+"','"+USER_izena+"')");
+		
+	}
+	public ResultSet loadAllTweetInfo() throws SQLException{
+		Statement st =this.ucaConn.createStatement();
+		ResultSet rs=st.executeQuery("SELECT * FROM tweet");
+		return rs;
+	}
+	public void ClearDB() throws SQLException{
+		Statement st =this.ucaConn.createStatement();
+		st.executeQuery("DELETE * FROM twit");
+		st.executeQuery("DELETE * FROM superuser");
+		st.executeQuery("DELETE * FROM user");
+
+	}
 	
 
 }

@@ -26,7 +26,7 @@ public class OnlineStep2 extends JFrame {
 	private JPanel contentPane;
 	private JTextField Pin;
 	private JTextField PinTitle;
-	private BackBone bb=new BackBone();
+	//private BackBone bb=new BackBone();
 
 	/**
 	 * Launch the application.
@@ -68,6 +68,10 @@ public class OnlineStep2 extends JFrame {
 		contentPane.add(PinTitle);
 		PinTitle.setColumns(10);
 		
+		
+		JRadioButton rdbtnGogoratuPasahitza = new JRadioButton("Gogoratu pasahitza");
+		rdbtnGogoratuPasahitza.setBounds(45, 169, 107, 20);
+		contentPane.add(rdbtnGogoratuPasahitza);
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener() {
 			@Override
@@ -75,6 +79,9 @@ public class OnlineStep2 extends JFrame {
 				try {
 					LoginCode.getLoginCode().getAccessToken(Pin.getText());
 					dispose();
+					if (rdbtnGogoratuPasahitza.isSelected()) {
+						LoginCode.getLoginCode().SaveToken();
+					}
 					new Twitter().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -84,10 +91,6 @@ public class OnlineStep2 extends JFrame {
 		
 		btnOk.setBounds(262, 105, 89, 23);
 		contentPane.add(btnOk);
-		
-		JRadioButton rdbtnGogoratuPasahitza = new JRadioButton("Gogoratu pasahitza");
-		rdbtnGogoratuPasahitza.setBounds(45, 169, 107, 20);
-		contentPane.add(rdbtnGogoratuPasahitza);
 		
 	}
 }

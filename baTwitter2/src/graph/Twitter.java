@@ -1,9 +1,7 @@
 package graph;
 
-import java.awt.Component;
 import java.awt.EventQueue;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

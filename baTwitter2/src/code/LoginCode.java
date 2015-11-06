@@ -18,11 +18,11 @@ import twitter4j.conf.ConfigurationBuilder;
 public class LoginCode {
 	private String CK="VZui0P0P00DX1q9SeCxLlSDYv";
 	private String CS="ZvlLujot49kqG6qd0SJp3PLFRyHUIp9XtmEw6bYOlOmqpFC1F1";
-	AccessToken AT;
+	private AccessToken AT;
 	RequestToken RT;
 	Twitter twitter;
 	private static LoginCode nireLoginCode=new LoginCode();
-	private static DBK dbk;
+	private static DBK dbk=new DBK();
 	
 	
 	public LoginCode(){
@@ -56,12 +56,11 @@ public class LoginCode {
         
 	}
 	public void LoginWithCredentials() throws SQLException{
-		dbk=new DBK();
-		String[] token=dbk.isTokenRdy();		
+		String[] token=dbk.getATokens();		
 		twitter.setOAuthAccessToken(new AccessToken(token[0], token[1]));
 	}
 	
-	public void getAccessToken(String Pin) throws FileNotFoundException, IOException{
+	public void getAccessToken(String Pin) throws FileNotFoundException, IOException, SQLException{
 		System.out.println(getRT());
 		System.out.println(Pin);		
 		try {
@@ -98,9 +97,18 @@ public class LoginCode {
             System.exit(-1);
         }
 	}
+	public void SaveToken() throws SQLException{
+        dbk.saveToken(AT.getScreenName(),AT.getToken(), AT.getTokenSecret());
+	}
 	
 	public Twitter getTwitterInstance(){
 		return this.twitter;
+	}
+	public AccessToken getAccessToken(){
+		return this.AT;
+	}
+	public boolean isTokenSet() throws SQLException{
+		return this.dbk.isAnyToken();
 	}
 	
 	

@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import code.LoginCode;
-import dbRelated.DBK;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -59,12 +58,19 @@ public class OnlineOfflineFrame1 extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					LoginCode.getLoginCode().Login();			
-					dispose();
-					new OnlineStep2().setVisible(true);
-					contentPane.setVisible(false);
-
-				} catch (Exception e1) {
+					if(LoginCode.getLoginCode().isTokenSet()){
+						LoginCode.getLoginCode().LoginWithCredentials();
+						dispose();
+						new Twitter();
+						contentPane.setVisible(false);
+					}else{
+						LoginCode.getLoginCode().Login();
+						dispose();
+						new OnlineStep2().setVisible(true);
+						contentPane.setVisible(false);
+					}
+					
+				}	catch(Exception e1){
 					e1.printStackTrace();
 				}
         		
