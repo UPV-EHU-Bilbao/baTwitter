@@ -22,7 +22,7 @@ public class LoginCode {
 	RequestToken RT;
 	Twitter twitter;
 	private static LoginCode nireLoginCode=new LoginCode();
-	private static DBK dbk=new DBK();
+	private static DBK dbk;
 	
 	
 	public LoginCode(){
@@ -56,8 +56,9 @@ public class LoginCode {
         
 	}
 	public void LoginWithCredentials() throws SQLException{
-		String[] token=dbk.getATokens();		
-		twitter.setOAuthAccessToken(new AccessToken(token[0], token[1]));
+		String[] token=DBK.getDBK().getATokens();
+		AT=new AccessToken(token[0], token[1]);
+		twitter.setOAuthAccessToken(AT);
 	}
 	
 	public void getAccessToken(String Pin) throws FileNotFoundException, IOException, SQLException{
@@ -108,7 +109,7 @@ public class LoginCode {
 		return this.AT;
 	}
 	public boolean isTokenSet() throws SQLException{
-		return this.dbk.isAnyToken();
+		return DBK.getDBK().isAnyToken();
 	}
 	
 	

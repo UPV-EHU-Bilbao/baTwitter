@@ -61,7 +61,7 @@ public class OnlineOfflineFrame1 extends JFrame {
 					if(LoginCode.getLoginCode().isTokenSet()){
 						LoginCode.getLoginCode().LoginWithCredentials();
 						dispose();
-						new Twitter();
+						new Twitter().setVisible(true);;
 						contentPane.setVisible(false);
 					}else{
 						LoginCode.getLoginCode().Login();

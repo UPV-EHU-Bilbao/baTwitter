@@ -17,6 +17,7 @@ import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class Twitter extends JFrame {
@@ -77,16 +78,12 @@ public class Twitter extends JFrame {
 		btnActualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					statuses=(ArrayList<Status>) bb.getTimeline();
-				} catch (TwitterException e) {
+					bb=new BackBone();
+					bb.getTimeline();
+				} catch (TwitterException | SQLException e) {
 					e.printStackTrace();
 				}
-				JList list = new JList(statuses.toArray());
-				list.setBounds(21, 25, 450, 450);
-				contentPane.add(list);
-				list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-				list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-				JScrollPane listScroller = new JScrollPane(list);
+				
 			}
 		});
 		

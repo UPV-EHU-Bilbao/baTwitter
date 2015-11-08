@@ -4,7 +4,10 @@ import twitter4j.Paging;
 
 import twitter4j.TwitterException;
 
+import java.sql.SQLException;
 import java.util.*;
+
+import dbRelated.DBK;
 import twitter4j.Status;
 
 public class BackBone {
@@ -14,7 +17,7 @@ public class BackBone {
 	public BackBone(){
 	}
 	
-	public List<Status> getTimeline() throws TwitterException{
+	public void getTimeline() throws TwitterException, SQLException{
 		
 		int pageno=1;
 		List<Status> statuses = new ArrayList<Status>();
@@ -33,7 +36,13 @@ public class BackBone {
 		}
 		Iterator<Status> itr = statuses.iterator();
 		while (itr.hasNext()){
-			System.out.println(itr.next().getText());
+			Status st1=itr.next();
+			String Superuser="";
+			if(st1.getUser().getId()==LoginCode.getLoginCode().getAccessToken().getUserId()){
+				Superuser=st1.getUser().getName();
+			}
+			DBK.getDBK().saveTweetInfo(st1.getText(), st1.isRetweet(), st1.isFavorited(), st1.getRetweetCount(), st1.getFavoriteCount(), st1.getURLEntities().toString(), st1.getMediaEntities().toString(), st1.getId(), Superuser, st1.getUser().getName());
+			System.out.println(st1.getText());
 			
 		}
 		System.out.println(statuses.size());
@@ -44,7 +53,7 @@ public class BackBone {
 		for(int i=0;i<statuses.size();i++){
 			System.out.println(statuses.get(i).getText());
 		}*/
-		return statuses;
+		//return statuses;
 	}
 	
 	

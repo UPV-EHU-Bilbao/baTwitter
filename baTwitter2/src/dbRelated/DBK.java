@@ -74,6 +74,7 @@ public class DBK {
 	}*/
 
 	private Connection ucaConn;
+	private static DBK gureDBK;
 
 	public DBK() {
 		
@@ -84,6 +85,10 @@ public class DBK {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	public static synchronized DBK getDBK(){
+		return gureDBK != null ? gureDBK : (gureDBK= new DBK());
+
 	}
 	
 	/*private void createTablesExample() throws SQLException {
@@ -262,12 +267,20 @@ public class DBK {
 		Statement st =this.ucaConn.createStatement();
 		String[] token= new String[2];
 		ResultSet rs=st.executeQuery("SELECT AccessToken,AccessTokenSecret FROM superuser");
-		dump(rs,"executeQuery");
-
-		if(rs.next()){
-			token[0]=rs.getString(1);
-			token[1]=rs.getString(2);
+		//dump(rs,"executeQuery");
+		while (rs.next()) {
+			System.out.print("| ");
+			int j=rs.getMetaData().getColumnCount();
+			for (int i = 1; i <=j ; ++i) {
+				Object o = rs.getObject(i);
+				token[i-1]=o.toString();
+				System.out.print(o + " | ");
+			}
+			System.out.println();
+			System.out.println();
 		}
+		
+		
 		
 	
 		if (st != null){
@@ -284,9 +297,9 @@ public class DBK {
 			return true;
 			}
 		}
-	public void saveTweetInfo(String text,boolean RT, boolean Fav, int RTCount,int FAVCount,String URL, String Image,int tweetID, boolean superuser,String USER_izena) throws SQLException{
+	public void saveTweetInfo(String text,boolean RT, boolean Fav, int RTCount,int FAVCount,String URL, String Image,long tweetID, String superuser,String USER_izena) throws SQLException{
 		Statement st =this.ucaConn.createStatement();
-		st.execute("Insert into twit (edukia,url,irudia,fav,rt,favKop,rtKop,id,SUPERUSER,USER_izena) VALUES ('"+text+"','"+URL+"','"+Image+"','"+Fav+"','"+RT+"','"+FAVCount+"','"+RTCount+"','"+tweetID+"','"+superuser+"','"+USER_izena+"')");
+		st.execute("Insert into twit (edukia,url,irudia,fav,rt,favKop,rtKop,id,SUPERUSER_izena,USER_izena) VALUES ('"+text+"','"+URL+"','"+Image+"','"+Fav+"','"+RT+"','"+FAVCount+"','"+RTCount+"','"+tweetID+"','"+superuser+"','"+USER_izena+"')");
 		
 	}
 	public ResultSet loadAllTweetInfo() throws SQLException{
