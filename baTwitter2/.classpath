@@ -3,6 +3,5 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="var" path="twitter4j"/>
-	<classpathentry kind="lib" path="/home/bingen/Documentos/lib/twitter4j-media-support-4.0.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
