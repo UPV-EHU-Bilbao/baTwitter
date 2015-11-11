@@ -14,8 +14,8 @@ public class DeskargatuTwittak {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
 		cb.setOAuthAccessToken("368286014-qLSe2tzmXV934K3FBcXuhILwoYeOQd3C9EOQMrAQ");
 		cb.setOAuthAccessTokenSecret("TLrGCtG976ZNDSQyDmtwKZ17SyXyrjBlBvfZBP9Qff2es");
-		//cb.setOAuthConsumerKey("VZui0P0P00DX1q9SeCxLlSDYv");
-	   // cb.setOAuthConsumerSecret("ZvlLujot49kqG6qd0SJp3PLFRyHUIp9XtmEw6bYOlOmqpFC1F1");
+		cb.setOAuthConsumerKey("VZui0P0P00DX1q9SeCxLlSDYv");
+	    cb.setOAuthConsumerSecret("ZvlLujot49kqG6qd0SJp3PLFRyHUIp9XtmEw6bYOlOmqpFC1F1");
 		Twitter twitter = new TwitterFactory(cb.build()).getInstance();
 		int pagenum= 1;
 		String usr= "bingenzio";
@@ -28,8 +28,8 @@ public class DeskargatuTwittak {
 				
 				Paging page = new Paging(pagenum++,214);
 				//page.sinceId(sinceId)
-				//statuses.addAll(twitter.getUserTimeline(usr,page));
-				statuses.addAll(twitter.getFavorites(usr,page));
+				statuses.addAll(twitter.getUserTimeline(usr,page));
+				//statuses.addAll(twitter.getFavorites(usr,page));
 				for(Status status : statuses) {
 					System.out.println(status.getId() + " " + status.getUser().getName()+" "+status.getText());
 				
@@ -43,7 +43,7 @@ public class DeskargatuTwittak {
 					
 
 					break;
-				}
+				}//
 				
 			}
 			catch(TwitterException e){
