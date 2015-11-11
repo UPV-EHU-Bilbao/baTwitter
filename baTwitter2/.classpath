@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="C:/Users/Ray/Desktop/Apoyo/UCanAccess-3.0.2-bin/lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Ray/Desktop/Apoyo/UCanAccess-3.0.2-bin/lib/hsqldb.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Ray/Desktop/Apoyo/UCanAccess-3.0.2-bin/lib/jackcess-2.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ray/Desktop/Uni/ISAD/twitter4j-4.0.4/lib/twitter4j-core-4.0.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
