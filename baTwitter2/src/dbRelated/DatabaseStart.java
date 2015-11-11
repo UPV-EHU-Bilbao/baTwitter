@@ -4,7 +4,7 @@ package dbRelated;
 
 public class DatabaseStart {
 	
-	//ublic UcanaccessConnection UDAC;
+	//public UcanaccessConnection UDAC;
 	
 	public DatabaseStart(){
 		
