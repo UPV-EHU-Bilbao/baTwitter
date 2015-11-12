@@ -12,6 +12,12 @@ import code.LoginCode;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.BoxLayout;
+import java.awt.Component;
+import java.awt.GridLayout;
+import java.awt.CardLayout;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
 
 public class OnlineOfflineFrame1 extends JFrame {
 
@@ -43,14 +49,15 @@ public class OnlineOfflineFrame1 extends JFrame {
 	public OnlineOfflineFrame1() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 175, 118);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		JButton btnOffline = new JButton("OFFLINE");
-		contentPane.add(btnOffline, BorderLayout.WEST);
+		btnOffline.setAlignmentX(Component.CENTER_ALIGNMENT);
+		contentPane.add(btnOffline, BorderLayout.EAST);
 		
 		JButton btnOnline = new JButton("ONLINE");
 		btnOnline.addActionListener(new ActionListener() {
@@ -68,7 +75,7 @@ public class OnlineOfflineFrame1 extends JFrame {
         		
 			}
 		});
-		contentPane.add(btnOnline, BorderLayout.EAST);
+		contentPane.add(btnOnline, BorderLayout.WEST);
 	}
 
 }

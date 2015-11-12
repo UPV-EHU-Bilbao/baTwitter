@@ -40,14 +40,6 @@ public class Twitter extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JList list = new JList();
-		list.setBounds(20, 25, 450, 450);
-		contentPane.add(list);
-		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(600, 25, 350, 450);
-		contentPane.add(lblNewLabel);
-		
 		
 	}
 }
