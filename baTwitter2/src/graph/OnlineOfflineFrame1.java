@@ -12,12 +12,6 @@ import code.LoginCode;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.BoxLayout;
-import java.awt.Component;
-import java.awt.GridLayout;
-import java.awt.CardLayout;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
 
 public class OnlineOfflineFrame1 extends JFrame {
 
@@ -32,6 +26,7 @@ public class OnlineOfflineFrame1 extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					OnlineOfflineFrame1 frame = new OnlineOfflineFrame1();
@@ -49,33 +44,40 @@ public class OnlineOfflineFrame1 extends JFrame {
 	public OnlineOfflineFrame1() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		setBounds(100, 100, 175, 118);
+		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
 		
 		JButton btnOffline = new JButton("OFFLINE");
-		btnOffline.setAlignmentX(Component.CENTER_ALIGNMENT);
-		contentPane.add(btnOffline, BorderLayout.EAST);
+		contentPane.add(btnOffline, BorderLayout.WEST);
 		
 		JButton btnOnline = new JButton("ONLINE");
 		btnOnline.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				dispose();
 				try {
-					LoginCode.getLoginCode().Login();
-					dispose();
-					new OnlineStep2().setVisible(true);
-					contentPane.setVisible(false);
-
-				} catch (Exception e1) {
+					if(LoginCode.getLoginCode().isTokenSet()){
+						LoginCode.getLoginCode().LoginWithCredentials();
+						dispose();
+						new Twitter().setVisible(true);;
+						contentPane.setVisible(false);
+					}else{
+						LoginCode.getLoginCode().Login();
+						dispose();
+						new OnlineStep2().setVisible(true);
+						contentPane.setVisible(false);
+					}
+					
+				}	catch(Exception e1){
 					e1.printStackTrace();
 				}
         		
 			}
 		});
-		contentPane.add(btnOnline, BorderLayout.WEST);
+		contentPane.add(btnOnline, BorderLayout.EAST);
 	}
 
 }
+

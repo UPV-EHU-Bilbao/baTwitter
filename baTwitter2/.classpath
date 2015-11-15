@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="C:/Users/Ray/Desktop/Uni/ISAD/UCanAccess-3.0.2-bin/lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Ray/Desktop/Uni/ISAD/UCanAccess-3.0.2-bin/lib/hsqldb.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Ray/Desktop/Uni/ISAD/UCanAccess-3.0.2-bin/lib/jackcess-2.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Ray/Desktop/Uni/ISAD/UCanAccess-3.0.2-bin/ucanaccess-3.0.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
