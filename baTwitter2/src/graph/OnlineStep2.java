@@ -14,6 +14,8 @@ import code.LoginCode;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+
 import java.awt.event.ActionEvent;
 import javax.swing.JRadioButton;
 
@@ -31,19 +33,30 @@ public class OnlineStep2 extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					OnlineStep2 frame = new OnlineStep2();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	 private static void createAndShowGUI() {
+	        //Create and set up the window.
+	        JFrame frame = new JFrame("RadioButtonDemo");
+	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	        //Create and set up the content pane.
+	        OnlineStep2 newContentPane = new OnlineStep2();
+	        frame.setContentPane(newContentPane);
+
+	        //Display the window.
+	        frame.pack();
+	        frame.setVisible(true);
+	    }
+
+	    public static void main(String[] args) {
+	        //Schedule a job for the event-dispatching thread:
+	        //creating and showing this application's GUI.
+	        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+	            public void run() {
+	                createAndShowGUI();
+	            }
+	        });
+	    }
+	
 
 	/**
 	 * Create the frame.
