@@ -35,17 +35,24 @@ public class FollowerANDFollowed {
 	    		Twitter twitter = new TwitterFactory(cb.build()).getInstance();
 	            long cursor = -1;
 	            IDs ids;
+	          //  IDs idss;
 	            System.out.println("Listing following ids.");
 	            do {
 	                if (0 < args.length) {
-	                    ids = twitter.getFriendsIDs(args[0], cursor);
+	                    //ids = twitter.getFriendsIDs(args[0], cursor);
+	                    ids= twitter.getFollowersIDs(args[0], cursor);
 	                } else {
 	                    ids = twitter.getFriendsIDs(cursor);
 	                    
 	                }
-	                final ResponseList<User> users = t.lookupUsers(ids.getIDs());
+	               // final ResponseList<User> users = twitter.lookupUsers(ids.getIDs());
+	                for (long id : ids.getIDs()) {
+	                    System.out.println(id);
+	                    User user = twitter.showUser(id);
+	                    System.out.println(user.getName());
+	                }
 	                //for (User u : users) {
-	              System.out.println(users.get(0).getName());
+	              //System.out.println(users.get(0).getName());
 	                   // System.out.println(u.getScreenName());
 	               // }
 	            } while ((cursor = ids.getNextCursor()) != 0);
