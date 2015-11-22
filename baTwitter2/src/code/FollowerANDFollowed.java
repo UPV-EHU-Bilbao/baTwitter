@@ -41,6 +41,7 @@ public class FollowerANDFollowed {
 	                if (0 < args.length) {
 	                    //ids = twitter.getFriendsIDs(args[0], cursor);
 	                    ids= twitter.getFollowersIDs(args[0], cursor);
+	                	
 	                } else {
 	                    ids = twitter.getFriendsIDs(cursor);
 	                    
