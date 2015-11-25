@@ -19,7 +19,7 @@ public class DeskargatuTwittak {
 	    FollowerANDFollowed f= new FollowerANDFollowed(cb);
 	    
 	   
-	    /*
+	   
 		Twitter twitter = new TwitterFactory(cb.build()).getInstance();
 		int pagenum= 1;
 		String usr= "bingenzio";
@@ -61,7 +61,7 @@ public class DeskargatuTwittak {
 		}
 	
 		// TODO Auto-generated method stub
-*/
+
 		
 	}
 

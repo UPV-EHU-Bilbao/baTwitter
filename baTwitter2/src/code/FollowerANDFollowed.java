@@ -17,6 +17,7 @@ public class FollowerANDFollowed {
 	//private ArrayList<String> followed= new ArrayList<String>();
 	//private ArrayList<String> following= new ArrayList<String>();
 	private static Twitter t;
+	private static long itxaroteko;
 	
 	public FollowerANDFollowed(ConfigurationBuilder cb){
 		 t = new TwitterFactory(cb.build()).getInstance();
@@ -25,7 +26,7 @@ public class FollowerANDFollowed {
 	
 	  
 	  
-	   public static void main(String[] args) {
+	   public static void main(String[] args) throws InterruptedException {
 		   ConfigurationBuilder cb = new ConfigurationBuilder();
 			cb.setOAuthAccessToken("368286014-qLSe2tzmXV934K3FBcXuhILwoYeOQd3C9EOQMrAQ");
 			cb.setOAuthAccessTokenSecret("TLrGCtG976ZNDSQyDmtwKZ17SyXyrjBlBvfZBP9Qff2es");
@@ -43,25 +44,36 @@ public class FollowerANDFollowed {
 	                    ids= twitter.getFollowersIDs(args[0], cursor);
 	                	
 	                } else {
-	                    ids = twitter.getFriendsIDs(cursor);
-	                    
+	                    //ids = twitter.getFriendsIDs(cursor);
+	                    ids= twitter.getFollowersIDs(cursor);
+
 	                }
-	               // final ResponseList<User> users = twitter.lookupUsers(ids.getIDs());
-	                for (long id : ids.getIDs()) {
-	                    System.out.println(id);
+	            
+	              
+	                
+	               // Thread.sleep(itxaroteko);
+	            } while ((cursor = ids.getNextCursor()) != 0);
+	            int i=0;
+	            for (long id : ids.getIDs()) {
+                	if(i==179){
+                		Thread.sleep(900*1000);
+                		i=0;
+                	}
+	                   System.out.println(id);
 	                    User user = twitter.showUser(id);
 	                    System.out.println(user.getName());
+	                    i++;
 	                }
-	                //for (User u : users) {
-	              //System.out.println(users.get(0).getName());
-	                   // System.out.println(u.getScreenName());
-	               // }
-	            } while ((cursor = ids.getNextCursor()) != 0);
 	            System.exit(0);
-	        } catch (TwitterException te) {
-	            te.printStackTrace();
-	           System.out.println(te.getRateLimitStatus());
-	            System.exit(-1);
+	            
+	        } 
+	        catch (TwitterException te) {
+	        	int i=te.getRateLimitStatus().getSecondsUntilReset();
+				System.out.println(Integer.toString(i)+" segundo falta dira berriro exekutatu ahal izateko");
+				i= i/60;
+				System.out.println(Integer.toString(i)+" minutu falta dira berriro exekutatu ahal izateko");
+				itxaroteko= te.getRateLimitStatus().getResetTimeInSeconds();
+	            
 	        }
 	    }
 	 }
