@@ -8,21 +8,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import net.ucanaccess.converters.TypesMap.AccessType;
-import net.ucanaccess.ext.FunctionType;
-import net.ucanaccess.jdbc.UcanaccessConnection;
-import net.ucanaccess.jdbc.UcanaccessDriver;
+import org.sqlite.SQLiteJDBCLoader;
 
 public class DBK {
 	static String path= "C:/Users/Ray/git/baTwitter/baTwitter2/src/Twitter.accdb";
 
 	
 	
-	 @FunctionType(functionName="justconcat",argumentTypes={AccessType.TEXT,AccessType.TEXT},returnType=AccessType.TEXT)
-		public static String concat(String s1,String s2){
-			return s1+" >>>>"+s2;
-	}
-
 
 
 	private static void dump(ResultSet rs,String exName)
@@ -45,7 +37,7 @@ public class DBK {
 
 	private static Connection getUcanaccessConnection(String pathNewDB) throws SQLException,
 			IOException {
-		   String url = UcanaccessDriver.URL_PREFIX + pathNewDB+";newDatabaseVersion=V2003";
+		   String url = pathNewDB;
 		   return DriverManager.getConnection(url);
 	}
 
