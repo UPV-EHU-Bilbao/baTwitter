@@ -125,6 +125,9 @@ public class DeskargaKudeatzailea {
 	}
 
 	public void nireTweet(String usr) throws InterruptedException{
+		ArrayList<Tweet> propioak= new ArrayList<Tweet>();
+		ArrayList<Tweet> rtLista= new ArrayList<Tweet>();
+
 		int pagenum= 1;
 		List<Status> statuses = new ArrayList<Status>();
 		long since = 1; //berriagoak db tik hartu behar
@@ -140,6 +143,22 @@ public class DeskargaKudeatzailea {
 				//page.sinceId(since);
 				statuses.addAll(t.getUserTimeline(usr,page));
 				since=statuses.get(0).getId();
+				for(Status status : statuses) {
+					long id=status.getId();
+					String erab=status.getUser().getName();
+					String edukia=status.getText();
+					int favKop=status.getFavoriteCount();
+					int rtKop= status.getRetweetCount();
+					boolean fav=status.isFavorited();
+					boolean rt= status.isRetweeted();
+					Tweet twet= new Tweet(edukia,erab,rt,fav,rtKop,favKop,id);
+					if (!rt&&!fav){propioak.add(twet);}
+					else if (rt&&!fav){
+						rtLista.add(twet);
+					}
+					
+				
+				}
 				if(size==statuses.size()){
 					break;
 				}
