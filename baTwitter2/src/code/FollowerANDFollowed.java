@@ -17,14 +17,13 @@ public class FollowerANDFollowed {
 	//private ArrayList<String> followed= new ArrayList<String>();
 	//private ArrayList<String> following= new ArrayList<String>();
 	private static Twitter t;
-	private static long itxaroteko;
 	
 	public FollowerANDFollowed(ConfigurationBuilder cb){
 		 t = new TwitterFactory(cb.build()).getInstance();
 	}
 
 	
-	  
+	  public void deskaratuJarraitzaileak(){}
 	  
 	   public static void main(String[] args) throws InterruptedException {
 		   ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -44,8 +43,8 @@ public class FollowerANDFollowed {
 	                    ids= twitter.getFollowersIDs(args[0], cursor);
 	                	
 	                } else {
-	                    //ids = twitter.getFriendsIDs(cursor);
-	                    ids= twitter.getFollowersIDs(cursor);
+	                    ids = twitter.getFriendsIDs(cursor);
+	                    //ids= twitter.getFollowersIDs(cursor);
 
 	                }
 	            
@@ -72,8 +71,8 @@ public class FollowerANDFollowed {
 				System.out.println(Integer.toString(i)+" segundo falta dira berriro exekutatu ahal izateko");
 				i= i/60;
 				System.out.println(Integer.toString(i)+" minutu falta dira berriro exekutatu ahal izateko");
-				itxaroteko= te.getRateLimitStatus().getResetTimeInSeconds();
-	            
-	        }
+				//itxaroteko= te.getRateLimitStatus().getResetTimeInSeconds();
+	            }
+	        
 	    }
 	 }
