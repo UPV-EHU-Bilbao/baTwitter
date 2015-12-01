@@ -20,16 +20,12 @@ public class DeskargaKudeatzailea {
 		 t = new TwitterFactory(cb.build()).getInstance();
 	}
 
-
-
 	public void jarraitzaileak() throws InterruptedException{
 	      try {
 	            long cursor = -1;
 	            IDs ids;
 	            do {
-	                    //ids = twitter.getFriendsIDs(cursor);
 	                    ids= t.getFollowersIDs(cursor);
-	               // Thread.sleep(itxaroteko);
 	            } while ((cursor = ids.getNextCursor()) != 0);
 	            int i=0;
 	            for (long id : ids.getIDs()) {
@@ -183,4 +179,5 @@ public class DeskargaKudeatzailea {
 
 	
 	}
+
 }

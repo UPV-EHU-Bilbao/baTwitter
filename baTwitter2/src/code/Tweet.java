@@ -20,4 +20,5 @@ public class Tweet {
 		this.favKop=favKop;
 		this.id=id;
 	}
+	
 }
