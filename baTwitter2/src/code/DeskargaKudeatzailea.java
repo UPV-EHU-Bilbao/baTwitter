@@ -127,14 +127,16 @@ public class DeskargaKudeatzailea {
 		int pagenum= 1;
 		List<Status> statuses = new ArrayList<Status>();
 		long since = 1; //berriagoak db tik hartu behar
-		//long max=1; // db tik
+		long max=1; // db tik hartu
 		while(true){
 			try{
 				for(int i=0;i<=15;i++){
 				int size = statuses.size();
-				
-				//Paging page = new Paging(pagenum++,214,since,max);
-				Paging page = new Paging(pagenum++,214);
+				//if(max=null) {
+				//Paging page = new Paging(pagenum++,214,since,max);}
+				//else{
+				Paging page = new Paging(pagenum++,214,since);
+				//}
 				
 				//page.sinceId(since);
 				statuses.addAll(t.getUserTimeline(usr,page));
