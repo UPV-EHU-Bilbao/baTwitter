@@ -8,11 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.sqlite.SQLiteJDBCLoader;
-
 public class DBK {
-	static String path= "C:/Users/Ray/git/baTwitter/baTwitter2/src/Twitter.accdb";
-
+	//static String path= "C:/Users/Ray/git/baTwitter/baTwitter2/src/Twitter.accdb";
+	static String path= "/home/bingen/git/baTwitter2/src/Twitter.accdb";
 	
 	
 
@@ -144,6 +142,17 @@ public class DBK {
 
 	}
 	
+	public void saveFollowers(String izena) throws SQLException{
+		Statement st =this.ucaConn.createStatement();
+
+		st.executeQuery("Insert into jarraitzaileak (izena,false,true) ");
+	}
+	
+	public void saveFollowing(String izena) throws SQLException{
+		Statement st =this.ucaConn.createStatement();
+
+		st.executeQuery("Insert into jarraituak (izena,true,false) ");
+	}
 	public String FindFile(){
 		
 		return path;
