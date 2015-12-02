@@ -1,8 +1,12 @@
 package code;
 
 import java.awt.Desktop;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URI;
+import java.sql.SQLException;
 
+import dbRelated.DBK;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -14,10 +18,11 @@ import twitter4j.conf.ConfigurationBuilder;
 public class LoginCode {
 	private String CK="VZui0P0P00DX1q9SeCxLlSDYv";
 	private String CS="ZvlLujot49kqG6qd0SJp3PLFRyHUIp9XtmEw6bYOlOmqpFC1F1";
-	AccessToken AT;
+	private AccessToken AT;
 	RequestToken RT;
 	Twitter twitter;
-	static LoginCode nireLoginCode=new LoginCode();
+	private static LoginCode nireLoginCode=new LoginCode();
+	private static DBK dbk;
 	
 	
 	public LoginCode(){
@@ -50,11 +55,15 @@ public class LoginCode {
         Desktop.getDesktop().browse(url);
         
 	}
+	public void LoginWithCredentials() throws SQLException{
+		String[] token=DBK.getDBK().getATokens();
+		AT=new AccessToken(token[0], token[1]);
+		twitter.setOAuthAccessToken(AT);
+	}
 	
-	public void getAccessToken(String Pin){
+	public void getAccessToken(String Pin) throws FileNotFoundException, IOException, SQLException{
 		System.out.println(getRT());
-		System.out.println(Pin);
-		
+		System.out.println(Pin);		
 		try {
 			
             if (Pin.length() > 0) {
@@ -67,6 +76,7 @@ public class LoginCode {
                 AT = twitter.getOAuthAccessToken(getRT());
             }
             twitter.setOAuthAccessToken(AT);
+            
 			
         } catch (TwitterException te) {
        System.out.println("Unable to get the access token.");
@@ -78,7 +88,6 @@ public class LoginCode {
             }
         } 
 		
-   
     
 	}	
 	
@@ -89,7 +98,22 @@ public class LoginCode {
             System.exit(-1);
         }
 	}
+	public void SaveToken() throws SQLException{
+        dbk.saveToken(AT.getScreenName(),AT.getToken(), AT.getTokenSecret());
+	}
+	
+	public Twitter getTwitterInstance(){
+		return this.twitter;
+	}
+	public AccessToken getAccessToken(){
+		return this.AT;
+	}
+	public boolean isTokenSet() throws SQLException{
+		return DBK.getDBK().isAnyToken();
+	}
 	
 	
     
 }
+
+

@@ -9,11 +9,15 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import code.BackBone;
 import code.LoginCode;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JComponent;
+
 import java.awt.event.ActionEvent;
+import javax.swing.JRadioButton;
 
 public class OnlineStep2 extends JFrame {
 
@@ -24,22 +28,35 @@ public class OnlineStep2 extends JFrame {
 	private JPanel contentPane;
 	private JTextField Pin;
 	private JTextField PinTitle;
+	//private BackBone bb=new BackBone();
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					OnlineStep2 frame = new OnlineStep2();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	 private static void createAndShowGUI() {
+	        //Create and set up the window.
+	        JFrame frame = new JFrame("RadioButtonDemo");
+	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	        //Create and set up the content pane.
+	        OnlineStep2 newContentPane = new OnlineStep2();
+	        frame.setContentPane(newContentPane);
+
+	        //Display the window.
+	        frame.pack();
+	        frame.setVisible(true);
+	    }
+
+	    public static void main(String[] args) {
+	        //Schedule a job for the event-dispatching thread:
+	        //creating and showing this application's GUI.
+	        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+	            public void run() {
+	                createAndShowGUI();
+	            }
+	        });
+	    }
+	
 
 	/**
 	 * Create the frame.
@@ -60,16 +77,24 @@ public class OnlineStep2 extends JFrame {
 		PinTitle = new JTextField();
 		PinTitle.setText("Sartu PIN hemen");
 		PinTitle.setEditable(false);
-		PinTitle.setBounds(45, 65, 97, 20);
+		PinTitle.setBounds(45, 65, 107, 20);
 		contentPane.add(PinTitle);
 		PinTitle.setColumns(10);
 		
+		
+		JRadioButton rdbtnGogoratuPasahitza = new JRadioButton("Gogoratu pasahitza");
+		rdbtnGogoratuPasahitza.setBounds(45, 169, 107, 20);
+		contentPane.add(rdbtnGogoratuPasahitza);
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					LoginCode.getLoginCode().getAccessToken(Pin.getText());
 					dispose();
+					if (rdbtnGogoratuPasahitza.isSelected()) {
+						LoginCode.getLoginCode().SaveToken();
+					}
 					new Twitter().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -81,6 +106,5 @@ public class OnlineStep2 extends JFrame {
 		contentPane.add(btnOk);
 		
 	}
-	
-	
 }
+

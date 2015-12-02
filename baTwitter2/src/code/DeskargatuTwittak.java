@@ -1,7 +1,7 @@
 package code;
 import java.util.*;
 
-import graph.MaximoaGaindituta;
+import twitter.MaximoaGaindituta;
 import twitter4j.*;
 import twitter4j.conf.*;
 
