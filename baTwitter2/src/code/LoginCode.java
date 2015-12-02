@@ -19,7 +19,7 @@ public class LoginCode {
 	private String CK="VZui0P0P00DX1q9SeCxLlSDYv";
 	private String CS="ZvlLujot49kqG6qd0SJp3PLFRyHUIp9XtmEw6bYOlOmqpFC1F1";
 	private AccessToken AT;
-	RequestToken RT;
+	private RequestToken RT;
 	Twitter twitter;
 	private static LoginCode nireLoginCode=new LoginCode();
 	private static DBK dbk;
