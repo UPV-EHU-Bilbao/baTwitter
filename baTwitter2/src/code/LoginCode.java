@@ -22,7 +22,7 @@ public class LoginCode {
 	private RequestToken RT;
 	Twitter twitter;
 	private static LoginCode nireLoginCode=new LoginCode();
-	private static DBK dbk;
+	
 	
 	
 	public LoginCode(){
@@ -56,7 +56,7 @@ public class LoginCode {
         
 	}
 	public void LoginWithCredentials() throws SQLException{
-		String[] token=DBK.getDBK().getATokens();
+		String[] token=DBK.getInstantzia().getATokens();
 		AT=new AccessToken(token[0], token[1]);
 		twitter.setOAuthAccessToken(AT);
 	}
@@ -99,7 +99,7 @@ public class LoginCode {
         }
 	}
 	public void SaveToken() throws SQLException{
-        dbk.saveToken(AT.getScreenName(),AT.getToken(), AT.getTokenSecret());
+        DBK.getInstantzia().saveToken(AT.getScreenName(),AT.getToken(), AT.getTokenSecret());
 	}
 	
 	public Twitter getTwitterInstance(){
@@ -109,7 +109,7 @@ public class LoginCode {
 		return this.AT;
 	}
 	public boolean isTokenSet() throws SQLException{
-		return DBK.getDBK().isAnyToken();
+		return DBK.getInstantzia().isAnyToken();
 	}
 	
 	

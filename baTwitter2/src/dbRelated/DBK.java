@@ -1,97 +1,120 @@
-
 package dbRelated;
-
-import java.io.IOException;
-import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import java.sql.Connection;
 import java.sql.Statement;
 
-public class DBK {
-	//static String path= "C:/Users/Ray/git/baTwitter/baTwitter2/src/Twitter.accdb";
-	static String path= "/home/bingen/git/baTwitter2/src/Twitter.accdb";
-	
-	
 
 
-	private static void dump(ResultSet rs,String exName)
-			throws SQLException {
-		System.out.println("-------------------------------------------------");
-		System.out.println();
-		System.out.println(exName+" result:");
-		System.out.println();
-		while (rs.next()) {
-			System.out.print("| ");
-			int j=rs.getMetaData().getColumnCount();
-			for (int i = 1; i <=j ; ++i) {
-				Object o = rs.getObject(i);
-				System.out.print(o + " | ");
-			}
-			System.out.println();
-			System.out.println();
-		}
-	}
+public class DBK{
 
-	private static Connection getUcanaccessConnection(String pathNewDB) throws SQLException,
-			IOException {
-		   String url = pathNewDB;
-		   return DriverManager.getConnection(url);
-	}
+	Connection conn = null;
 
-	/*public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
-		
-		
+	private void conOpen() {
 		try {
-		    if(args.length==0){
-		    	System.err.println("You must specify new Database Access location (full path)");
-		    	return;
-			}
-		    Example ex=new Example(args[0]);
-			ex.createTablesExample();
-			ex.insertData();
-			ex.executeQuery();
-			ex.executeQueryWithFunctions();
-			ex.executeQueryWithCustomFunction();
-			ex.executeLikeExample();
-			ex.showExtensions();
-			ex.transaction();
+			String url = "jdbc:sqlite:newTwitter.db";
+			Class.forName("org.sqlite.JDBC").newInstance();
+			
+			conn = (Connection) DriverManager.getConnection(url);
+			System.out.println("Database connection established");
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println("Cannot connect to database server");
 		}
-	
-	}*/
-
-	private Connection ucaConn;
-	private static DBK gureDBK;
-
-	public DBK() {
 		
+		
+	}
+	
+	
+
+
+
+		
+
+
+	private void conClose() {
+
+		if (conn != null)
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		System.out.println("Database connection terminated");
+
+	}
+
+	private ResultSet query(Statement s, String query) {
+
+		ResultSet rs = null;
+
 		try {
-			this.ucaConn=getUcanaccessConnection(path);
+			rs = s.executeQuery(query);
+			// rs = s.getResultSet();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		}
+
+		return rs;
+	}
+
+	// singleton patroia
+	private static DBK instantzia = new DBK();
+
+	private DBK() {
+		this.conOpen();
+	}
+
+	public static DBK getInstantzia() {
+		return instantzia;
+	}
+
+	//
+	public ResultSet execSQL(String query) {
+		int count = 0;
+		Statement s = null;
+		ResultSet rs = null;
+		
+		try {
+			s = (Statement) conn.createStatement();
+			if (query.toLowerCase().indexOf("select") == 0) {
+				// select agindu bat
+				rs = this.query(s, query);
+				
+			} else {
+				// update, delete, create agindu bat
+				count = s.executeUpdate(query);
+				System.out.println(count + " rows affected");
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-	public static synchronized DBK getDBK(){
-		return gureDBK != null ? gureDBK : (gureDBK= new DBK());
+//		finally {
+//			if (s != null)
+//				try {
+//					s.close();
+//				} catch (SQLException e) {
+//					e.printStackTrace();
+//				}
+//		}
 
+		return rs;
 	}
 	
 	
 
 	public void saveToken(String Name,String AccessToken,String AccessTokenSecret) throws SQLException{
 		
-		Statement st =ucaConn.createStatement();
+		Statement st =conn.createStatement();
 		st.execute("INSERT into superuser (izena, AccessToken,AccessTokenSecret)VALUES('"+Name+"','"+AccessToken+"','"+AccessTokenSecret+"')");
 		
 	}
 	public String[] getATokens() throws SQLException{
        
-		Statement st =this.ucaConn.createStatement();
+		Statement st =this.conn.createStatement();
 		String[] token= new String[2];
 		ResultSet rs=st.executeQuery("SELECT AccessToken,AccessTokenSecret FROM superuser");
 		//dump(rs,"executeQuery");
@@ -116,7 +139,7 @@ public class DBK {
 		return token;
 	}
 	public boolean isAnyToken() throws SQLException{
-		Statement st =this.ucaConn.createStatement();
+		Statement st =this.conn.createStatement();
 		ResultSet rs=st.executeQuery("SELECT AccessToken,AccessTokenSecret FROM superuser");
 		if (!rs.next()){
 			return false;
@@ -125,17 +148,17 @@ public class DBK {
 			}
 		}
 	public void saveTweetInfo(String text,boolean RT, boolean Fav, int RTCount,int FAVCount,String URL, String Image,long tweetID, String superuser,String USER_izena) throws SQLException{
-		Statement st =this.ucaConn.createStatement();
+		Statement st =this.conn.createStatement();
 		st.execute("Insert into twit (edukia,url,irudia,fav,rt,favKop,rtKop,id,SUPERUSER_izena,USER_izena) VALUES ('"+text+"','"+URL+"','"+Image+"','"+Fav+"','"+RT+"','"+FAVCount+"','"+RTCount+"','"+tweetID+"','"+superuser+"','"+USER_izena+"')");
 		
 	}
 	public ResultSet loadAllTweetInfo() throws SQLException{
-		Statement st =this.ucaConn.createStatement();
+		Statement st =this.conn.createStatement();
 		ResultSet rs=st.executeQuery("SELECT * FROM tweet");
 		return rs;
 	}
 	public void ClearDB() throws SQLException{
-		Statement st =this.ucaConn.createStatement();
+		Statement st =this.conn.createStatement();
 		st.executeQuery("DELETE * FROM twit");
 		st.executeQuery("DELETE * FROM superuser");
 		st.executeQuery("DELETE * FROM user");
@@ -143,19 +166,15 @@ public class DBK {
 	}
 	
 	public void saveFollowers(String izena) throws SQLException{
-		Statement st =this.ucaConn.createStatement();
+		Statement st =this.conn.createStatement();
 
 		st.executeQuery("Insert into jarraitzaileak (izena,false,true) ");
 	}
 	
 	public void saveFollowing(String izena) throws SQLException{
-		Statement st =this.ucaConn.createStatement();
+		Statement st =this.conn.createStatement();
 
 		st.executeQuery("Insert into jarraituak (izena,true,false) ");
-	}
-	public String FindFile(){
-		
-		return path;
 	}
 
 }

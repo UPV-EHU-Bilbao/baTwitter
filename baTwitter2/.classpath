@@ -4,7 +4,5 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="var" path="sqlite-jdbc"/>
 	<classpathentry kind="var" path="Twitter4j"/>
-	<classpathentry kind="lib" path="/home/bingen/Documentos/lib/twitter4j-core-4.0.4.jar"/>
-	<classpathentry kind="lib" path="/home/bingen/Documentos/lib/xerial-sqlite-jdbc-8de652d3f54c.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

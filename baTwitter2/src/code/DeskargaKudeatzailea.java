@@ -212,7 +212,7 @@ public class DeskargaKudeatzailea {
 		Iterator<Tweet> i= lista.iterator();
 		while(i.hasNext()){
 			Tweet t= i.next();
-			DBK.getDBK().saveTweetInfo(t.getTextua(), t.getRT(), t.getFav(), t.getRtKop(), t.getFavKop(), t.getUrl(), null, t.getId(), usr, t.getIdazlea());
+			DBK.getInstantzia().saveTweetInfo(t.getTextua(), t.getRT(), t.getFav(), t.getRtKop(), t.getFavKop(), t.getUrl(), null, t.getId(), usr, t.getIdazlea());
 		}
 	}
 
