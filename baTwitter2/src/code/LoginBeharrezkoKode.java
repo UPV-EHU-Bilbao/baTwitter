@@ -15,17 +15,17 @@ import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
-public class LoginCode {
+public class LoginBeharrezkoKode {
 	private String CK="VZui0P0P00DX1q9SeCxLlSDYv";
 	private String CS="ZvlLujot49kqG6qd0SJp3PLFRyHUIp9XtmEw6bYOlOmqpFC1F1";
 	private AccessToken AT;
 	private RequestToken RT;
 	Twitter twitter;
-	private static LoginCode nireLoginCode=new LoginCode();
+	private static LoginBeharrezkoKode nireLoginCode=new LoginBeharrezkoKode();
 	
 	
 	
-	public LoginCode(){
+	public LoginBeharrezkoKode(){
 		AT=null;
 		ConfigurationBuilder cb= new ConfigurationBuilder();
 		cb.setOAuthConsumerKey(CK);
@@ -35,9 +35,9 @@ public class LoginCode {
 		twitter=tf.getInstance();
 		RT=null;		
 	}
-	public static synchronized LoginCode getLoginCode(){
+	public static synchronized LoginBeharrezkoKode getLoginCode(){
 		if (nireLoginCode==null){
-			nireLoginCode=new LoginCode();
+			nireLoginCode=new LoginBeharrezkoKode();
 		}
 		return nireLoginCode;
 	}

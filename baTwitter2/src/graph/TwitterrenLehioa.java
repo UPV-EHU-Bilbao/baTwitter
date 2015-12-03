@@ -11,7 +11,7 @@ import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JLabel;
 
-public class Twitter extends JFrame {
+public class TwitterrenLehioa extends JFrame {
 
 	private JPanel contentPane;
 
@@ -24,7 +24,7 @@ public class Twitter extends JFrame {
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	        //Create and set up the content pane.
-	        Twitter newContentPane = new Twitter();
+	        TwitterrenLehioa newContentPane = new TwitterrenLehioa();
 	        frame.setContentPane(newContentPane);
 
 	        //Display the window.
@@ -46,7 +46,7 @@ public class Twitter extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Twitter() {
+	public TwitterrenLehioa() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 700);
 		contentPane = new JPanel();

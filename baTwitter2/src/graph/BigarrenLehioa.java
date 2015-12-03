@@ -1,27 +1,33 @@
 package graph;
 
-import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
+import java.awt.event.ActionListener;
+
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import code.LoginCode;
+import code.LoginBeharrezkoKode;
 
+import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JRadioButton;
 
-public class OnlineOfflineFrame1 extends JFrame {
+public class BigarrenLehioa extends JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JTextField Pin;
+	private JTextField PinTitle;
+	//private BackBone bb=new BackBone();
 
 	/**
 	 * Launch the application.
@@ -32,7 +38,7 @@ public class OnlineOfflineFrame1 extends JFrame {
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	        //Create and set up the content pane.
-	        OnlineOfflineFrame1 newContentPane = new OnlineOfflineFrame1();
+	        BigarrenLehioa newContentPane = new BigarrenLehioa();
 	        frame.setContentPane(newContentPane);
 
 	        //Display the window.
@@ -50,46 +56,54 @@ public class OnlineOfflineFrame1 extends JFrame {
 	        });
 	    }
 	
+
 	/**
 	 * Create the frame.
 	 */
-	public OnlineOfflineFrame1() {
+	public BigarrenLehioa() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
-		JButton btnOffline = new JButton("OFFLINE");
-		contentPane.add(btnOffline, BorderLayout.WEST);
+		Pin = new JTextField();
+		Pin.setBounds(23, 96, 164, 41);
+		contentPane.add(Pin);
+		Pin.setColumns(10);
 		
-		JButton btnOnline = new JButton("ONLINE");
-		btnOnline.addActionListener(new ActionListener() {
+		PinTitle = new JTextField();
+		PinTitle.setText("Sartu PIN hemen");
+		PinTitle.setEditable(false);
+		PinTitle.setBounds(45, 65, 107, 20);
+		contentPane.add(PinTitle);
+		PinTitle.setColumns(10);
+		
+		
+		JRadioButton rdbtnGogoratuPasahitza = new JRadioButton("Gogoratu pasahitza");
+		rdbtnGogoratuPasahitza.setBounds(45, 169, 107, 20);
+		contentPane.add(rdbtnGogoratuPasahitza);
+		JButton btnOk = new JButton("Ok");
+		btnOk.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					if(LoginCode.getLoginCode().isTokenSet()){
-						LoginCode.getLoginCode().LoginWithCredentials();
-						dispose();
-						new Twitter().setVisible(true);;
-						contentPane.setVisible(false);
-					}else{
-						LoginCode.getLoginCode().Login();
-						dispose();
-						new OnlineStep2().setVisible(true);
-						contentPane.setVisible(false);
+					LoginBeharrezkoKode.getLoginCode().getAccessToken(Pin.getText());
+					dispose();
+					if (rdbtnGogoratuPasahitza.isSelected()) {
+						LoginBeharrezkoKode.getLoginCode().SaveToken();
 					}
-					
-				}	catch(Exception e1){
-					e1.printStackTrace();
+					new TwitterrenLehioa().setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-        		
 			}
 		});
-		contentPane.add(btnOnline, BorderLayout.EAST);
+		
+		btnOk.setBounds(262, 105, 89, 23);
+		contentPane.add(btnOk);
+		
 	}
-
 }
 
