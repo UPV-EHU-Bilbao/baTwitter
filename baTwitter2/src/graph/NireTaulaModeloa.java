@@ -22,7 +22,7 @@ public class NireTaulaModeloa extends AbstractTableModel{
 		kolumnaIzenak= new String[5];
 		
 		hasieratuKolumnak();
-		//kargatu();
+		kargatu(mota);
 	}
 	
 
@@ -31,20 +31,27 @@ public class NireTaulaModeloa extends AbstractTableModel{
 	
 	public void kargatu(String mota){
 		//Hartu db-tik datuak
-		
-		/*if(mota.equals("Jarraitzaileak")||mota.equals("Jarraituak")){
-			lista.add("Bum");
+		if(mota.equals("Favoritoak")){
+			
+		}
+		else if(mota.equals("ReTweet")){
+			
+		}
+		else if(mota.equals("Jarraituak")){
+			
+		}
+		else if(mota.equals("Jarraitzaileak")){
+			
 		}
 		else{
-		Tweet t= new Tweet("Bingenzio","Oh may goood",false, false, 3,4,9,"igandea.com");
-		data.add(t);}*/
-
-	
+			
+		}
+		
 	}
 	
 	private void hasieratuKolumnak(){
 		if((mota.equals("Jarraitzaileak"))||(mota.equals("Jarraituak"))){
-			kolumnaIzenak[0]="Izena";
+			kolumnaIzenak[0]="Erabiltzaile Izena";
 
 		}
 		
