@@ -82,7 +82,7 @@ public class BigarrenLehioa extends JFrame {
 		
 		
 		JRadioButton rdbtnGogoratuPasahitza = new JRadioButton("Gogoratu pasahitza");
-		rdbtnGogoratuPasahitza.setBounds(45, 169, 107, 20);
+		rdbtnGogoratuPasahitza.setBounds(50, 169, 107, 20);
 		contentPane.add(rdbtnGogoratuPasahitza);
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener() {
