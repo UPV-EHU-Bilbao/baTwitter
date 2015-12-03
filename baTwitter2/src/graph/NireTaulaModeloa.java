@@ -1,7 +1,11 @@
+package graph;
+
 import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+
+import code.Tweet;
 
 public class NireTaulaModeloa extends AbstractTableModel{
 	
@@ -18,20 +22,22 @@ public class NireTaulaModeloa extends AbstractTableModel{
 		kolumnaIzenak= new String[5];
 		
 		hasieratuKolumnak();
-		kargatu();
+		//kargatu();
 	}
 	
 
 	private ArrayList<Tweet> data = new ArrayList<Tweet>();
 	private ArrayList<String> lista= new ArrayList<>();
 	
-	public void kargatu(){
-		if(mota.equals("Jarraitzaileak")||mota.equals("Jarraituak")){
+	public void kargatu(String mota){
+		//Hartu db-tik datuak
+		
+		/*if(mota.equals("Jarraitzaileak")||mota.equals("Jarraituak")){
 			lista.add("Bum");
 		}
 		else{
-		Tweet t= new Tweet("Bingenzio","Oh may goood",3,4,9,"igandea.com");
-		data.add(t);}
+		Tweet t= new Tweet("Bingenzio","Oh may goood",false, false, 3,4,9,"igandea.com");
+		data.add(t);}*/
 
 	
 	}

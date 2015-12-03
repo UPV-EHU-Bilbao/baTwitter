@@ -37,4 +37,17 @@ public class Tweet {
 	public int getRtKop(){return rtKop;}
 	public int getFavKop(){return favKop;}
 	public String getUrl(){return url;}
+
+	
+		public Object getBalioa(int i){
+			switch(i){
+				case 0:{	return idazlea;	}
+				case 1:{	return edukia;}
+				case 2:{	return rtKop;}
+				case 3:{	return favKop;}
+				case 4:{	return url;}
+				default:{ return null;}
+			}
+		}
+	
 }
