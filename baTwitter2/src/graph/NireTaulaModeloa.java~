@@ -33,8 +33,8 @@ public class NireTaulaModeloa extends AbstractTableModel{
 		//Hartu db-tik datuak
 		if(mota.equals("Jarraitzaileak")){}
 		else if(mota.equals("Jarraituak")){}
-		else if(mota.equals("Retweet")){}
-		else if(mota.equals("Favorito")){}
+		else if(mota.equals("Retweetak")){}
+		else if(mota.equals("Favoritoak")){}
 		else{}
 
 	
