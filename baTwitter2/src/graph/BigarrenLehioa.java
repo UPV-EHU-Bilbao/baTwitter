@@ -94,7 +94,8 @@ public class BigarrenLehioa extends JFrame {
 					if (rdbtnGogoratuPasahitza.isSelected()) {
 						LoginBeharrezkoKode.getLoginCode().SaveToken();
 					}
-					new Osoa().setVisible(true);
+					Osoa.main(null);;
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
