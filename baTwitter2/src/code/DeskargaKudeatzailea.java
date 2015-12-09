@@ -38,7 +38,8 @@ public class DeskargaKudeatzailea {
               		i=0;
               	}
 	                    User user = t.showUser(id); 
-	                    this.sartuJErabiltzaileaDB(user.getName(), false, db);
+	                    System.out.println(user.getName());
+	                    this.sartuJErabiltzaileaDB(user.getName().replace("'", " "), false, db);
 	                    //gorde db-n
 	                    i++;
 	                }
@@ -71,7 +72,7 @@ public class DeskargaKudeatzailea {
             	}
 	                    User user = t.showUser(id); 
 	                    System.out.println(user.getName());
-	                    this.sartuJErabiltzaileaDB(user.getName(), true, db);
+	                    this.sartuJErabiltzaileaDB(user.getName().replace("'", " "), true, db);
 
 	                    i++;
 	                }

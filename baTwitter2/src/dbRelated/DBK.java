@@ -169,33 +169,44 @@ public class DBK{
 	}
 	
 	public void saveFollowers(String erabiltzailea) throws SQLException{
-		Statement st =this.conn.createStatement();
+		try{
+			Statement st =this.conn.createStatement();
+			erabiltzailea.replace("'", "//'");
 
-		st.executeQuery("Insert into user VALUES ("+erabiltzailea+","+0+","+1+") ");
-
+				st.execute("INSERT INTO user VALUES ('"+erabiltzailea+"', 0, 1)");
+			}catch(SQLException e){
+				updateFollowing(erabiltzailea);	
+			}
 	}
-	//METODO NUEVO
-	/*
+	
 	public void updateFollower(String izena)throws SQLException{
 	Statement st =this.conn.createStatement();
 
-	st.executeQuery("Update superuser.jarraituak=true where superuser.izena="+izena+";");
+	st.execute("Update user set jarraitzailea=1 where izena='"+izena+"';");
 
-}*/
+}
 	
-	public void saveFollowing(String erabiltzailea) throws SQLException, IllegalStateException, TwitterException{
+	
+	
+	
+	
+	public void saveFollowing(String erabiltzailea) throws IllegalStateException, TwitterException, SQLException{
+		try{
 		Statement st =this.conn.createStatement();
-		st.execute("INSERT INTO user VALUES ('"+erabiltzailea+"', 1, 0,'"+LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName()+"')");;
+		erabiltzailea.replace("'", "//'");
 
-		//st.executeQuery("Insert into user (izena,jarraitua,jarraitzailea) VALUES ("+erabiltzailea+","+1+","+0+") ");
+			st.execute("INSERT INTO user VALUES ('"+erabiltzailea+"', 1, 0)");
+		}catch(SQLException e){
+			updateFollowing(erabiltzailea);	
+		}
+
 	}
 	
-	//METODO NUEVO
-	/*
+	
 	public void updateFollowing(String izena) throws SQLException{
 		Statement st =this.conn.createStatement();
-		st.executeQuery("Update superuser.jarraituak=true where superuser.izena="+izena+";");
-	}*/
+		st.execute("Update user set jarraitua=1 where izena='"+izena+"';");
+	}
 
 
 }
