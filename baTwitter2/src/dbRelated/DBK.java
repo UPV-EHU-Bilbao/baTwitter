@@ -169,13 +169,29 @@ public class DBK{
 		Statement st =this.conn.createStatement();
 
 		st.executeQuery("Insert into jarraitzaileak (izena,false,true) ");
+
 	}
+	//METODO NUEVO
+	/*
+	public void updateFollower(String izena)throws SQLException{
+	Statement st =this.conn.createStatement();
+
+	st.executeQuery("Update superuser.jarraituak=true where superuser.izena="+izena+";");
+
+}*/
 	
 	public void saveFollowing(String izena) throws SQLException{
 		Statement st =this.conn.createStatement();
-
 		st.executeQuery("Insert into jarraituak (izena,true,false) ");
 	}
+	
+	//METODO NUEVO
+	/*
+	public void updateFollowing(String izena) throws SQLException{
+		Statement st =this.conn.createStatement();
+		st.executeQuery("Update superuser.jarraituak=true where superuser.izena="+izena+";");
+	}*/
+
 
 }
 

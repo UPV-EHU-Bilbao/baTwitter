@@ -20,9 +20,10 @@ public class DeskargaKudeatzailea {
 	private  Twitter t;
 
 	public  DeskargaKudeatzailea(ConfigurationBuilder cb){
-		 t = new TwitterFactory(cb.build()).getInstance();
+		t= LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
+		//t = new TwitterFactory(cb.build()).getInstance();
 	}
-
+//cambiar a conn
 	public void jarraitzaileak(DBK db) throws InterruptedException, SQLException{
 	      try {
 	            long cursor = -1;
