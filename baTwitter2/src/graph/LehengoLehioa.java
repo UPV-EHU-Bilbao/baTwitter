@@ -86,8 +86,9 @@ public class LehengoLehioa extends JFrame {
 					if(LoginBeharrezkoKode.getLoginCode().isTokenSet()){
 						LoginBeharrezkoKode.getLoginCode().LoginWithCredentials();
 						dispose();
-						Osoa.main(null);
-						
+						new HirugarrenLehioa().setVisible(true);
+						contentPane.setVisible(false);
+
 					}else{
 						LoginBeharrezkoKode.getLoginCode().Login();
 						dispose();

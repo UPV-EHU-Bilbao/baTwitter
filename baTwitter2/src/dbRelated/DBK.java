@@ -6,6 +6,9 @@ import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.Statement;
 
+import code.LoginBeharrezkoKode;
+import twitter4j.TwitterException;
+
 
 
 public class DBK{
@@ -165,10 +168,10 @@ public class DBK{
 
 	}
 	
-	public void saveFollowers(String izena) throws SQLException{
+	public void saveFollowers(String erabiltzailea) throws SQLException{
 		Statement st =this.conn.createStatement();
 
-		st.executeQuery("Insert into jarraitzaileak (izena,false,true) ");
+		st.executeQuery("Insert into user VALUES ("+erabiltzailea+","+0+","+1+") ");
 
 	}
 	//METODO NUEVO
@@ -180,9 +183,11 @@ public class DBK{
 
 }*/
 	
-	public void saveFollowing(String izena) throws SQLException{
+	public void saveFollowing(String erabiltzailea) throws SQLException, IllegalStateException, TwitterException{
 		Statement st =this.conn.createStatement();
-		st.executeQuery("Insert into jarraituak (izena,true,false) ");
+		st.execute("INSERT INTO user VALUES ('"+erabiltzailea+"', 1, 0,'"+LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName()+"')");;
+
+		//st.executeQuery("Insert into user (izena,jarraitua,jarraitzailea) VALUES ("+erabiltzailea+","+1+","+0+") ");
 	}
 	
 	//METODO NUEVO
