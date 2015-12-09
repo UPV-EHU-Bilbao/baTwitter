@@ -73,7 +73,6 @@ public class DeskargaKudeatzailea {
 	                    User user = t.showUser(id); 
 	                    System.out.println(user.getName());
 	                    this.sartuJErabiltzaileaDB(user.getName().replace("'", " "), true, db);
-
 	                    i++;
 	                }
 	            System.exit(0);
@@ -107,6 +106,7 @@ public class DeskargaKudeatzailea {
 				statuses.addAll(t.getFavorites(usr, page));				
 				since=statuses.get(0).getId();
 				for(Status status : statuses) {
+					System.out.println(status.getText());
 					long id=status.getId();
 					String erab=status.getUser().getName();
 					String edukia=status.getText();
