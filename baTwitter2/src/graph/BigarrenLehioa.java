@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import code.LoginBeharrezkoKode;
+import twitterGraphs.Osoa;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;

@@ -8,12 +8,21 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import code.LoginBeharrezkoKode;
+import dbRelated.DBK;
+import twitterGraphs.Osoa;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class LehengoLehioa extends JFrame {
 
@@ -59,14 +68,18 @@ public class LehengoLehioa extends JFrame {
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[]{212, 212, 0};
+		gbl_contentPane.rowHeights = new int[]{251, 0};
+		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		contentPane.setLayout(gbl_contentPane);
 		
-		JButton btnOffline = new JButton("OFFLINE");
-		contentPane.add(btnOffline, BorderLayout.WEST);
 		
-		JButton btnOnline = new JButton("ONLINE");
-		btnOnline.addActionListener(new ActionListener() {
+		
+		JButton btnSartu = new JButton("Sartu");
+		btnSartu.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -78,7 +91,7 @@ public class LehengoLehioa extends JFrame {
 					}else{
 						LoginBeharrezkoKode.getLoginCode().Login();
 						dispose();
-						Osoa.main(null);
+						new BigarrenLehioa().setVisible(true);
 						contentPane.setVisible(false);
 					}
 					
@@ -88,8 +101,31 @@ public class LehengoLehioa extends JFrame {
         		
 			}
 		});
-		contentPane.add(btnOnline, BorderLayout.EAST);
+		GridBagConstraints gbc_btnSartu = new GridBagConstraints();
+		gbc_btnSartu.insets = new Insets(0, 0, 0, 5);
+		gbc_btnSartu.gridx = 0;
+		gbc_btnSartu.gridy = 0;
+		contentPane.add(btnSartu, gbc_btnSartu);
+		
+		JButton btnDatuBaseaEzabatu = new JButton("Datu Basea Ezabatu");
+		GridBagConstraints gbc_btnDatuBaseaEzabatu = new GridBagConstraints();
+		gbc_btnDatuBaseaEzabatu.gridx = 1;
+		gbc_btnDatuBaseaEzabatu.gridy = 0;
+		contentPane.add(btnDatuBaseaEzabatu, gbc_btnDatuBaseaEzabatu);
+		btnDatuBaseaEzabatu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					DBK.getInstantzia().ClearDB();
+					
+				}	catch(Exception e1){
+					e1.printStackTrace();
+				}
+        		
+			}
+		});
 	}
+	
 
 }
 

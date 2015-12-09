@@ -1,4 +1,4 @@
-package graph;
+package twitterGraphs;
 
 import java.awt.*;
 import java.awt.event.*;

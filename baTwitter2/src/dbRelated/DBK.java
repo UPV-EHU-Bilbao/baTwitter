@@ -159,9 +159,9 @@ public class DBK{
 	}
 	public void ClearDB() throws SQLException{
 		Statement st =this.conn.createStatement();
-		st.executeQuery("DELETE * FROM twit");
-		st.executeQuery("DELETE * FROM superuser");
-		st.executeQuery("DELETE * FROM user");
+		st.execute("DELETE FROM twit;");
+		st.execute("DELETE FROM superuser;");
+		st.execute("DELETE FROM user;");
 
 	}
 	
