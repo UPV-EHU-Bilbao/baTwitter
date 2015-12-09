@@ -1,5 +1,11 @@
 package code;
 
+/**
+ * Tweet klase laguntzailea
+ * tweet baten egitura du.
+ * @author bingen
+ *
+ */
 public class Tweet {
 
 	private long id;

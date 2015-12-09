@@ -15,6 +15,11 @@ import twitter4j.TwitterFactory;
 import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
 
+/**
+ * Tweet-ak eta erabiltzaileak deskargatzeko eta DB-n gordetzeko klase kudeatzailea.
+ * @author BATwitter
+ *
+ */
 public class DeskargaKudeatzailea {
 
 	private  Twitter t;
@@ -23,6 +28,12 @@ public class DeskargaKudeatzailea {
 		 t = new TwitterFactory(cb.build()).getInstance();
 	}
 
+	/**
+	 * Jarraitzaileak deskargatu eta datu basean gordetzen ditu.
+	 * @param db gure datu basea
+	 * @throws InterruptedException
+	 * @throws SQLException
+	 */
 	public void jarraitzaileak(DBK db) throws InterruptedException, SQLException{
 	      try {
 	            long cursor = -1;
@@ -52,7 +63,12 @@ public class DeskargaKudeatzailea {
 	            
 	        }
 	    }
-
+	/**
+	 * Erabiltzaileak Twitterren jarraitzen dituen erabiltzaileak deskargatu eta datu basean gordetzen ditu.
+	 * @param db gure datu basea
+	 * @throws InterruptedException
+	 * @throws SQLException
+	 */
 	public void jarraituak(DBK db) throws InterruptedException, SQLException{
 	      try {
 	            long cursor = -1;
@@ -85,6 +101,13 @@ public class DeskargaKudeatzailea {
 	        }
 	    }
 
+	/**
+	 * Tweet faboritoak deskargatu eta datu basean gordetzeko metodoa.
+	 * @param usr Erabiltzailearen twitter izena
+	 * @param db gure datu basea
+	 * @throws InterruptedException
+	 * @throws SQLException
+	 */
 	public void faboritoak(String usr,DBK db) throws InterruptedException, SQLException{
 		int pagenum= 1;
 		ArrayList<Tweet> favLista= new ArrayList<Tweet>();
@@ -141,6 +164,13 @@ public class DeskargaKudeatzailea {
 	
 	}
 
+	/**
+	 * Erabltzaileak idatzitako tweet-ak eta egindako retweetak deskargatu eta datu basean gordetzen duen metodoa.
+	 * @param usr Erabiltzailearne twitter izena
+	 * @param db gure datu basea 
+	 * @throws InterruptedException
+	 * @throws SQLException
+	 */
 	public void nireTweet(String usr,DBK db) throws InterruptedException, SQLException{
 		ArrayList<Tweet> propioak= new ArrayList<Tweet>();
 		ArrayList<Tweet> rtLista= new ArrayList<Tweet>();
@@ -207,6 +237,13 @@ public class DeskargaKudeatzailea {
 	
 	}
 
+	/**
+	 * Tweetak datu basean gordetzeko metodoa
+	 * @param db gure datu basea
+	 * @param lista tweet lista bat
+	 * @param usr Erabiltzailearen twitter izena
+	 * @throws SQLException
+	 */
 	private void sartuTweetDB(DBK db,ArrayList<Tweet> lista,String usr) throws SQLException{
 		
 		Iterator<Tweet> i= lista.iterator();
@@ -216,6 +253,13 @@ public class DeskargaKudeatzailea {
 		}
 	}
 
+	/**
+	 * Erabiltzaileak datu basean gordetzeko metodoa
+	 * @param izena erabilztailearen twitter izena
+	 * @param jarraitua Jarraitua den ala ez
+	 * @param db gure datu basea 
+	 * @throws SQLException
+	 */
 	private void sartuJErabiltzaileaDB(String izena,boolean jarraitua, DBK db) throws SQLException{
 		if(!jarraitua)
 		db.saveFollowers(izena);

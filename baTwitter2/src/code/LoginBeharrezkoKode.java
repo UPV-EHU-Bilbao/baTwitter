@@ -15,6 +15,12 @@ import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
+/**
+ * Twitterren logeatzeko klasea
+ * tokenak deskargatu eta datu basean gorde, berriro ez deskargatzeko beharra izateko.
+ * @author BATwitter
+ *
+ */
 public class LoginBeharrezkoKode {
 	private String CK="VZui0P0P00DX1q9SeCxLlSDYv";
 	private String CS="ZvlLujot49kqG6qd0SJp3PLFRyHUIp9XtmEw6bYOlOmqpFC1F1";

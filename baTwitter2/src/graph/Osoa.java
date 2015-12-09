@@ -10,6 +10,10 @@ import javax.swing.border.EmptyBorder;
 import java.awt.FlowLayout;
 import javax.swing.JTable;
 
+/**
+ * RaddioButton eta Taulak batzen dituen klasea
+ * @author BATwitter
+ */
 public class Osoa extends JFrame {
 
 	private JPanel contentPane;
@@ -25,7 +29,10 @@ public class Osoa extends JFrame {
 		Osoa frame = new Osoa();
 		frame.hasieratu("");
 	}
-
+	/**
+	 * RaddioButton hasieratzen da, eta sartutako botoriaren arabera taula ere.
+	 * @param actionCommand
+	 */
 	private void hasieratu(String actionCommand) {
 		// TODO Auto-generated method stub
 
@@ -60,7 +67,10 @@ public class Osoa extends JFrame {
 
 	
 
-
+	/**
+	 * botoiak eta taulak bistaratzen ditu.
+	 * @param actionCommand
+	 */
 	 public void bistaratu(String actionCommand) {
 		 hasieratu(actionCommand);}
 	
