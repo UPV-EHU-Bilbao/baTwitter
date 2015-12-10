@@ -1,4 +1,4 @@
-package graph;
+package twitterGraphs;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

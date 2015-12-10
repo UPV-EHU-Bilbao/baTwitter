@@ -20,9 +20,10 @@ public class DeskargaKudeatzailea {
 	private  Twitter t;
 
 	public  DeskargaKudeatzailea(ConfigurationBuilder cb){
-		 t = new TwitterFactory(cb.build()).getInstance();
+		t= LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
+		//t = new TwitterFactory(cb.build()).getInstance();
 	}
-
+//cambiar a conn
 	public void jarraitzaileak(DBK db) throws InterruptedException, SQLException{
 	      try {
 	            long cursor = -1;
@@ -37,7 +38,8 @@ public class DeskargaKudeatzailea {
               		i=0;
               	}
 	                    User user = t.showUser(id); 
-	                    this.sartuJErabiltzaileaDB(user.getName(), false, db);
+	                    System.out.println(user.getName());
+	                    this.sartuJErabiltzaileaDB(user.getName().replace("'", " "), false, db);
 	                    //gorde db-n
 	                    i++;
 	                }
@@ -68,9 +70,9 @@ public class DeskargaKudeatzailea {
             		Thread.sleep(900*1000);
             		i=0;
             	}
-	                    User user = t.showUser(id);      
-	                    this.sartuJErabiltzaileaDB(user.getName(), true, db);
-
+	                    User user = t.showUser(id); 
+	                    System.out.println(user.getName());
+	                    this.sartuJErabiltzaileaDB(user.getName().replace("'", " "), true, db);
 	                    i++;
 	                }
 	            System.exit(0);
@@ -104,6 +106,7 @@ public class DeskargaKudeatzailea {
 				statuses.addAll(t.getFavorites(usr, page));				
 				since=statuses.get(0).getId();
 				for(Status status : statuses) {
+					System.out.println(status.getText());
 					long id=status.getId();
 					String erab=status.getUser().getName();
 					String edukia=status.getText();
@@ -163,6 +166,7 @@ public class DeskargaKudeatzailea {
 				statuses.addAll(t.getUserTimeline(usr,page));
 				since=statuses.get(0).getId();
 				for(Status status : statuses) {
+					System.out.println(status.getText());
 					long id=status.getId();
 					String erab=status.getUser().getName();
 					String edukia=status.getText();
@@ -216,7 +220,7 @@ public class DeskargaKudeatzailea {
 		}
 	}
 
-	private void sartuJErabiltzaileaDB(String izena,boolean jarraitua, DBK db) throws SQLException{
+	private void sartuJErabiltzaileaDB(String izena,boolean jarraitua, DBK db) throws SQLException, IllegalStateException, TwitterException{
 		if(!jarraitua)
 		db.saveFollowers(izena);
 		else
