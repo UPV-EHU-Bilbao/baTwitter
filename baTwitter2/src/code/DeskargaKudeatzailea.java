@@ -11,7 +11,6 @@ import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
 
@@ -178,8 +177,7 @@ public class DeskargaKudeatzailea {
 	 * @throws SQLException
 	 */
 	public void nireTweet(String usr,DBK db) throws InterruptedException, SQLException{
-		ArrayList<Tweet> propioak= new ArrayList<Tweet>();
-		ArrayList<Tweet> rtLista= new ArrayList<Tweet>();
+		ArrayList<Tweet> Lista= new ArrayList<Tweet>();
 
 		int pagenum= 1;
 		List<Status> statuses = new ArrayList<Status>();
@@ -210,20 +208,17 @@ public class DeskargaKudeatzailea {
 					String url=status.getURLEntities().toString();
 					//String image=status.m
 					Tweet twet= new Tweet(edukia,erab,rt,fav,rtKop,favKop,id,url);
-					if (!rt&&!fav){propioak.add(twet);}
-					else if (rt&&!fav){
-						rtLista.add(twet);
+						Lista.add(twet);
 					}
 					
 				
-				}
+				
 				if(size==statuses.size()){
 					break;
 				}
 				if (i==15){
 					i=0;
-					this.sartuTweetDB(db, rtLista, usr);
-					this.sartuTweetDB(db, rtLista, usr);
+					this.sartuTweetDB(db, Lista, usr);
 					Thread.sleep(900*1000);
 				}
 				}		

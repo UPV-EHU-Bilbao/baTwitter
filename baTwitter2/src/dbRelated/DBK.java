@@ -6,8 +6,6 @@ import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.Statement;
 
-import code.LoginBeharrezkoKode;
-
 
 /**
  * Datu base kudeatzailea
@@ -201,8 +199,9 @@ public class DBK{
 	 */
 	public void saveTweetInfo(String text,boolean RT, boolean Fav, int RTCount,int FAVCount,String URL, String Image,long tweetID, String superuser,String USER_izena) throws SQLException{
 		Statement st =this.conn.createStatement();
+		if(!this.komprobatuTweet(tweetID)){
 		st.execute("Insert into twit (edukia,url,irudia,fav,rt,favKop,rtKop,id,SUPERUSER_izena,USER_izena) VALUES ('"+text+"','"+URL+"','"+Image+"','"+Fav+"','"+RT+"','"+FAVCount+"','"+RTCount+"','"+tweetID+"','"+superuser+"','"+USER_izena+"')");
-		
+		}
 	}
 	/**
 	 * Tweet-ak hartzeko metodoa
@@ -280,7 +279,21 @@ public class DBK{
 		st.execute("Update user set jarraitua=1 where izena='"+izena+"';");
 	}
 
-
+/**
+ * Komprobatzeko ea tweet-a DB-an dagoen sartuta
+ * @param tweetId
+ * @return
+ * @throws SQLException
+ */
+	private boolean komprobatuTweet(long tweetId) throws SQLException{
+		Statement st =this.conn.createStatement();
+		ResultSet rs=st.executeQuery("SELECT  FROM twit WHERE id="+tweetId+"");
+		if (!rs.next()){
+			return false;
+		}else{
+			return true;
+			}
+	}
 }
 
 
