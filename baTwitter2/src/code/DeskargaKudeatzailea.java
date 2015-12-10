@@ -267,7 +267,7 @@ private int switchBooltoInt(boolean b){
 	
 	
 	
-
+/*
 public void gustokoakJaitsi(){
 	Twitter twitter = LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
 	boolean amaituta = false;
@@ -308,7 +308,23 @@ public void gustokoakJaitsi(){
 			sq.printStackTrace();
 	}
 	
-	}
+	}*/
+	public void getFAV() throws SQLException{
+		try {
+	
+        Twitter twitter = LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
+        List<Status> statuses = twitter.getFavorites();
+        for (Status status : statuses) {
+			this.sartuStatusDB(DBK.getInstantzia(), statuses, LoginBeharrezkoKode.getLoginCode().twitter.verifyCredentials().getScreenName());;
+        }
+        System.out.println("done.");
+        System.exit(0);
+    } catch (TwitterException te) {
+        te.printStackTrace();
+        System.out.println("Failed to get favorites: " + te.getMessage());
+        System.exit(-1);
+    }
 
+}
 }
 	
