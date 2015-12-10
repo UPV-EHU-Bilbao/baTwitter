@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import code.LoginBeharrezkoKode;
+import twitterGraphs.Osoa;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -94,7 +95,8 @@ public class BigarrenLehioa extends JFrame {
 					if (rdbtnGogoratuPasahitza.isSelected()) {
 						LoginBeharrezkoKode.getLoginCode().SaveToken();
 					}
-					new TwitterrenLehioa().setVisible(true);
+					Osoa.main(null);;
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

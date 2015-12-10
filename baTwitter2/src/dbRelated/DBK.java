@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.Statement;
 
+import code.LoginBeharrezkoKode;
+
 
 /**
  * Datu base kudeatzailea
@@ -218,32 +220,66 @@ public class DBK{
 	 */
 	public void ClearDB() throws SQLException{
 		Statement st =this.conn.createStatement();
-		st.executeQuery("DELETE * FROM twit");
-		st.executeQuery("DELETE * FROM superuser");
-		st.executeQuery("DELETE * FROM user");
+		st.execute("DELETE FROM twit;");
+		st.execute("DELETE FROM superuser;");
+		st.execute("DELETE FROM user;");
 
 	}
+
 	/**
 	 * jarraitzailea gorde.
 	 * @param izena erabiltzaile izena
 	 * @throws SQLException
 	 */
-	public void saveFollowers(String izena) throws SQLException{
-		Statement st =this.conn.createStatement();
 
-		st.executeQuery("Insert into jarraitzaileak (izena,false,true) ");
+	
+	public void saveFollowers(String erabiltzailea) throws SQLException{
+		try{
+			Statement st =this.conn.createStatement();
+			erabiltzailea.replace("'", "//'");
+
+				st.execute("INSERT INTO user VALUES ('"+erabiltzailea+"', 0, 1)");
+			}catch(SQLException e){
+				updateFollowing(erabiltzailea);	
+			}
 	}
 	
+
 	/**
 	 * Jarraitua gorde
 	 * @param izena erabiltzaile izena
 	 * @throws SQLException
 	 */
-	public void saveFollowing(String izena) throws SQLException{
-		Statement st =this.conn.createStatement();
 
-		st.executeQuery("Insert into jarraituak (izena,true,false) ");
+	public void updateFollower(String izena)throws SQLException{
+	Statement st =this.conn.createStatement();
+
+	st.execute("Update user set jarraitzailea=1 where izena='"+izena+"';");
+
+}
+	
+	
+	
+	
+	
+	public void saveFollowing(String erabiltzailea) throws IllegalStateException,  SQLException{
+		try{
+		Statement st =this.conn.createStatement();
+		erabiltzailea.replace("'", "//'");
+
+			st.execute("INSERT INTO user VALUES ('"+erabiltzailea+"', 1, 0)");
+		}catch(SQLException e){
+			updateFollowing(erabiltzailea);	
+		}
+
 	}
+	
+	
+	public void updateFollowing(String izena) throws SQLException{
+		Statement st =this.conn.createStatement();
+		st.execute("Update user set jarraitua=1 where izena='"+izena+"';");
+	}
+
 
 }
 
