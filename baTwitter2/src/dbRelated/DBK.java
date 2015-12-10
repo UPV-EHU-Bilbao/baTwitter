@@ -184,7 +184,7 @@ public class DBK{
 			}
 		}
 	/**
-	 *  Tweet-a datu basean gordetzeko metodoa
+	 *  Tweet-a datu basean gordetzeko metodoa, sartu baino lehen komprobatu egingo du ea DB-n ba al zegoen.
 	 * @param text
 	 * @param RT
 	 * @param Fav
@@ -199,7 +199,10 @@ public class DBK{
 	 */
 	public void saveTweetInfo(String text,boolean RT, boolean Fav, int RTCount,int FAVCount,String URL, String Image,long tweetID, String superuser,String USER_izena) throws SQLException{
 		Statement st =this.conn.createStatement();
-		st.execute("Insert into twit (edukia,url,irudia,fav,rt,favKop,rtKop,id,SUPERUSER_izena,USER_izena) VALUES ('"+text+"','"+URL+"','"+Image+"','"+Fav+"','"+RT+"','"+FAVCount+"','"+RTCount+"','"+tweetID+"','"+superuser+"','"+USER_izena+"')");
+		if(!this.komprobatuTweet(tweetID)){
+			st.execute("Insert into twit (edukia,url,irudia,fav,rt,favKop,rtKop,id,SUPERUSER_izena,USER_izena) VALUES ('"+text+"','"+URL+"','"+Image+"','"+Fav+"','"+RT+"','"+FAVCount+"','"+RTCount+"','"+tweetID+"','"+superuser+"','"+USER_izena+"')");
+
+		}
 		
 	}
 	/**
@@ -245,15 +248,17 @@ public class DBK{
 		st.executeQuery("Insert into jarraituak (izena,true,false) ");
 	}
 
-	public boolean komprobatuTweet(long tweetId) throws SQLException{
+	private boolean komprobatuTweet(long tweetId) throws SQLException{
 		Statement st =this.conn.createStatement();
-		ResultSet rs=st.executeQuery("SELECT * FROM twit WHERE id=tweetId");
+		ResultSet rs=st.executeQuery("SELECT  FROM twit WHERE id="+tweetId+"");
 		if (!rs.next()){
 			return false;
 		}else{
 			return true;
 			}
 	}
+
+	
 }
 
 

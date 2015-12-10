@@ -119,8 +119,10 @@ public class DeskargaKudeatzailea {
 				for(int i=0;i<=15;i++){
 				int size = statuses.size();
 				
-				/*if(max==0){
-				Paging page = new Paging(pagenum++,214,since,max);}else{}*/
+				/*if(max==0&&since==0){
+				Paging page = new Paging(pagenum++,214,since,max);}else{}
+				else if(max==0){
+				Paging page = new Paging(pagenum++,214,since,max);}*/
 				Paging page = new Paging(pagenum++,214);
 				
 				//page.sinceId(since);
@@ -135,7 +137,7 @@ public class DeskargaKudeatzailea {
 					boolean fav=status.isFavorited();
 					boolean rt= status.isRetweeted();
 					String url=status.getURLEntities().toString();
-					//String image=status.m Oraindik ez duu egin irudiak gordetzeko
+					//String image=status.m Oraindik ez dugu egin irudiak gordetzeko
 					Tweet twet= new Tweet(edukia,erab,rt,fav,rtKop,favKop,id,url);
 					
 						favLista.add(twet);
@@ -218,7 +220,6 @@ public class DeskargaKudeatzailea {
 				}
 				if (i==15){
 					i=0;
-					this.sartuTweetDB(db, rtLista, usr);
 					this.sartuTweetDB(db, rtLista, usr);
 					Thread.sleep(900*1000);
 				}
