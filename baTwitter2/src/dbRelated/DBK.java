@@ -245,6 +245,15 @@ public class DBK{
 		st.executeQuery("Insert into jarraituak (izena,true,false) ");
 	}
 
+	public boolean komprobatuTweet(long tweetId) throws SQLException{
+		Statement st =this.conn.createStatement();
+		ResultSet rs=st.executeQuery("SELECT * FROM twit WHERE id=tweetId");
+		if (!rs.next()){
+			return false;
+		}else{
+			return true;
+			}
+	}
 }
 
 
