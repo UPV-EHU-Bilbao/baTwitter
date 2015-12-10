@@ -22,10 +22,10 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class DeskargaKudeatzailea {
 
-	private  Twitter t;
+	private  Twitter tw;
 
 	public  DeskargaKudeatzailea(ConfigurationBuilder cb){
-		t= LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
+		tw= LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
 		//t = new TwitterFactory(cb.build()).getInstance();
 	}
 //cambiar a conn
@@ -34,7 +34,7 @@ public class DeskargaKudeatzailea {
 	            long cursor = -1;
 	            IDs ids;
 	            do {
-	                    ids= t.getFollowersIDs(cursor);
+	                    ids= tw.getFollowersIDs(cursor);
 	            } while ((cursor = ids.getNextCursor()) != 0);
 	            int i=0;
 	            for (long id : ids.getIDs()) {
@@ -42,7 +42,7 @@ public class DeskargaKudeatzailea {
               		Thread.sleep(900*1000);
               		i=0;
               	}
-	                    User user = t.showUser(id); 
+	                    User user = tw.showUser(id); 
 	                    System.out.println(user.getName());
 	                    this.sartuJErabiltzaileaDB(user.getName().replace("'", " "), false, db);
 	                    //gorde db-n
@@ -65,7 +65,7 @@ public class DeskargaKudeatzailea {
 	            long cursor = -1;
 	            IDs ids;
 	            do {
-	                    ids = t.getFriendsIDs(cursor);
+	                    ids = tw.getFriendsIDs(cursor);
 	                    
 	               // Thread.sleep(itxaroteko);
 	            } while ((cursor = ids.getNextCursor()) != 0);
@@ -75,7 +75,7 @@ public class DeskargaKudeatzailea {
             		Thread.sleep(900*1000);
             		i=0;
             	}
-	                    User user = t.showUser(id); 
+	                    User user = tw.showUser(id); 
 	                    System.out.println(user.getName());
 	                    this.sartuJErabiltzaileaDB(user.getName().replace("'", " "), true, db);
 	                    i++;
@@ -122,7 +122,7 @@ public class DeskargaKudeatzailea {
 				
 				//page.sinceId(since);
 				//statuses.addAll(t.getUserTimeline(usr,page));
-				statuses.addAll(t.getFavorites(usr, page));				
+				statuses.addAll(tw.getFavorites(usr, page));				
 				//since=statuses.get(0).getId();
 				for(Status status : statuses) {
 					System.out.println(status.getText());
@@ -166,26 +166,33 @@ public class DeskargaKudeatzailea {
 	}
 
 	public void nireTweet(String usr,DBK db) throws InterruptedException, SQLException{
-		ArrayList<Tweet> propioak= new ArrayList<Tweet>();
 		ArrayList<Tweet> rtLista= new ArrayList<Tweet>();
 
 		int pagenum= 1;
 		List<Status> statuses = new ArrayList<Status>();
 		long since = 1; //berriagoak db tik hartu behar
 		long max=1; // db tik hartu
+		ResultSet var=DBK.getInstantzia().execSQL("Select since, max from superuser");
+		while(var.next()){
+			
+			since = var.getLong(1);
+			max= var.getLong(2);
+		}
 		while(true){
 			try{
+				Paging page;
 				for(int i=0;i<=15;i++){
 				int size = statuses.size();
-				//if(max=null) {
-				//Paging page = new Paging(pagenum++,214,since,max);}
-				//else{
-				Paging page = new Paging(pagenum++,214,since);
-				//}
+				if(max!=0) {
+				 page = new Paging(pagenum++,214,since,max);}
+				else {
+				 page = new Paging(pagenum++,214);
+				}
 				
 				//page.sinceId(since);
-				statuses.addAll(t.getUserTimeline(usr,page));
-				since=statuses.get(0).getId();
+				statuses.addAll(tw.getUserTimeline(usr,page));
+				//since=statuses.get(0).getId();
+				max=statuses.get(statuses.size()-1).getId();
 				for(Status status : statuses) {
 					System.out.println(status.getText());
 					long id=status.getId();
@@ -194,28 +201,23 @@ public class DeskargaKudeatzailea {
 					int favKop=status.getFavoriteCount();
 					int rtKop= status.getRetweetCount();
 					boolean fav=status.isFavorited();
-					boolean rt= status.isRetweeted();
+					boolean rt= status.isRetweetedByMe();
 					String url=status.getURLEntities().toString();
 					//String image=status.m
 					Tweet twet= new Tweet(edukia,erab,rt,fav,rtKop,favKop,id,url);
-					if (!rt&&!fav){propioak.add(twet);}
-					else if (rt&&!fav){
-						rtLista.add(twet);
-					}
-					
 				
-				}
+				rtLista.add(twet);
 				if(size==statuses.size()){
-					break;
-				}
+						break;
+					}
 				if (i==15){
-					i=0;
-					this.sartuTweetDB(db, rtLista, usr);
-					this.sartuTweetDB(db, rtLista, usr);
-					Thread.sleep(900*1000);
+						i=0;
+						this.sartuTweetDB(db, rtLista, usr);
+						Thread.sleep(900*1000);
+							}
+						}
+					}		
 				}
-				}		
-			}
 	
 		catch(TwitterException e){
 			int i=e.getRateLimitStatus().getSecondsUntilReset();
@@ -241,13 +243,15 @@ public class DeskargaKudeatzailea {
 		}
 	}
 private void sartuStatusDB(DBK db,List<Status> lista,String usr) throws SQLException{
-		
+		//Hau DBK-n egon behar da.
 		Iterator<Status> i= lista.iterator();
 		while(i.hasNext()){
 			Status t= i.next();
-			System.out.println(t.getText());
-			
-			DBK.getInstantzia().saveTweetInfo(t.getText().replace("'", "''"), switchBooltoInt(t.isRetweetedByMe()), switchBooltoInt(t.isFavorited()), t.getRetweetCount(), t.getFavoriteCount(), t.getURLEntities()[0].getDisplayURL(), null, t.getId(), t.getUser().getScreenName());
+			if(t.getURLEntities().length==0){
+			DBK.getInstantzia().saveTweetInfo(t.getText().replace("'", "''"), switchBooltoInt(t.isRetweetedByMe()), switchBooltoInt(t.isFavorited()), t.getRetweetCount(), t.getFavoriteCount(),null, null, t.getId(), t.getUser().getScreenName());
+			}
+			else
+				DBK.getInstantzia().saveTweetInfo(t.getText().replace("'", "''"), switchBooltoInt(t.isRetweetedByMe()), switchBooltoInt(t.isFavorited()), t.getRetweetCount(), t.getFavoriteCount(), t.getURLEntities()[0].getDisplayURL(), null, t.getId(), t.getUser().getScreenName());
 		}
 	}
 private int switchBooltoInt(boolean b){
@@ -257,7 +261,7 @@ private int switchBooltoInt(boolean b){
 }
 
 
-	private void sartuJErabiltzaileaDB(String izena,boolean jarraitua, DBK db) throws SQLException, IllegalStateException, TwitterException{
+private void sartuJErabiltzaileaDB(String izena,boolean jarraitua, DBK db) throws SQLException, IllegalStateException, TwitterException{
 		if(!jarraitua)
 		db.saveFollowers(izena);
 		else
@@ -272,12 +276,13 @@ public void gustokoakJaitsi(){
 	Twitter twitter = LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
 	boolean amaituta = false;
 	int pagenum= 1;
-	long since=0;
-	long max=0;
+	long since=1;
+	long max=1;
 		try{
 			List<Status> statuses = new ArrayList<Status>();
 			ResultSet var=DBK.getInstantzia().execSQL("Select since, max from superuser");
 			while(var.next()){
+				
 				since = var.getLong(1);
 				max= var.getLong(2);
 			}
@@ -285,8 +290,8 @@ public void gustokoakJaitsi(){
 			if(max==0){max=1;}
 			
 			while (!amaituta) {
-				pagenum++;
-				statuses = twitter.getFavorites(new Paging(pagenum, 20, since));
+				
+				statuses = twitter.getFavorites(new Paging(pagenum++, 200, since));
 				if (statuses.isEmpty()) {
 					amaituta = true;
 				} else
@@ -295,8 +300,8 @@ public void gustokoakJaitsi(){
 			pagenum = 0;
 			amaituta = false;
 			while (!amaituta) {
-				pagenum++;
-				statuses = twitter.getFavorites(new Paging(pagenum, 20, 1L, max));
+				
+				statuses = twitter.getFavorites(new Paging(pagenum++, 200, since, max));
 				if (statuses.isEmpty()) {
 					amaituta = true;
 				} else
