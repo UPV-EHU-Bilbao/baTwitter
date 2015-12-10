@@ -166,26 +166,33 @@ public class DeskargaKudeatzailea {
 	}
 
 	public void nireTweet(String usr,DBK db) throws InterruptedException, SQLException{
-		ArrayList<Tweet> propioak= new ArrayList<Tweet>();
 		ArrayList<Tweet> rtLista= new ArrayList<Tweet>();
 
 		int pagenum= 1;
 		List<Status> statuses = new ArrayList<Status>();
 		long since = 1; //berriagoak db tik hartu behar
 		long max=1; // db tik hartu
+		ResultSet var=DBK.getInstantzia().execSQL("Select since, max from superuser");
+		while(var.next()){
+			
+			since = var.getLong(1);
+			max= var.getLong(2);
+		}
 		while(true){
 			try{
+				Paging page;
 				for(int i=0;i<=15;i++){
 				int size = statuses.size();
-				//if(max=null) {
-				//Paging page = new Paging(pagenum++,214,since,max);}
-				//else{
-				Paging page = new Paging(pagenum++,214,since);
-				//}
+				if(max!=0) {
+				 page = new Paging(pagenum++,214,since,max);}
+				else {
+				 page = new Paging(pagenum++,214);
+				}
 				
 				//page.sinceId(since);
 				statuses.addAll(tw.getUserTimeline(usr,page));
-				since=statuses.get(0).getId();
+				//since=statuses.get(0).getId();
+				max=statuses.get(statuses.size()-1).getId();
 				for(Status status : statuses) {
 					System.out.println(status.getText());
 					long id=status.getId();
@@ -198,24 +205,19 @@ public class DeskargaKudeatzailea {
 					String url=status.getURLEntities().toString();
 					//String image=status.m
 					Tweet twet= new Tweet(edukia,erab,rt,fav,rtKop,favKop,id,url);
-					if (!rt&&!fav){propioak.add(twet);}
-					else if (rt&&!fav){
-						rtLista.add(twet);
-					}
-					
 				
-				}
+				rtLista.add(twet);
 				if(size==statuses.size()){
-					break;
-				}
+						break;
+					}
 				if (i==15){
-					i=0;
-					this.sartuTweetDB(db, rtLista, usr);
-					this.sartuTweetDB(db, rtLista, usr);
-					Thread.sleep(900*1000);
+						i=0;
+						this.sartuTweetDB(db, rtLista, usr);
+						Thread.sleep(900*1000);
+							}
+						}
+					}		
 				}
-				}		
-			}
 	
 		catch(TwitterException e){
 			int i=e.getRateLimitStatus().getSecondsUntilReset();
@@ -274,12 +276,13 @@ public void gustokoakJaitsi(){
 	Twitter twitter = LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
 	boolean amaituta = false;
 	int pagenum= 1;
-	long since=0;
-	long max=0;
+	long since=1;
+	long max=1;
 		try{
 			List<Status> statuses = new ArrayList<Status>();
 			ResultSet var=DBK.getInstantzia().execSQL("Select since, max from superuser");
 			while(var.next()){
+				
 				since = var.getLong(1);
 				max= var.getLong(2);
 			}
@@ -287,8 +290,8 @@ public void gustokoakJaitsi(){
 			if(max==0){max=1;}
 			
 			while (!amaituta) {
-				pagenum++;
-				statuses = twitter.getFavorites(new Paging(pagenum, 20, since));
+				
+				statuses = twitter.getFavorites(new Paging(pagenum++, 200, since));
 				if (statuses.isEmpty()) {
 					amaituta = true;
 				} else
@@ -297,8 +300,8 @@ public void gustokoakJaitsi(){
 			pagenum = 0;
 			amaituta = false;
 			while (!amaituta) {
-				pagenum++;
-				statuses = twitter.getFavorites(new Paging(pagenum, 20, 1L, max));
+				
+				statuses = twitter.getFavorites(new Paging(pagenum++, 200, since, max));
 				if (statuses.isEmpty()) {
 					amaituta = true;
 				} else
