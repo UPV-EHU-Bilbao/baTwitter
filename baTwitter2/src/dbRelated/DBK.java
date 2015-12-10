@@ -151,7 +151,7 @@ public class DBK{
 		}
 	public void saveTweetInfo(String text,int RT, int Fav, int RTCount,int FAVCount,String URL, String Image,long tweetID, String USER_izena) throws SQLException{
 		Statement st =this.conn.createStatement();
-		
+		if(this.komprobatuTweet(tweetID))
 		st.execute("Insert or replace into twit (edukia,url,irudia,fav,rt,favKop,rtKop,id,USER_izena) VALUES ('"+text.replace("'", "''")+"','"+URL+"','"+Image+"',"+Fav+","+RT+","+FAVCount+","+RTCount+","+tweetID+",'"+USER_izena.replace("'", " ")+"')");
 		
 	}
@@ -212,6 +212,17 @@ public class DBK{
 	}
 
 
+	
+	private boolean komprobatuTweet(long tweetId) throws SQLException{
+		Statement st =this.conn.createStatement();
+		ResultSet rs=st.executeQuery("SELECT * FROM twit WHERE id='"+tweetId+"'");
+		if (!rs.next()){
+			return false;
+		}else{
+			return true;
+			}
+	}
+	
 }
 
 

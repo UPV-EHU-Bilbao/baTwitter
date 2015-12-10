@@ -201,7 +201,7 @@ public class DeskargaKudeatzailea {
 					int favKop=status.getFavoriteCount();
 					int rtKop= status.getRetweetCount();
 					boolean fav=status.isFavorited();
-					boolean rt= status.isRetweeted();
+					boolean rt= status.isRetweetedByMe();
 					String url=status.getURLEntities().toString();
 					//String image=status.m
 					Tweet twet= new Tweet(edukia,erab,rt,fav,rtKop,favKop,id,url);
@@ -243,12 +243,12 @@ public class DeskargaKudeatzailea {
 		}
 	}
 private void sartuStatusDB(DBK db,List<Status> lista,String usr) throws SQLException{
-		
+		//Hau DBK-n egon behar da.
 		Iterator<Status> i= lista.iterator();
 		while(i.hasNext()){
 			Status t= i.next();
 			if(t.getURLEntities().length==0){
-			DBK.getInstantzia().saveTweetInfo(t.getText().replace("'", "''"), switchBooltoInt(t.isRetweetedByMe()), switchBooltoInt(t.isFavorited()), t.getRetweetCount(), t.getFavoriteCount(), /*t.getURLEntities()[0].getDisplayURL()*/null, null, t.getId(), t.getUser().getScreenName());
+			DBK.getInstantzia().saveTweetInfo(t.getText().replace("'", "''"), switchBooltoInt(t.isRetweetedByMe()), switchBooltoInt(t.isFavorited()), t.getRetweetCount(), t.getFavoriteCount(),null, null, t.getId(), t.getUser().getScreenName());
 			}
 			else
 				DBK.getInstantzia().saveTweetInfo(t.getText().replace("'", "''"), switchBooltoInt(t.isRetweetedByMe()), switchBooltoInt(t.isFavorited()), t.getRetweetCount(), t.getFavoriteCount(), t.getURLEntities()[0].getDisplayURL(), null, t.getId(), t.getUser().getScreenName());
