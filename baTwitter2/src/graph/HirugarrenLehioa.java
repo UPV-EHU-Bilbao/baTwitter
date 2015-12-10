@@ -74,10 +74,11 @@ public class HirugarrenLehioa extends JFrame {
 				try{
 					DeskargaKudeatzailea desk= new DeskargaKudeatzailea(null);
 					//desk.faboritoak(LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName(), DBK.getInstantzia());
-					desk.jarraitzaileak(DBK.getInstantzia()); //FUNCIONA
+					//desk.jarraitzaileak(DBK.getInstantzia()); //FUNCIONA
+					
 					/**TERMINA el de arriba, pero no sigue el de abajo**/
-					desk.jarraituak(DBK.getInstantzia());  //FUNCIONA
-					//desk.nireTweet(LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName(), DBK.getInstantzia());
+					//desk.jarraituak(DBK.getInstantzia());  //FUNCIONA
+					desk.nireTweet(LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName(), DBK.getInstantzia());
 					//HariKudeatzailea.main(null);
 				}catch(Exception e){
 					e.printStackTrace();
