@@ -297,7 +297,7 @@ public void gustokoakJaitsi(){
 				} else
 					this.sartuStatusDB(DBK.getInstantzia(), statuses, LoginBeharrezkoKode.getLoginCode().twitter.verifyCredentials().getScreenName());;
 			}
-			pagenum = 0;
+			pagenum = 1;
 			amaituta = false;
 			while (!amaituta) {
 				
@@ -305,6 +305,7 @@ public void gustokoakJaitsi(){
 				if (statuses.isEmpty()) {
 					amaituta = true;
 				} else
+					
 					this.sartuStatusDB(DBK.getInstantzia(), statuses, LoginBeharrezkoKode.getLoginCode().twitter.getScreenName());;
 			}
 			DBK.getInstantzia().paramSave(since, max);

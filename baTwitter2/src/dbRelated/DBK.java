@@ -103,7 +103,7 @@ public class DBK{
 //					e.printStackTrace();
 //				}
 //		}
-
+		
 		return rs;
 	}
 	
@@ -146,14 +146,18 @@ public class DBK{
 		if (!rs.next()){
 			return false;
 		}else{
+			
 			return true;
 			}
+		
 		}
 	public void saveTweetInfo(String text,int RT, int Fav, int RTCount,int FAVCount,String URL, String Image,long tweetID, String USER_izena) throws SQLException{
 		Statement st =this.conn.createStatement();
+		System.out.println(text);
 		if(this.komprobatuTweet(tweetID))
+			
 		st.execute("Insert or replace into twit (edukia,url,irudia,fav,rt,favKop,rtKop,id,USER_izena) VALUES ('"+text.replace("'", "''")+"','"+URL+"','"+Image+"',"+Fav+","+RT+","+FAVCount+","+RTCount+","+tweetID+",'"+USER_izena.replace("'", " ")+"')");
-		
+		st.close();
 	}
 	public void paramSave(long var1, long var2) throws IllegalStateException, TwitterException{
 		execSQL("Update superuser set since="+var1+", max="+var2+" where izena='"+LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName()+"'");
@@ -161,6 +165,7 @@ public class DBK{
 	public ResultSet loadAllTweetInfo() throws SQLException{
 		Statement st =this.conn.createStatement();
 		ResultSet rs=st.executeQuery("SELECT * FROM tweet");
+		st.close();
 		return rs;
 	}
 	public void ClearDB() throws SQLException{
@@ -168,6 +173,7 @@ public class DBK{
 		st.execute("DELETE FROM twit;");
 		st.execute("DELETE FROM superuser;");
 		st.execute("DELETE FROM user;");
+		st.close();
 
 	}
 	
@@ -177,6 +183,7 @@ public class DBK{
 			erabiltzailea.replace("'", "//'");
 
 				st.execute("INSERT INTO user VALUES ('"+erabiltzailea+"', 0, 1)");
+				st.close();
 			}catch(SQLException e){
 				updateFollowing(erabiltzailea);	
 			}
@@ -186,6 +193,7 @@ public class DBK{
 	Statement st =this.conn.createStatement();
 
 	st.execute("Update user set jarraitzailea=1 where izena='"+izena+"';");
+	st.close();
 
 }
 	
@@ -199,16 +207,18 @@ public class DBK{
 		erabiltzailea.replace("'", "//'");
 
 			st.execute("INSERT INTO user VALUES ('"+erabiltzailea+"', 1, 0)");
+			st.close();
 		}catch(SQLException e){
 			updateFollowing(erabiltzailea);	
 		}
-
+		
 	}
 	
 	
 	public void updateFollowing(String izena) throws SQLException{
 		Statement st =this.conn.createStatement();
 		st.execute("Update user set jarraitua=1 where izena='"+izena+"';");
+		st.close();
 	}
 
 
@@ -216,11 +226,13 @@ public class DBK{
 	private boolean komprobatuTweet(long tweetId) throws SQLException{
 		Statement st =this.conn.createStatement();
 		ResultSet rs=st.executeQuery("SELECT * FROM twit WHERE id='"+tweetId+"'");
+		st.close();
 		if (!rs.next()){
 			return false;
 		}else{
 			return true;
 			}
+		
 	}
 	
 }
