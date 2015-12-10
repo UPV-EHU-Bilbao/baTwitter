@@ -120,7 +120,6 @@ public class DBK{
 		Statement st =this.conn.createStatement();
 		String[] token= new String[2];
 		ResultSet rs=st.executeQuery("SELECT AccessToken,AccessTokenSecret FROM superuser");
-		//dump(rs,"executeQuery");
 		while (rs.next()) {
 			System.out.print("| ");
 			int j=rs.getMetaData().getColumnCount();
@@ -150,10 +149,13 @@ public class DBK{
 			return true;
 			}
 		}
-	public void saveTweetInfo(String text,boolean RT, boolean Fav, int RTCount,int FAVCount,String URL, String Image,long tweetID, String superuser,String USER_izena) throws SQLException{
+	public void saveTweetInfo(String text,int RT, int Fav, int RTCount,int FAVCount,String URL, String Image,long tweetID, String USER_izena) throws SQLException{
 		Statement st =this.conn.createStatement();
-		st.execute("Insert into twit (edukia,url,irudia,fav,rt,favKop,rtKop,id,SUPERUSER_izena,USER_izena) VALUES ('"+text+"','"+URL+"','"+Image+"','"+Fav+"','"+RT+"','"+FAVCount+"','"+RTCount+"','"+tweetID+"','"+superuser+"','"+USER_izena+"')");
+		st.execute("Insert or replace into twit (edukia,url,irudia,fav,rt,favKop,rtKop,id,USER_izena) VALUES ('"+text.replace("'", "''")+"','"+URL+"','"+Image+"',"+Fav+","+RT+","+FAVCount+","+RTCount+","+tweetID+",'"+USER_izena.replace("'", " ")+"')");
 		
+	}
+	public void paramSave(long var1, long var2) throws IllegalStateException, TwitterException{
+		execSQL("Update superuser set since="+var1+", max="+var2+" where izena='"+LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName()+"'");
 	}
 	public ResultSet loadAllTweetInfo() throws SQLException{
 		Statement st =this.conn.createStatement();

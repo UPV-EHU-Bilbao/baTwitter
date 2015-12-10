@@ -1,9 +1,14 @@
 package code;
 
+import java.nio.channels.Pipe.SinkChannel;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import org.apache.poi.hssf.util.HSSFColor.AQUA;
 
 import dbRelated.DBK;
 import twitter4j.IDs;
@@ -89,22 +94,36 @@ public class DeskargaKudeatzailea {
 
 	public void faboritoak(String usr,DBK db) throws InterruptedException, SQLException{
 		int pagenum= 1;
+		long since=0;
+		long max=0;
 		ArrayList<Tweet> favLista= new ArrayList<Tweet>();
 		List<Status> statuses = new ArrayList<Status>();
-		long since = 1; //berriagoak db tik hartu behar
-		//long max=1; // db tik
+		ResultSet var=DBK.getInstantzia().execSQL("Select since, max from superuser");
+		while(var.next()){
+			since = var.getLong(1);
+			max= var.getLong(2);
+		}
+		
 		while(true){
 			try{
 				for(int i=0;i<=15;i++){
 				int size = statuses.size();
-				
-				//Paging page = new Paging(pagenum++,214,since,max);
-				Paging page = new Paging(pagenum++,214);
+				if(max==0&&since==0){
+					Paging page = new Paging(pagenum++,214);
+				}
+				else if(max==0){
+					Paging page = new Paging(pagenum++,214,since);
+
+				}else if (since==0){
+					Paging page = new Paging(pagenum++,214,max);
+
+				}else{
+				Paging page = new Paging(pagenum++,214,since,max);
 				
 				//page.sinceId(since);
 				//statuses.addAll(t.getUserTimeline(usr,page));
 				statuses.addAll(t.getFavorites(usr, page));				
-				since=statuses.get(0).getId();
+				//since=statuses.get(0).getId();
 				for(Status status : statuses) {
 					System.out.println(status.getText());
 					long id=status.getId();
@@ -128,7 +147,9 @@ public class DeskargaKudeatzailea {
 					Thread.sleep(900*1000);
 				}
 				}		
-			}}
+			}
+			}
+			}
 		catch(TwitterException e){
 			int i=e.getRateLimitStatus().getSecondsUntilReset();
 			System.out.println(Integer.toString(i)+" segundo falta dira berriro exekutatu ahal izateko");
@@ -216,9 +237,25 @@ public class DeskargaKudeatzailea {
 		Iterator<Tweet> i= lista.iterator();
 		while(i.hasNext()){
 			Tweet t= i.next();
-			DBK.getInstantzia().saveTweetInfo(t.getTextua(), t.getRT(), t.getFav(), t.getRtKop(), t.getFavKop(), t.getUrl(), null, t.getId(), usr, t.getIdazlea());
+			DBK.getInstantzia().saveTweetInfo(t.getTextua(), switchBooltoInt(t.getRT()), switchBooltoInt(t.getFav()), t.getRtKop(), t.getFavKop(), t.getUrl(), null, t.getId(), t.getIdazlea());
 		}
 	}
+private void sartuStatusDB(DBK db,List<Status> lista,String usr) throws SQLException{
+		
+		Iterator<Status> i= lista.iterator();
+		while(i.hasNext()){
+			Status t= i.next();
+			System.out.println(t.getText());
+			
+			DBK.getInstantzia().saveTweetInfo(t.getText().replace("'", "''"), switchBooltoInt(t.isRetweetedByMe()), switchBooltoInt(t.isFavorited()), t.getRetweetCount(), t.getFavoriteCount(), t.getURLEntities()[0].getDisplayURL(), null, t.getId(), t.getUser().getScreenName());
+		}
+	}
+private int switchBooltoInt(boolean b){
+	int var = b? 1 : 0;
+	return var;
+
+}
+
 
 	private void sartuJErabiltzaileaDB(String izena,boolean jarraitua, DBK db) throws SQLException, IllegalStateException, TwitterException{
 		if(!jarraitua)
@@ -226,4 +263,52 @@ public class DeskargaKudeatzailea {
 		else
 			db.saveFollowing(izena);
 	}
+
+	
+	
+	
+
+public void gustokoakJaitsi(){
+	Twitter twitter = LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
+	boolean amaituta = false;
+	int pagenum= 1;
+	long since=0;
+	long max=0;
+		try{
+			List<Status> statuses = new ArrayList<Status>();
+			ResultSet var=DBK.getInstantzia().execSQL("Select since, max from superuser");
+			while(var.next()){
+				since = var.getLong(1);
+				max= var.getLong(2);
+			}
+			if(since==0){since=1;}
+			if(max==0){max=1;}
+			
+			while (!amaituta) {
+				pagenum++;
+				statuses = twitter.getFavorites(new Paging(pagenum, 20, since));
+				if (statuses.isEmpty()) {
+					amaituta = true;
+				} else
+					this.sartuStatusDB(DBK.getInstantzia(), statuses, LoginBeharrezkoKode.getLoginCode().twitter.verifyCredentials().getScreenName());;
+			}
+			pagenum = 0;
+			amaituta = false;
+			while (!amaituta) {
+				pagenum++;
+				statuses = twitter.getFavorites(new Paging(pagenum, 20, 1L, max));
+				if (statuses.isEmpty()) {
+					amaituta = true;
+				} else
+					this.sartuStatusDB(DBK.getInstantzia(), statuses, LoginBeharrezkoKode.getLoginCode().twitter.getScreenName());;
+			}
+			DBK.getInstantzia().paramSave(since, max);
+			
+		}catch (TwitterException | SQLException sq) {
+			sq.printStackTrace();
+	}
+	
+	}
+
 }
+	
