@@ -2,8 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="var" path="sqlite"/>
-	<classpathentry kind="var" path="twitter4j"/>
-	<classpathentry kind="var" path="po"/>
+	<classpathentry kind="var" path="sqlite-jdbc"/>
+	<classpathentry kind="var" path="Twitter4j"/>
+	<classpathentry kind="var" path="POI"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -92,7 +92,7 @@ public class DeskargaKudeatzailea {
 	        }
 	    }
 
-	public void faboritoak(String usr,DBK db) throws InterruptedException, SQLException{
+	/*public void faboritoak(String usr,DBK db) throws InterruptedException, SQLException{
 		int pagenum= 1;
 		long since=0;
 		long max=0;
@@ -164,7 +164,7 @@ public class DeskargaKudeatzailea {
 
 	
 	}
-
+*/
 	public void nireTweet(String usr,DBK db) throws InterruptedException, SQLException{
 		ArrayList<Tweet> rtLista= new ArrayList<Tweet>();
 
@@ -276,8 +276,8 @@ public void gustokoakJaitsi(){
 	Twitter twitter = LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
 	boolean amaituta = false;
 	int pagenum= 1;
-	long since=1;
-	long max=1;
+	long since=0;
+	long max=0;
 		try{
 			List<Status> statuses = new ArrayList<Status>();
 			ResultSet var=DBK.getInstantzia().execSQL("Select since, max from superuser");

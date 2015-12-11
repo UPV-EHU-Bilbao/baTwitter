@@ -8,7 +8,7 @@ import twitter4j.TwitterException;
 public class HariKudeatzailea {
    private static DeskargaKudeatzailea z=new DeskargaKudeatzailea(null);
 
-	 public static void main(String args[]){
+	/* public static void main(String args[]){
 
 
 	    
@@ -59,5 +59,5 @@ public class HariKudeatzailea {
     	
 	 }
 
-	
+	*/
 }
