@@ -73,7 +73,8 @@ public class HirugarrenLehioa extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
 					DeskargaKudeatzailea desk= new DeskargaKudeatzailea(null);
-					desk.gustokoakJaitsi();//FUNCIONA
+					//desk.gustokoakJaitsi();//FUNCIONA
+					desk.nireTweet();// Ondo funtzionatzen du.
 					//(LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName(), DBK.getInstantzia());
 					//desk.jarraitzaileak(DBK.getInstantzia()); //FUNCIONA
 					/**TERMINA el de arriba, pero no sigue el de abajo**/

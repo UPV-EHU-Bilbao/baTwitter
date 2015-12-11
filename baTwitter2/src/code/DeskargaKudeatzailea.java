@@ -165,7 +165,53 @@ public class DeskargaKudeatzailea {
 	
 	}
 */
-	public void nireTweet(String usr,DBK db) throws InterruptedException, SQLException{
+	public void nireTweet() throws InterruptedException, SQLException, TwitterException{
+		//Twitter twitter = LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
+		boolean amaituta = false;
+		int pagenum= 1;
+		long since=0;
+		long max=0;
+		String user=LoginBeharrezkoKode.getLoginCode().twitter.verifyCredentials().getScreenName();
+			try{
+				List<Status> statuses = new ArrayList<Status>();
+				ResultSet var=DBK.getInstantzia().execSQL("Select since, max from superuser");
+				while(var.next()){
+					
+					since = var.getLong(1);
+					max= var.getLong(2);
+				}
+				if(since==0){since=1;}
+				if(max==0){max=1;}
+				
+				while (!amaituta) {
+					Paging page= new Paging(pagenum++, 200, since);
+					statuses.addAll(tw.getUserTimeline(user,page));
+					//statuses = twitter.getFavorites(new Paging(pagenum++, 200, since));
+					if (statuses.isEmpty()) {
+						amaituta = true;
+					} else
+						this.sartuStatusDB(DBK.getInstantzia(), statuses,user);;
+				}
+				pagenum = 1;
+				amaituta = false;
+				while (!amaituta) {
+					Paging page= new Paging(pagenum++, 200, since,max);
+					statuses.addAll(tw.getUserTimeline(user,page));
+					//statuses = twitter.getFavorites(new Paging(pagenum++, 200, since, max));
+					if (statuses.isEmpty()) {
+						amaituta = true;
+					} else
+						
+						this.sartuStatusDB(DBK.getInstantzia(), statuses, user);;
+				}
+				DBK.getInstantzia().paramSave(since, max);
+				
+			}catch (TwitterException | SQLException sq) {
+				sq.printStackTrace();
+		}
+		
+		/*
+	}
 		ArrayList<Tweet> rtLista= new ArrayList<Tweet>();
 
 		int pagenum= 1;
@@ -232,7 +278,7 @@ public class DeskargaKudeatzailea {
 		}
 
 	
-	}
+	*/}
 
 	private void sartuTweetDB(DBK db,ArrayList<Tweet> lista,String usr) throws SQLException{
 		
@@ -290,7 +336,7 @@ public void gustokoakJaitsi(){
 			if(max==0){max=1;}
 			
 			while (!amaituta) {
-				
+				//statuses= twitter.getHomeTimeline(new Paging(pagenum++, 200, since));
 				statuses = twitter.getFavorites(new Paging(pagenum++, 200, since));
 				if (statuses.isEmpty()) {
 					amaituta = true;
