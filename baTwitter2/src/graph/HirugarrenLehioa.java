@@ -7,6 +7,7 @@ import code.DeskargaKudeatzailea;
 import code.HariKudeatzailea;
 import code.LoginBeharrezkoKode;
 import dbRelated.DBK;
+import dbRelated.InformazioHartzaile;
 import twitterGraphs.Osoa;
 
 import java.awt.*;
@@ -72,6 +73,7 @@ public class HirugarrenLehioa extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try{
+					new InformazioHartzaile().main(null);
 					DeskargaKudeatzailea desk= new DeskargaKudeatzailea(null);
 					//desk.gustokoakJaitsi();//FUNCIONA
 					//desk.nireTweet();// Ondo funtzionatzen du.
