@@ -2,9 +2,14 @@ package twitterGraphs;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.net.MalformedURLException;
 import javax.swing.*;
+
+import dbRelated.DBK;
+import dbRelated.Exportatzailea;
 
 public class RadioButtonDemo extends JPanel
                              implements ActionListener {
@@ -13,6 +18,8 @@ public class RadioButtonDemo extends JPanel
     static String nirea= "Nire Tweet-ak";
     static String jarraitzaileak="Jarraitzaileak";
     static String jarraituak = "Jarraituak";
+    static String exportatu= "Tweet-ak Exportatu";
+    static String exportatu2="Lagunak Exportatu";
     private Osoa gurasoa;
     
     public RadioButtonDemo(Osoa guraso) {
@@ -54,7 +61,9 @@ public class RadioButtonDemo extends JPanel
         tzaileButton.addActionListener(this);
         tuakButton.addActionListener(this);
 
-        
+        JButton ex1= new JButton(exportatu);
+        JButton ex2= new JButton(exportatu2);
+       
 
     
 
@@ -73,6 +82,33 @@ public class RadioButtonDemo extends JPanel
         radioPanel.add(tuakButton);
 
         add(radioPanel, BorderLayout.LINE_START);
+        
+        radioPanel.add(ex1);
+        radioPanel.add(ex2);
+        radioPanel.setAlignmentX(CENTER_ALIGNMENT);
+        radioPanel.setAlignmentY(CENTER_ALIGNMENT);
+        
+        //entzule bereziak
+        ex1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Exportatzailea.getExp().exportatuTweet(DBK.getInstantzia());
+				} catch (SQLException | IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+        ex2.addActionListener(new ActionListener() {
+        	@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Exportatzailea.getExp().exportatuErabiltzailearenDatuak(DBK.getInstantzia());
+				} catch (SQLException | IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
         //add(table, BorderLayout.CENTER);
         setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
     }

@@ -121,12 +121,10 @@ public class DBK{
 		String[] token= new String[2];
 		ResultSet rs=st.executeQuery("SELECT AccessToken,AccessTokenSecret FROM superuser");
 		while (rs.next()) {
-			System.out.print("| ");
 			int j=rs.getMetaData().getColumnCount();
 			for (int i = 1; i <=j ; ++i) {
 				Object o = rs.getObject(i);
 				token[i-1]=o.toString();
-				System.out.print(o + " | ");
 			}
 			System.out.println();
 			System.out.println();
