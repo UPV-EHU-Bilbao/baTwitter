@@ -135,18 +135,23 @@ public class InformazioHartzaile {
 		}
 	
 		
-		public long getSince(String mota){
+		public long getID(String mota, String orden){
+			
 				ResultSet emaitza = DBK.getInstantzia().execSQL(
-						"SELECT ID FROM twit WHERE RT = '" + mota + "' ORDER BY ID ASC");
+						"SELECT ID FROM twit WHERE "+mota+" =1 ORDER BY ID "+orden+"");
 				try {
-					if (mota.equals("Rt"))
+					if (emaitza.next())
 						return emaitza.getLong(1);
-					else 
+					else if (orden.equals("ASC"))
+						return 1L;
+					else
 						return Long.MAX_VALUE;
 				} catch (SQLException e) {
 					return 1L;
 				}
 		}
+		
+		
 		
 		
 		
