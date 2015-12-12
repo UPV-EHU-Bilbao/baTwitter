@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import java.sql.Connection;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import code.LoginBeharrezkoKode;
 import twitter4j.TwitterException;
@@ -235,6 +236,27 @@ public class DBK{
 		
 	}
 	
+	public void getFaboritoak() throws SQLException{
+		Statement st =this.conn.createStatement();
+		ResultSet rs=st.executeQuery("SELECT * FROM twit WHERE fav=1");
+		st.close();
+		while (rs.next()){
+		// Hartu tweet guztia
+			}
+	}
+	
+	public void getErabiltzaileak(boolean jarraitzailea)
+	{/*
+		Statement st =this.conn.createStatement();
+		if(jarraitzailea)
+		ResultSet rs=st.executeQuery("SELECT * FROM twit WHERE jarraitzailea=1");
+		else
+			ResultSet rs=st.executeQuery("SELECT * FROM twit WHERE jarraitzailea=0");
+
+		st.close();
+		while(rs.next()){}
+		return null;*/
+	}
 }
 
 
