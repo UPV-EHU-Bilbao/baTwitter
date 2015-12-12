@@ -33,7 +33,7 @@ public class Exportatzailea {
 	
 	public void exportatuTweet() throws SQLException, IOException{
 		
-		wb = new HSSFWorkbook();
+		
 		Sheet TwitterSheet = wb.createSheet("Twitter");
 		Row headerRow = TwitterSheet.createRow(0);
 		Cell idHeaderCell = headerRow.createCell(0);
@@ -74,9 +74,7 @@ public class Exportatzailea {
 		    int rtKop = resultSet.getInt("rtKop");
 		    int favKop = resultSet.getInt("favKop");
 		    String url = resultSet.getString("url");
-		    if (url.equals(null)){
-		    	url=" ";
-		    }
+		    
 
 		    Row dataRow = TwitterSheet.createRow(row);
 		    
@@ -101,8 +99,11 @@ public class Exportatzailea {
 		    Cell dataFavKopCell = dataRow.createCell(6);
 		    dataFavKopCell.setCellValue(favKop);
 
-		    Cell dataURLCell = dataRow.createCell(7);
-		    dataURLCell.setCellValue(url);
+		    if (!url.equals("null")){
+		    	Cell dataURLCell = dataRow.createCell(7);
+			    dataURLCell.setCellValue(url);
+		    }
+		    
 
 
 		    row = row + 1;
@@ -114,14 +115,14 @@ public class Exportatzailea {
 
 
 	public void exportatuErabiltzailearenDatuak() throws SQLException, IOException{
-		wb = new HSSFWorkbook();
-		Sheet UserSheet = wb.createSheet("Twitter");
+		
+		Sheet UserSheet = wb.createSheet("UserData");
 		Row headerRow = UserSheet.createRow(0);
 		Cell IzenaHeaderCell = headerRow.createCell(0);
 		Cell JarraitzaileakHeaderCell = headerRow.createCell(1);
 		Cell JarraituakheaderCell=headerRow.createCell(2);
 		
-		String sql = "Select * from user where jarraitzailea=1;";
+		String sql = "Select * from user where jarraitzailea=1";
 		PreparedStatement ps = DBK.getInstantzia().conn.prepareStatement(sql);
 		ResultSet resultSet = ps.executeQuery();    
 		
