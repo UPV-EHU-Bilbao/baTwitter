@@ -2,12 +2,14 @@ package twitterGraphs;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.EventHandler;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.net.MalformedURLException;
 import javax.swing.*;
 
+import code.DeskargaKudeatzailea;
 import dbRelated.DBK;
 import dbRelated.Exportatzailea;
 import twitter4j.TwitterException;
@@ -62,7 +64,18 @@ public class RadioButtonDemo extends JPanel
         tuakButton.addActionListener(this);
 
         JButton ex1= new JButton(exportatu);
-       
+        ex1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try{
+					new ExpFrame().gorde();
+					
+				}catch(Exception e){
+					
+				}
+        		
+			}
+		});       
 
     
 

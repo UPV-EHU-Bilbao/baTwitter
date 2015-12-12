@@ -11,7 +11,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -28,21 +31,36 @@ public class Exportatzailea {
 	}
 	
 	
-	@SuppressWarnings("unused")
 	public void exportatuTweet() throws SQLException, IOException{
+		
 		wb = new HSSFWorkbook();
 		Sheet TwitterSheet = wb.createSheet("Twitter");
 		Row headerRow = TwitterSheet.createRow(0);
 		Cell idHeaderCell = headerRow.createCell(0);
+		idHeaderCell.setCellValue("TweetID");
+		
 		Cell edukiaHeaderCell = headerRow.createCell(1);
+		edukiaHeaderCell.setCellValue("Edukia");
+		
 		Cell idazleaHeaderCell = headerRow.createCell(2);
-		Cell rtHeaderCell = headerRow.createCell(3);
-		Cell favHeaderCell = headerRow.createCell(4);
-		Cell RtKopHeaderCell = headerRow.createCell(5);
-		Cell FavKopHeaderCell = headerRow.createCell(6);
-		Cell URLHeaderCell = headerRow.createCell(7);
+		idazleaHeaderCell.setCellValue("Idazlea");
 
-		String sql = "Select * from user";
+		Cell rtHeaderCell = headerRow.createCell(3);
+		rtHeaderCell.setCellValue("Retweeteatuta?");
+
+		Cell favHeaderCell = headerRow.createCell(4);
+		favHeaderCell.setCellValue("Faboritoak?");
+
+		Cell RtKopHeaderCell = headerRow.createCell(5);
+		RtKopHeaderCell.setCellValue("RT kopurua");
+
+		Cell FavKopHeaderCell = headerRow.createCell(6);
+		FavKopHeaderCell.setCellValue("Fav Kopurua");
+
+		Cell URLHeaderCell = headerRow.createCell(7);
+		URLHeaderCell.setCellValue("Tweet URL");
+
+		String sql = "Select * from twit";
 		PreparedStatement ps = DBK.getInstantzia().conn.prepareStatement(sql);
 		ResultSet resultSet = ps.executeQuery();    
 
@@ -50,12 +68,15 @@ public class Exportatzailea {
 		while(resultSet.next()) {
 		    long id = resultSet.getLong("id");
 		    String edukia = resultSet.getString("edukia");
-		    String idazlea = resultSet.getString("idazlea");
+		    String idazlea = resultSet.getString("USER_izena");
 		    boolean rt = resultSet.getBoolean("rt");
 		    boolean fav = resultSet.getBoolean("fav");
 		    int rtKop = resultSet.getInt("rtKop");
 		    int favKop = resultSet.getInt("favKop");
 		    String url = resultSet.getString("url");
+		    if (url.equals(null)){
+		    	url=" ";
+		    }
 
 		    Row dataRow = TwitterSheet.createRow(row);
 		    
@@ -65,22 +86,22 @@ public class Exportatzailea {
 		    Cell dataEdukiaCell = dataRow.createCell(1);
 		    dataEdukiaCell.setCellValue(edukia);
 		    
-		    Cell dataIdazleaCell = dataRow.createCell(1);
+		    Cell dataIdazleaCell = dataRow.createCell(2);
 		    dataIdazleaCell.setCellValue(idazlea);
 
-		    Cell dataRTCell = dataRow.createCell(1);
+		    Cell dataRTCell = dataRow.createCell(3);
 		    dataRTCell.setCellValue(rt);
 
-		    Cell dataFAVCell = dataRow.createCell(1);
+		    Cell dataFAVCell = dataRow.createCell(4);
 		    dataFAVCell.setCellValue(fav);
 
-		    Cell dataRtKopCell = dataRow.createCell(1);
+		    Cell dataRtKopCell = dataRow.createCell(5);
 		    dataRtKopCell.setCellValue(rtKop);
 
-		    Cell dataFavKopCell = dataRow.createCell(1);
+		    Cell dataFavKopCell = dataRow.createCell(6);
 		    dataFavKopCell.setCellValue(favKop);
 
-		    Cell dataURLCell = dataRow.createCell(1);
+		    Cell dataURLCell = dataRow.createCell(7);
 		    dataURLCell.setCellValue(url);
 
 
@@ -141,7 +162,7 @@ public class Exportatzailea {
 			this.exportatuErabiltzailearenDatuak();
 			this.exportatuTweet();
 			
-			FileOutputStream fileOut = new FileOutputStream(path);
+			FileOutputStream fileOut = new FileOutputStream(path+".xls");
 			wb.write(fileOut);
 			fileOut.flush();
 			fileOut.close();

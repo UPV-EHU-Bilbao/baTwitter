@@ -37,7 +37,7 @@ public class ExpFrame {
 		Exportatzailea exp= new Exportatzailea();
 		if (exp.save(path))
 			JOptionPane.showMessageDialog(null,
-					"Excel liburua " + path + " karpetan gorde da", "Gorde da",
+					"Excel liburua " + path + " karpetan gorde da", "Gorde",
 					JOptionPane.INFORMATION_MESSAGE);
 
 	}
