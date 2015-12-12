@@ -26,7 +26,7 @@ public class Exportatzailea {
 	
 	
 	@SuppressWarnings("unused")
-	public void exportatuTweet(Connection conn) throws SQLException, IOException{
+	public void exportatuTweet(DBK dbk) throws SQLException, IOException{
 		HSSFWorkbook wb = new HSSFWorkbook();
 		Sheet TwitterSheet = wb.createSheet("Twitter");
 		Row headerRow = TwitterSheet.createRow(0);
@@ -40,7 +40,7 @@ public class Exportatzailea {
 		Cell URLHeaderCell = headerRow.createCell(7);
 
 		String sql = "Select * from user";
-		PreparedStatement ps =  conn.prepareStatement(sql);
+		PreparedStatement ps = dbk.conn.prepareStatement(sql);
 		ResultSet resultSet = ps.executeQuery();    
 
 		int row = 1;
@@ -83,15 +83,13 @@ public class Exportatzailea {
 
 		    row = row + 1;
 		}
-
-		String outputDirPath = "D:/PersonList.xls";
+		String outputDirPath = System.getProperty("user.home")+"_Tweet.xls";
 		FileOutputStream fileOut = new FileOutputStream(outputDirPath);
 		wb.write(fileOut);
 		fileOut.close();
 	}
 	
-	@SuppressWarnings("unused")
-	public void exportatuErabiltzailearenDatuak(Connection conn) throws SQLException, IOException{
+	public void exportatuErabiltzailearenDatuak(DBK dbk) throws SQLException, IOException{
 		HSSFWorkbook wb = new HSSFWorkbook();
 		Sheet TwitterSheet = wb.createSheet("Twitter");
 		Row headerRow = TwitterSheet.createRow(0);
@@ -99,8 +97,8 @@ public class Exportatzailea {
 		Cell JarraitzaileakHeaderCell = headerRow.createCell(1);
 		Cell JarraituakheaderCell=headerRow.createCell(2);
 		
-		String sql = "Select * from user where user.jarraizailea=1;";
-		PreparedStatement ps =  conn.prepareStatement(sql);
+		String sql = "Select * from user where jarraitzailea=1;";
+		PreparedStatement ps = dbk.conn.prepareStatement(sql);
 		ResultSet resultSet = ps.executeQuery();    
 		
 		int row = 1;
@@ -114,11 +112,11 @@ public class Exportatzailea {
 
 		    row = row + 1;
 		}
-		sql = "Select * from user where user.jarraituak=1;";
-		ps =  conn.prepareStatement(sql);
+		sql = "Select * from user where jarraitua=1;";
+		ps = dbk.conn.prepareStatement(sql);
 		resultSet = ps.executeQuery();    
 		
-		row = 1;
+		
 		while(resultSet.next()) {
 		    String jarraitua = resultSet.getString("izena");
 
@@ -130,7 +128,7 @@ public class Exportatzailea {
 		    row = row + 1;
 		}
 
-		String outputDirPath = System.getProperty("user.id");
+		String outputDirPath = System.getProperty("user.id")+"User";
 		FileOutputStream fileOut = new FileOutputStream(outputDirPath);
 		wb.write(fileOut);
 		fileOut.close();
