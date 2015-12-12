@@ -1,4 +1,5 @@
 package dbRelated;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -6,28 +7,30 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 
 public class Exportatzailea {
 	
 	private static Exportatzailea export = new Exportatzailea();
 	
+	private Workbook wb;
 	
 	public Exportatzailea(){
 		
 	}
 	
-	public static synchronized Exportatzailea getExp(){
-	if (export==null) {export= new Exportatzailea();} return export;
-	}
-	
 	
 	@SuppressWarnings("unused")
-	public void exportatuTweet(DBK dbk) throws SQLException, IOException{
-		HSSFWorkbook wb = new HSSFWorkbook();
+	public void exportatuTweet() throws SQLException, IOException{
+		wb = new HSSFWorkbook();
 		Sheet TwitterSheet = wb.createSheet("Twitter");
 		Row headerRow = TwitterSheet.createRow(0);
 		Cell idHeaderCell = headerRow.createCell(0);
@@ -40,7 +43,7 @@ public class Exportatzailea {
 		Cell URLHeaderCell = headerRow.createCell(7);
 
 		String sql = "Select * from user";
-		PreparedStatement ps = dbk.conn.prepareStatement(sql);
+		PreparedStatement ps = DBK.getInstantzia().conn.prepareStatement(sql);
 		ResultSet resultSet = ps.executeQuery();    
 
 		int row = 1;
@@ -83,29 +86,29 @@ public class Exportatzailea {
 
 		    row = row + 1;
 		}
-		String outputDirPath = System.getProperty("user.home")+"_Tweet.xls";
-		FileOutputStream fileOut = new FileOutputStream(outputDirPath);
-		wb.write(fileOut);
-		fileOut.close();
+		
 	}
 	
-	public void exportatuErabiltzailearenDatuak(DBK dbk) throws SQLException, IOException{
-		HSSFWorkbook wb = new HSSFWorkbook();
-		Sheet TwitterSheet = wb.createSheet("Twitter");
-		Row headerRow = TwitterSheet.createRow(0);
+	
+
+
+	public void exportatuErabiltzailearenDatuak() throws SQLException, IOException{
+		wb = new HSSFWorkbook();
+		Sheet UserSheet = wb.createSheet("Twitter");
+		Row headerRow = UserSheet.createRow(0);
 		Cell IzenaHeaderCell = headerRow.createCell(0);
 		Cell JarraitzaileakHeaderCell = headerRow.createCell(1);
 		Cell JarraituakheaderCell=headerRow.createCell(2);
 		
 		String sql = "Select * from user where jarraitzailea=1;";
-		PreparedStatement ps = dbk.conn.prepareStatement(sql);
+		PreparedStatement ps = DBK.getInstantzia().conn.prepareStatement(sql);
 		ResultSet resultSet = ps.executeQuery();    
 		
 		int row = 1;
 		while(resultSet.next()) {
 		    String jarraitzailea = resultSet.getString("jarraitzailea");
 
-		    Row dataRow = TwitterSheet.createRow(row);
+		    Row dataRow = UserSheet.createRow(row);
 		    
 		    Cell dataNameCell = dataRow.createCell(0);
 		    dataNameCell.setCellValue(jarraitzailea);
@@ -113,14 +116,14 @@ public class Exportatzailea {
 		    row = row + 1;
 		}
 		sql = "Select * from user where jarraitua=1;";
-		ps = dbk.conn.prepareStatement(sql);
+		ps = DBK.getInstantzia().conn.prepareStatement(sql);
 		resultSet = ps.executeQuery();    
 		
 		
 		while(resultSet.next()) {
 		    String jarraitua = resultSet.getString("izena");
 
-		    Row dataRow = TwitterSheet.createRow(row);
+		    Row dataRow = UserSheet.createRow(row);
 		    
 		    Cell dataNameCell = dataRow.createCell(0);
 		    dataNameCell.setCellValue(jarraitua);
@@ -128,11 +131,25 @@ public class Exportatzailea {
 		    row = row + 1;
 		}
 
-		String outputDirPath = System.getProperty("user.id")+"User";
-		FileOutputStream fileOut = new FileOutputStream(outputDirPath);
-		wb.write(fileOut);
-		fileOut.close();
+		
 	}
 	
-
+	public boolean save(String path) {
+		
+		wb = new HSSFWorkbook();
+		try {
+			this.exportatuErabiltzailearenDatuak();
+			this.exportatuTweet();
+			
+			FileOutputStream fileOut = new FileOutputStream(path);
+			wb.write(fileOut);
+			fileOut.flush();
+			fileOut.close();
+			wb.close();
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+	
 }

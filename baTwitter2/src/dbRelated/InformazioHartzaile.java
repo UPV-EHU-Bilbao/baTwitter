@@ -1,6 +1,5 @@
 package dbRelated;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -79,5 +78,20 @@ public class InformazioHartzaile {
 			info.getFavInfo();
 			info.getRTInfo();
 		}
+		
+		public long getSince(String mota){
+				ResultSet emaitza = DBK.getInstantzia().execSQL(
+						"SELECT ID FROM twit WHERE RT = '" + mota + "' ORDER BY ID ASC");
+				try {
+					if (mota.equals("Rt"))
+						return emaitza.getLong(1);
+					else 
+						return Long.MAX_VALUE;
+				} catch (SQLException e) {
+					return 1L;
+				}
+		}
+		
+		
 		
 }
