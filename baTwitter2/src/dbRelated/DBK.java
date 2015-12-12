@@ -151,12 +151,12 @@ public class DBK{
 		
 		}
 	public void saveTweetInfo(String text,int RT, int Fav, int RTCount,int FAVCount,String URL, String Image,long tweetID, String USER_izena) throws SQLException{
-		//Statement st =this.conn.createStatement();
+		Statement st =this.conn.createStatement();
 		System.out.println(text);
 		if(!this.komprobatuTweet(tweetID)){
 			
 		this.execSQL("Insert or replace into twit (edukia,url,irudia,fav,rt,favKop,rtKop,id,USER_izena) VALUES ('"+text.replace("'", "''")+"','"+URL+"','"+Image+"',"+Fav+","+RT+","+FAVCount+","+RTCount+","+tweetID+",'"+USER_izena.replace("'", " ")+"')");
-		}//st.close();
+		}st.close();
 	}
 	public void paramSave(long var1, long var2) throws IllegalStateException, TwitterException{
 		execSQL("Update superuser set since="+var1+", max="+var2+" where izena='"+LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName()+"'");
@@ -184,7 +184,7 @@ public class DBK{
 				st.execute("INSERT INTO user VALUES ('"+erabiltzailea+"', 0, 1)");
 				st.close();
 			}catch(SQLException e){
-				updateFollowing(erabiltzailea);	
+				//updateFollowing(erabiltzailea);	
 			}
 	}
 	
@@ -208,7 +208,7 @@ public class DBK{
 			st.execute("INSERT INTO user VALUES ('"+erabiltzailea+"', 1, 0)");
 			st.close();
 		}catch(SQLException e){
-			updateFollowing(erabiltzailea);	
+			//updateFollowing(erabiltzailea);	
 		}
 		
 	}
@@ -234,27 +234,9 @@ public class DBK{
 		
 	}
 	
-	public void getFaboritoak() throws SQLException{
-		Statement st =this.conn.createStatement();
-		ResultSet rs=st.executeQuery("SELECT * FROM twit WHERE fav=1");
-		st.close();
-		while (rs.next()){
-		// Hartu tweet guztia
-			}
-	}
 	
-	public void getErabiltzaileak(boolean jarraitzailea)
-	{/*
-		Statement st =this.conn.createStatement();
-		if(jarraitzailea)
-		ResultSet rs=st.executeQuery("SELECT * FROM twit WHERE jarraitzailea=1");
-		else
-			ResultSet rs=st.executeQuery("SELECT * FROM twit WHERE jarraitzailea=0");
+	
 
-		st.close();
-		while(rs.next()){}
-		return null;*/
-	}
 }
 
 

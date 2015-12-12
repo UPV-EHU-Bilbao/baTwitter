@@ -24,7 +24,7 @@ public class DeskargaKudeatzailea {
 
 	private  Twitter tw;
 
-	public  DeskargaKudeatzailea(ConfigurationBuilder cb){
+	public  DeskargaKudeatzailea(){
 		tw= LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
 		//t = new TwitterFactory(cb.build()).getInstance();
 	}
@@ -280,24 +280,19 @@ public class DeskargaKudeatzailea {
 	
 	*/}
 
-	private void sartuTweetDB(DBK db,ArrayList<Tweet> lista,String usr) throws SQLException{
-		
-		Iterator<Tweet> i= lista.iterator();
-		while(i.hasNext()){
-			Tweet t= i.next();
-			DBK.getInstantzia().saveTweetInfo(t.getTextua(), switchBooltoInt(t.getRT()), switchBooltoInt(t.getFav()), t.getRtKop(), t.getFavKop(), t.getUrl(), null, t.getId(), t.getIdazlea());
-		}
-	}
+
 private void sartuStatusDB(DBK db,List<Status> lista,String usr) throws SQLException{
 		//Hau DBK-n egon behar da.
 		Iterator<Status> i= lista.iterator();
 		while(i.hasNext()){
 			Status t= i.next();
 			if(t.getURLEntities().length==0){
-			DBK.getInstantzia().saveTweetInfo(t.getText().replace("'", "''"), switchBooltoInt(t.isRetweetedByMe()), switchBooltoInt(t.isFavorited()), t.getRetweetCount(), t.getFavoriteCount(),null, null, t.getId(), t.getUser().getScreenName());
+				System.out.println(t.getFavoriteCount());
+				System.out.println(t.getUser().getScreenName());
+			DBK.getInstantzia().saveTweetInfo(t.getText().replace("'", "''"), switchBooltoInt(t.isRetweet()), switchBooltoInt(t.isFavorited()), t.getRetweetCount(), t.getFavoriteCount(),null, null, t.getId(), t.getUser().getScreenName());
 			}
 			else
-				DBK.getInstantzia().saveTweetInfo(t.getText().replace("'", "''"), switchBooltoInt(t.isRetweetedByMe()), switchBooltoInt(t.isFavorited()), t.getRetweetCount(), t.getFavoriteCount(), t.getURLEntities()[0].getDisplayURL(), null, t.getId(), t.getUser().getScreenName());
+				DBK.getInstantzia().saveTweetInfo(t.getText().replace("'", "''"), switchBooltoInt(t.isRetweet()), switchBooltoInt(t.isFavorited()), t.getRetweetCount(), t.getFavoriteCount(), t.getURLEntities()[0].getDisplayURL(), null, t.getId(), t.getUser().getScreenName());
 		}
 	}
 private int switchBooltoInt(boolean b){

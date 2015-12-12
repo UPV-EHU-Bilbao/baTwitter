@@ -8,11 +8,13 @@ import code.HariKudeatzailea;
 import code.LoginBeharrezkoKode;
 import dbRelated.DBK;
 import dbRelated.InformazioHartzaile;
+import twitter4j.TwitterException;
 import twitterGraphs.Osoa;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class HirugarrenLehioa extends JFrame {
 
@@ -73,15 +75,14 @@ public class HirugarrenLehioa extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try{
-					new InformazioHartzaile().main(null);
-					DeskargaKudeatzailea desk= new DeskargaKudeatzailea(null);
+					
+					DeskargaKudeatzailea desk= new DeskargaKudeatzailea();
 					//desk.gustokoakJaitsi();//FUNCIONA
-					//desk.nireTweet();// Ondo funtzionatzen du.
+					desk.nireTweet();// Ondo funtzionatzen du.
 					//(LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName(), DBK.getInstantzia());
 					//desk.jarraitzaileak(DBK.getInstantzia()); //FUNCIONA
 					/**TERMINA el de arriba, pero no sigue el de abajo**/
 					//desk.jarraituak(DBK.getInstantzia());  //FUNCIONA
-					//desk.nireTweet(LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName(), DBK.getInstantzia());
 					//HariKudeatzailea.main(null);
 				}catch(Exception e){
 					e.printStackTrace();
@@ -103,7 +104,12 @@ public class HirugarrenLehioa extends JFrame {
 		btnIkusi.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Osoa.main(null);
+				try {
+					Osoa.main(null);
+				} catch (IllegalStateException | SQLException | TwitterException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
         		
 			}
 		});
