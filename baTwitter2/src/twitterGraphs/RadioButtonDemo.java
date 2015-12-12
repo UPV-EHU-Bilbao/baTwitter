@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import dbRelated.DBK;
 import dbRelated.Exportatzailea;
+import twitter4j.TwitterException;
 
 public class RadioButtonDemo extends JPanel
                              implements ActionListener {
@@ -101,7 +102,12 @@ public class RadioButtonDemo extends JPanel
 		frame.pack();
 		frame.setVisible(true);*/
     	
-    	gurasoa.bistaratu(e.getActionCommand());
+    	try {
+			gurasoa.bistaratu(e.getActionCommand());
+		} catch (IllegalStateException | SQLException | TwitterException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     	//System.out.println(e.getActionCommand());
     }
 

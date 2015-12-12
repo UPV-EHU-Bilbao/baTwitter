@@ -7,7 +7,12 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import twitter4j.TwitterException;
+
 import java.awt.FlowLayout;
+import java.sql.SQLException;
+
 import javax.swing.JTable;
 
 public class Osoa extends JFrame {
@@ -19,14 +24,17 @@ public class Osoa extends JFrame {
 	private TableDemo taula;
 	/**
 	 * Launch the application.
+	 * @throws TwitterException 
+	 * @throws SQLException 
+	 * @throws IllegalStateException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IllegalStateException, SQLException, TwitterException {
 		
 		Osoa frame = new Osoa();
 		frame.hasieratu("");
 	}
 
-	private void hasieratu(String actionCommand) {
+	private void hasieratu(String actionCommand) throws IllegalStateException, SQLException, TwitterException {
 		// TODO Auto-generated method stub
 
 		newContentPane = new RadioButtonDemo(this);
@@ -61,7 +69,7 @@ public class Osoa extends JFrame {
 	
 
 
-	 public void bistaratu(String actionCommand) {
+	 public void bistaratu(String actionCommand) throws IllegalStateException, SQLException, TwitterException {
 		 hasieratu(actionCommand);}
 	
 }

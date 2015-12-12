@@ -44,8 +44,8 @@ public class Tweet {
 				case 0:{	return idazlea;	}
 				case 1:{	return edukia;}
 				case 2:{	return rtKop;}
-				case 3:{	return favKop;}
-				case 4:{	return url;}
+				case 3:{	return rt;}
+				case 4:{	return fav;}
 				default:{ return null;}
 			}
 		}
