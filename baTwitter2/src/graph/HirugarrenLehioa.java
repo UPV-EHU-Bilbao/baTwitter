@@ -78,7 +78,8 @@ public class HirugarrenLehioa extends JFrame {
 					
 					DeskargaKudeatzailea desk= new DeskargaKudeatzailea();
 					//desk.gustokoakJaitsi();//FUNCIONA
-					desk.nireTweet();// Ondo funtzionatzen du.
+					//desk.nireTweet();// Ondo funtzionatzen du.
+					desk.rtJaitsi();
 					//(LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName(), DBK.getInstantzia());
 					//desk.jarraitzaileak(DBK.getInstantzia()); //FUNCIONA
 					/**TERMINA el de arriba, pero no sigue el de abajo**/

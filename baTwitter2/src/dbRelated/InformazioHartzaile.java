@@ -1,6 +1,5 @@
 package dbRelated;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,11 +18,11 @@ public class InformazioHartzaile {
 		
 		public ArrayList<Tweet> getTweetInfo() throws SQLException, IllegalStateException, TwitterException{
 			String usr=LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName();
-			ResultSet rs=dbk.execSQL("Select * from twit");
+			ResultSet rs=dbk.execSQL("Select * from twit ");
 			ArrayList<Tweet>lista= new ArrayList<>();
 			while (rs.next()){
 				//(String text,int RT, int Fav, int RTCount,int FAVCount,String URL, String Image,long tweetID, String USER_izena)
-				String izena=rs.getString(9);
+				String izena=rs.getString("USER_izena");
 				String textua=rs.getString(1);
 				System.out.println(textua);
 				

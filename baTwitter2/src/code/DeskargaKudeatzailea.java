@@ -92,79 +92,7 @@ public class DeskargaKudeatzailea {
 	        }
 	    }
 
-	/*public void faboritoak(String usr,DBK db) throws InterruptedException, SQLException{
-		int pagenum= 1;
-		long since=0;
-		long max=0;
-		ArrayList<Tweet> favLista= new ArrayList<Tweet>();
-		List<Status> statuses = new ArrayList<Status>();
-		ResultSet var=DBK.getInstantzia().execSQL("Select since, max from superuser");
-		while(var.next()){
-			since = var.getLong(1);
-			max= var.getLong(2);
-		}
-		
-		while(true){
-			try{
-				for(int i=0;i<=15;i++){
-				int size = statuses.size();
-				if(max==0&&since==0){
-					Paging page = new Paging(pagenum++,214);
-				}
-				else if(max==0){
-					Paging page = new Paging(pagenum++,214,since);
-
-				}else if (since==0){
-					Paging page = new Paging(pagenum++,214,max);
-
-				}else{
-				Paging page = new Paging(pagenum++,214,since,max);
-				
-				//page.sinceId(since);
-				//statuses.addAll(t.getUserTimeline(usr,page));
-				statuses.addAll(tw.getFavorites(usr, page));				
-				//since=statuses.get(0).getId();
-				for(Status status : statuses) {
-					System.out.println(status.getText());
-					long id=status.getId();
-					String erab=status.getUser().getName();
-					String edukia=status.getText();
-					int favKop=status.getFavoriteCount();
-					int rtKop= status.getRetweetCount();
-					boolean fav=status.isFavorited();
-					boolean rt= status.isRetweeted();
-					String url=status.getURLEntities().toString();
-					//String image=status.m
-					Tweet twet= new Tweet(edukia,erab,rt,fav,rtKop,favKop,id,url);
-					
-						favLista.add(twet);
-				if(size==statuses.size()){
-					break;
-				}
-				if (i==15){
-					i=0;
-					this.sartuTweetDB(db, favLista, usr);
-					Thread.sleep(900*1000);
-				}
-				}		
-			}
-			}
-			}
-		catch(TwitterException e){
-			int i=e.getRateLimitStatus().getSecondsUntilReset();
-			System.out.println(Integer.toString(i)+" segundo falta dira berriro exekutatu ahal izateko");
-			//MaximoaGaindituta m = new MaximoaGaindituta(i);
-			
-			System.exit(-1);
-			
-		}
 	
-
-		}
-
-	
-	}
-*/
 	public void nireTweet() throws InterruptedException, SQLException, TwitterException{
 		//Twitter twitter = LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
 		boolean amaituta = false;
@@ -184,6 +112,7 @@ public class DeskargaKudeatzailea {
 				if(max==0){max=1;}
 				
 				while (!amaituta) {
+					
 					Paging page= new Paging(pagenum++, 200, since);
 					statuses.addAll(tw.getUserTimeline(user,page));
 					//statuses = twitter.getFavorites(new Paging(pagenum++, 200, since));
@@ -209,76 +138,13 @@ public class DeskargaKudeatzailea {
 			}catch (TwitterException | SQLException sq) {
 				sq.printStackTrace();
 		}
-		
-		/*
-	}
-		ArrayList<Tweet> rtLista= new ArrayList<Tweet>();
-
-		int pagenum= 1;
-		List<Status> statuses = new ArrayList<Status>();
-		long since = 1; //berriagoak db tik hartu behar
-		long max=1; // db tik hartu
-		ResultSet var=DBK.getInstantzia().execSQL("Select since, max from superuser");
-		while(var.next()){
-			
-			since = var.getLong(1);
-			max= var.getLong(2);
-		}
-		while(true){
-			try{
-				Paging page;
-				for(int i=0;i<=15;i++){
-				int size = statuses.size();
-				if(max!=0) {
-				 page = new Paging(pagenum++,214,since,max);}
-				else {
-				 page = new Paging(pagenum++,214);
-				}
-				
-				//page.sinceId(since);
-				statuses.addAll(tw.getUserTimeline(usr,page));
-				//since=statuses.get(0).getId();
-				max=statuses.get(statuses.size()-1).getId();
-				for(Status status : statuses) {
-					System.out.println(status.getText());
-					long id=status.getId();
-					String erab=status.getUser().getName();
-					String edukia=status.getText();
-					int favKop=status.getFavoriteCount();
-					int rtKop= status.getRetweetCount();
-					boolean fav=status.isFavorited();
-					boolean rt= status.isRetweetedByMe();
-					String url=status.getURLEntities().toString();
-					//String image=status.m
-					Tweet twet= new Tweet(edukia,erab,rt,fav,rtKop,favKop,id,url);
-				
-				rtLista.add(twet);
-				if(size==statuses.size()){
-						break;
-					}
-				if (i==15){
-						i=0;
-						this.sartuTweetDB(db, rtLista, usr);
-						Thread.sleep(900*1000);
-							}
-						}
-					}		
-				}
 	
-		catch(TwitterException e){
-			int i=e.getRateLimitStatus().getSecondsUntilReset();
-			System.out.println(Integer.toString(i)+" segundo falta dira berriro exekutatu ahal izateko");
-			//MaximoaGaindituta m = new MaximoaGaindituta(i);
-			
-			System.exit(-1);
-			
-		}
 	
 
 		}
 
 	
-	*/}
+	
 
 
 private void sartuStatusDB(DBK db,List<Status> lista,String usr) throws SQLException{
@@ -332,6 +198,7 @@ public void gustokoakJaitsi(){
 			
 			while (!amaituta) {
 				//statuses= twitter.getHomeTimeline(new Paging(pagenum++, 200, since));
+				//statuses = twitter.getRetweetsOfMe(new Paging(pagenum++, 200, since));
 				statuses = twitter.getFavorites(new Paging(pagenum++, 200, since));
 				if (statuses.isEmpty()) {
 					amaituta = true;
@@ -341,7 +208,7 @@ public void gustokoakJaitsi(){
 			pagenum = 1;
 			amaituta = false;
 			while (!amaituta) {
-				
+				//statuses = twitter.getRetweetsOfMe(new Paging(pagenum++, 200, since,max));
 				statuses = twitter.getFavorites(new Paging(pagenum++, 200, since, max));
 				if (statuses.isEmpty()) {
 					amaituta = true;
@@ -357,5 +224,128 @@ public void gustokoakJaitsi(){
 	
 	}
 
+public void rtJaitsi(){
+	Twitter twitter = LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
+	boolean amaituta = false;
+	int pagenum= 1;
+	long since=0;
+	long max=0;
+		try{
+			List<Status> statuses = new ArrayList<Status>();
+			/*
+			if(mota.equals("faboritoa")){}
+			else if (mota.equals("propioak")){}
+			else if (mota.equals("rt")){}*/
+					
+			ResultSet var=DBK.getInstantzia().execSQL("Select since, max from superuser");
+			while(var.next()){
+				
+				since = var.getLong(1);
+				max= var.getLong(2);
+			}
+			if(since==0){since=1;}
+			if(max==0){max=1;}
+			
+			while (!amaituta) {
+				/*
+				if(mota.equals("faboritoa")){}
+				else if (mota.equals("propioak")){}
+				else if (mota.equals("rt")){}*/
+				//statuses= twitter.getHomeTimeline(new Paging(pagenum++, 200, since));
+				statuses = twitter.getRetweetsOfMe(new Paging(pagenum++, 200, since));
+				//statuses = twitter.getFavorites(new Paging(pagenum++, 200, since));
+				if (statuses.isEmpty()) {
+					amaituta = true;
+				} else
+					this.sartuStatusDB(DBK.getInstantzia(), statuses, LoginBeharrezkoKode.getLoginCode().twitter.verifyCredentials().getScreenName());;
+			}
+			pagenum = 1;
+			amaituta = false;
+			while (!amaituta) {
+				/*
+				if(mota.equals("faboritoa")){}
+				else if (mota.equals("propioak")){}
+				else if (mota.equals("rt")){}*/
+				//statuses= twitter.getHomeTimeline(new Paging(pagenum++, 200, since));
+
+				statuses = twitter.getRetweetsOfMe(new Paging(pagenum++, 200, since,max));
+				//statuses = twitter.getFavorites(new Paging(pagenum++, 200, since, max));
+				if (statuses.isEmpty()) {
+					amaituta = true;
+				} else
+					
+					this.sartuStatusDB(DBK.getInstantzia(), statuses, LoginBeharrezkoKode.getLoginCode().twitter.getScreenName());;
+			}
+			DBK.getInstantzia().paramSave(since, max);
+			
+		}catch (TwitterException | SQLException sq) {
+			sq.printStackTrace();
+	}
+	
+	}
+
+
+public void deskargatu(String mota){
+	Twitter twitter = LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
+	boolean amaituta = false;
+	int pagenum= 1;
+	long since=0;
+	long max=0;
+		try{
+			List<Status> statuses = new ArrayList<Status>();
+			/*
+			if(mota.equals("faboritoa")){
+			ResultSet var=DBK.getInstantzia().execSQL("Select since, max from superuser");
+			else if (mota.equals("propioak")){
+			ResultSet var=DBK.getInstantzia().execSQL("Select since, max from superuser");}
+			else if (mota.equals("rt")){ResultSet var=DBK.getInstantzia().execSQL("Select since, max from superuser");}
+			*/
+					
+			ResultSet var=DBK.getInstantzia().execSQL("Select since, max from superuser");
+			while(var.next()){
+				
+				since = var.getLong(1);
+				max= var.getLong(2);
+			}
+			if(since==0){since=1;}
+			if(max==0){max=1;}
+			
+			while (!amaituta) {
+				/*
+				if(mota.equals("faboritoa")){statuses = twitter.getFavorites(new Paging(pagenum++, 200, since));}
+				else if (mota.equals("propioak")){statuses= twitter.getHomeTimeline(new Paging(pagenum++, 200, since));}
+				else if (mota.equals("rt")){*/
+				
+				statuses = twitter.getRetweetsOfMe(new Paging(pagenum++, 200, since));
+				//}
+				if (statuses.isEmpty()) {
+					amaituta = true;
+				} else
+					this.sartuStatusDB(DBK.getInstantzia(), statuses, LoginBeharrezkoKode.getLoginCode().twitter.verifyCredentials().getScreenName());;
+			}
+			pagenum = 1;
+			amaituta = false;
+			while (!amaituta) {
+				/*
+				if(mota.equals("faboritoa")){statuses = twitter.getFavorites(new Paging(pagenum++, 200, since,max));}
+				else if (mota.equals("propioak")){statuses= twitter.getHomeTimeline(new Paging(pagenum++, 200, since,max));}
+				else if (mota.equals("rt")){*/
+				
+
+				statuses = twitter.getRetweetsOfMe(new Paging(pagenum++, 200, since,max));
+				//}
+				if (statuses.isEmpty()) {
+					amaituta = true;
+				} else
+					
+					this.sartuStatusDB(DBK.getInstantzia(), statuses, LoginBeharrezkoKode.getLoginCode().twitter.getScreenName());;
+			}
+			DBK.getInstantzia().paramSave(since, max);
+			
+		}catch (TwitterException | SQLException sq) {
+			sq.printStackTrace();
+	}
+	
+	}
 }
 	

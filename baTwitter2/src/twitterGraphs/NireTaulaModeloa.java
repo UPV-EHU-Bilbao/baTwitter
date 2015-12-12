@@ -55,7 +55,7 @@ public class NireTaulaModeloa extends AbstractTableModel{
 		else if(mota.equals("Nire Tweet-ak")){
 			data=infor.getTweetInfo();
 		}
-		else {
+		else if(mota.equals("ReTweet")) {
 			data=infor.getRTInfo();
 		}
 	
