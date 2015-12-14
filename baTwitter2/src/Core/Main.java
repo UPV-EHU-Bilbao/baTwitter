@@ -9,7 +9,7 @@ import twitter4j.*;
  *
  */
 public class Main {
-	      public static void main(String[] args) throws TwitterException {
+	      public static void main(String[] args) {
 	          new LehengoLehioa().setVisible(true);
 	          }
 	      }

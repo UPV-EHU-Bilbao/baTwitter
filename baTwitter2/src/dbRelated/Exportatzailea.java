@@ -20,6 +20,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
+import exception.Salbuespenak;
+
 public class Exportatzailea {
 	
 	private static Exportatzailea export = new Exportatzailea();
@@ -31,7 +33,7 @@ public class Exportatzailea {
 	}
 	
 	
-	public void exportatuTweet() throws SQLException, IOException{
+	public void exportatuTweet(){
 		
 		Sheet TwitterSheet = wb.createSheet("Twitter");
 		Row headerRow = TwitterSheet.createRow(0);
@@ -60,6 +62,7 @@ public class Exportatzailea {
 		URLHeaderCell.setCellValue("Tweet URL");
 
 		String sql = "Select * from twit";
+		try{
 		PreparedStatement ps = DBK.getInstantzia().conn.prepareStatement(sql);
 		ResultSet resultSet = ps.executeQuery();    
 
@@ -107,13 +110,16 @@ public class Exportatzailea {
 
 		    row = row + 1;
 		}
+		}catch(Exception e){
+			throw new Salbuespenak("Ezin da datuak esportatu");
+		}
 		
 	}
 	
 	
 
 
-	public void exportatuErabiltzailearenDatuak() throws SQLException, IOException{
+	public void exportatuErabiltzailearenDatuak(){
 		Sheet UserSheet = wb.createSheet("User");
 		Row headerRow = UserSheet.createRow(0);
 		Cell IzenaHeaderCell = headerRow.createCell(0);
@@ -121,7 +127,9 @@ public class Exportatzailea {
 		Cell JarraituakheaderCell=headerRow.createCell(2);
 		
 		String sql = "Select * from user where jarraitzailea=1;";
+		try{
 		PreparedStatement ps = DBK.getInstantzia().conn.prepareStatement(sql);
+		
 		ResultSet resultSet = ps.executeQuery();    
 		
 		int row = 1;
@@ -149,6 +157,8 @@ public class Exportatzailea {
 		    dataNameCell.setCellValue(jarraitua);
 
 		    row = row + 1;
+		}}catch(Exception e){
+			throw new Salbuespenak("Ezin da datuak esportatu");
 		}
 
 		

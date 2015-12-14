@@ -7,6 +7,7 @@ import java.net.URI;
 import java.sql.SQLException;
 
 import dbRelated.DBK;
+import exception.Salbuespenak;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -53,23 +54,33 @@ public class LoginBeharrezkoKode {
 	
 	
 	
-	public void Login () throws Exception{
+	public void Login (){
+		try{
 		twitter.setOAuthAccessToken(null);
 		RT=twitter.getOAuthRequestToken();
 		AT=null;
         URI url=new URI(RT.getAuthorizationURL());
         Desktop.getDesktop().browse(url);
+		} catch(Exception e){
+			throw new Salbuespenak("Ezin da internetera konektatu");
+
+		}
         
 	}
-	public void LoginWithCredentials() throws SQLException{
-		String[] token=DBK.getInstantzia().getATokens();
+	public void LoginWithCredentials() {
+		String[] token;
+		try {
+		token = DBK.getInstantzia().getATokens();
 		AT=new AccessToken(token[0], token[1]);
 		twitter.setOAuthAccessToken(AT);
-	}
+	} catch (Exception e) {
+		throw new Salbuespenak("Ezin dira Kredentzialak verifikatu");
+
+		}
+		}
 	
-	public void getAccessToken(String Pin) throws FileNotFoundException, IOException, SQLException{
-		System.out.println(getRT());
-		System.out.println(Pin);		
+	public void getAccessToken(String Pin) {
+			
 		try {
 			
             if (Pin.length() > 0) {
@@ -84,14 +95,9 @@ public class LoginBeharrezkoKode {
             twitter.setOAuthAccessToken(AT);
             
 			
-        } catch (TwitterException te) {
-       System.out.println("Unable to get the access token.");
-            if (401 == te.getStatusCode()) {
-               
-            } else {
-            	System.out.println(te.getStatusCode());
-                te.printStackTrace();
-            }
+        } catch (Exception e) {
+		throw new Salbuespenak("Ezin dira kredentzialak lortu");
+
         } 
 		
     
@@ -104,7 +110,7 @@ public class LoginBeharrezkoKode {
             System.exit(-1);
         }
 	}
-	public void SaveToken() throws SQLException{
+	public void SaveToken(){
         DBK.getInstantzia().saveToken(AT.getScreenName(),AT.getToken(), AT.getTokenSecret());
 	}
 	
@@ -114,8 +120,13 @@ public class LoginBeharrezkoKode {
 	public AccessToken getAccessToken(){
 		return this.AT;
 	}
-	public boolean isTokenSet() throws SQLException{
-		return DBK.getInstantzia().isAnyToken();
+	public boolean isTokenSet(){
+		try {
+			return DBK.getInstantzia().isAnyToken();
+		} catch (SQLException e) {
+			throw new Salbuespenak("Tokenak hutsik daude, mesedez logeatu berriro");
+
+		}
 	}
 	
 	

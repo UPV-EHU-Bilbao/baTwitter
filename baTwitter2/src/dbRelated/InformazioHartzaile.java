@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import code.LoginBeharrezkoKode;
 import code.Tweet;
+import exception.Salbuespenak;
 import twitter4j.TwitterException;
 
 public class InformazioHartzaile {
@@ -16,10 +17,11 @@ public class InformazioHartzaile {
 			dbk=DBK.getInstantzia();
 		}
 		
-		public ArrayList<Tweet> getTweetInfo() throws SQLException, IllegalStateException, TwitterException{
+		public ArrayList<Tweet> getTweetInfo(){
+			ArrayList<Tweet>lista= new ArrayList<>();
+			try{
 			String usr=LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName();
 			ResultSet rs=dbk.execSQL("Select * from twit where USER_izena!='"+usr+"'" );
-			ArrayList<Tweet>lista= new ArrayList<>();
 			while (rs.next()){
 				//(String text,int RT, int Fav, int RTCount,int FAVCount,String URL, String Image,long tweetID, String USER_izena)
 				String izena=rs.getString("USER_izena");
@@ -47,36 +49,50 @@ public class InformazioHartzaile {
 			Tweet tw= new Tweet(textua, izena, rt, fav, RTKop, FavKop, id, url);
 			lista.add(tw);
 			}
+			}catch(Exception e){
+				throw new Salbuespenak("Ezin dira tweet-ak lortu");
+			}
+			
 			return lista;
 		}
 		
-		public ArrayList<String> getJarraitzaileInfo() throws SQLException{
-			ResultSet rs=dbk.execSQL("Select * from user where jarraitzailea=1");
+		public ArrayList<String> getJarraitzaileInfo(){
 			ArrayList<String> lista = new ArrayList<String>();
+			try{
+			ResultSet rs=dbk.execSQL("Select * from user where jarraitzailea=1");
 			while (rs.next()){
 				String izena=rs.getString(1);
 				System.out.println(izena);
 				lista.add(izena);
 				}
+			}catch(Exception e){
+				throw new Salbuespenak("Ezin dira jarraitzaileak lortu");
+			}
 			return lista;
 			}
 		
 		
-		public ArrayList<String> getJarraituakInfo() throws SQLException{
-			ResultSet rs=dbk.execSQL("Select * from user where jarraitua=1");
+		public ArrayList<String> getJarraituakInfo() {
 			ArrayList<String> lista = new ArrayList<String>();
+			try{
+			ResultSet rs=dbk.execSQL("Select * from user where jarraitua=1");
 			while (rs.next()){
 				String izena=rs.getString(1);
 				System.out.println(izena);
 				lista.add(izena);
 				}
+			}catch (Exception e){
+				throw new Salbuespenak("Ezin dira jarraituak lortu");
+			}
 			return lista;
 				
 		}
 		
-		public ArrayList<Tweet> getFavInfo() throws SQLException{
-			ResultSet rs=dbk.execSQL("Select * from twit where fav=1");
+		public ArrayList<Tweet> getFavInfo(){
 			ArrayList<Tweet>lista= new ArrayList<>();
+
+			try{
+			ResultSet rs=dbk.execSQL("Select * from twit where fav=1");
 			while (rs.next()){
 				String izena=rs.getString(9);
 				String textua=rs.getString(1);				
@@ -101,12 +117,16 @@ public class InformazioHartzaile {
 			Tweet tw= new Tweet(textua, izena, rt, fav, RTKop, FavKop, id, url);
 			lista.add(tw);
 			}
+			}catch(Exception e){
+				throw new Salbuespenak("Ezin dira Favoritoak lortu");
+			}
 			return lista;
 		}
 		
-		public ArrayList<Tweet> getRTInfo() throws SQLException{
-			ResultSet rs=dbk.execSQL("Select * from twit where rt=1");
+		public ArrayList<Tweet> getRTInfo(){
 			ArrayList<Tweet>lista= new ArrayList<>();
+			try{
+			ResultSet rs=dbk.execSQL("Select * from twit where rt=1");
 			while (rs.next()){
 				String izena=rs.getString(9);
 				String textua=rs.getString(1);				
@@ -130,6 +150,9 @@ public class InformazioHartzaile {
 			}
 			Tweet tw= new Tweet(textua, izena, rt, fav, RTKop, FavKop, id, url);
 			lista.add(tw);
+			}
+			}catch(Exception e){
+				throw new Salbuespenak("Ezin dira Retweet-ak lortu");
 			}
 			return lista;
 		}

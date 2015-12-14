@@ -15,6 +15,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.awt.Window.Type;
 
 public class HirugarrenLehioa extends JFrame {
 
@@ -55,53 +56,100 @@ public class HirugarrenLehioa extends JFrame {
 	 * Create the frame.
 	 */
 	public HirugarrenLehioa() {
+		setFont(new Font("Arial Black", Font.PLAIN, 12));
+		setTitle("Tweet Kudeaketa");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{212, 212, 0};
-		gbl_contentPane.rowHeights = new int[]{251, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		contentPane.setLayout(gbl_contentPane);
 		
 		
 		
-		JButton btnDeskargatu = new JButton("Deskargatu");
-		btnDeskargatu.addActionListener(new ActionListener() {
+		JButton btnDeskargatuTW = new JButton("Deskargatu Kontuko Tweetak");
+		btnDeskargatuTW.setBounds(10, 60, 173, 23);
+		btnDeskargatuTW.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try{
+					DeskargaKudeatzailea desk= new DeskargaKudeatzailea();
+					desk.nireTweet();
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		});
+		JButton btnDeskargatuRT = new JButton("Deskargatu Kontuko RT-ak");
+		btnDeskargatuRT.setBounds(10, 94, 173, 23);
+		btnDeskargatuRT.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try{
 
 					DeskargaKudeatzailea desk= new DeskargaKudeatzailea();
-					//desk.gustokoakJaitsi();//FUNCIONA
-					//desk.nireTweet();// Ondo funtzionatzen du.
-					//desk.rtJaitsi();
-					//(LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName(), DBK.getInstantzia());
-					//desk.jarraitzaileak(DBK.getInstantzia()); //FUNCIONA
-					/**TERMINA el de arriba, pero no sigue el de abajo**/
-					desk.jarraituak(DBK.getInstantzia());  //FUNCIONA
-					//HariKudeatzailea.main(null);
+					desk.rtJaitsi();
 				}catch(Exception e){
 					e.printStackTrace();
 				}
         		
 			}
 		});
-		GridBagConstraints gbc_btnDeskargatu = new GridBagConstraints();
-		gbc_btnDeskargatu.insets = new Insets(0, 0, 0, 5);
-		gbc_btnDeskargatu.gridx = 0;
-		gbc_btnDeskargatu.gridy = 0;
-		contentPane.add(btnDeskargatu, gbc_btnDeskargatu);
-		
+		JButton btnDeskargatuFav = new JButton("Download Fav");
+		btnDeskargatuFav.setBounds(10, 196, 173, 23);
+		btnDeskargatuFav.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try{
+
+					DeskargaKudeatzailea desk= new DeskargaKudeatzailea();
+					desk.gustokoakJaitsi();
+					}catch(Exception e){
+					e.printStackTrace();
+				}
+        		
+			}
+		});
+		JButton btnDeskargatuJarr = new JButton("Download Follower");
+		btnDeskargatuJarr.setBounds(10, 128, 173, 23);
+
+		btnDeskargatuJarr.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try{
+
+					DeskargaKudeatzailea desk= new DeskargaKudeatzailea();
+					desk.jarraitzaileak(DBK.getInstantzia());
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+        		
+			}
+		});
+		contentPane.setLayout(null);
+		contentPane.add(btnDeskargatuTW);
+		contentPane.add(btnDeskargatuRT);
+		contentPane.add(btnDeskargatuFav);
+		contentPane.add(btnDeskargatuJarr);
+		JButton btnDeskargatuJarr2 = new JButton("Download Followed");
+		btnDeskargatuJarr2.setBounds(10, 162, 173, 23);
+		btnDeskargatuJarr2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try{
+					DeskargaKudeatzailea desk= new DeskargaKudeatzailea();
+					desk.jarraituak(DBK.getInstantzia());
+					}catch(Exception e){
+					e.printStackTrace();
+				}
+        		
+			}
+		});
+		contentPane.add(btnDeskargatuJarr2);
+
 		JButton btnIkusi = new JButton("DatuBasea Ikusi");
-		GridBagConstraints gbc_btnIkusi = new GridBagConstraints();
-		gbc_btnIkusi.gridx = 1;
-		gbc_btnIkusi.gridy = 0;
-		contentPane.add(btnIkusi, gbc_btnIkusi);
+		btnIkusi.setBounds(220, 89, 191, 100);
+		contentPane.add(btnIkusi);
 		btnIkusi.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

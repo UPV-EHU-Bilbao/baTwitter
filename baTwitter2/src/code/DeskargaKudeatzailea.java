@@ -9,6 +9,7 @@ import java.util.List;
 
 
 import dbRelated.DBK;
+import exception.Salbuespenak;
 import twitter4j.IDs;
 import twitter4j.Paging;
 import twitter4j.Status;
@@ -98,9 +99,9 @@ public class DeskargaKudeatzailea {
 	        } 
 	        catch (TwitterException te) {
 	        	int i=te.getRateLimitStatus().getSecondsUntilReset();
-				System.out.println(Integer.toString(i)+" segundo falta dira berriro exekutatu ahal izateko");
-				i= i/60;
-				System.out.println(Integer.toString(i)+" minutu falta dira berriro exekutatu ahal izateko");
+				throw new Salbuespenak(Integer.toString(i)+" segundo falta dira berriro exekutatu ahal izateko");
+				//i= i/60;
+				//System.out.println(Integer.toString(i)+" minutu falta dira berriro exekutatu ahal izateko");
 	            
 	        }
 	    }
@@ -151,8 +152,12 @@ public class DeskargaKudeatzailea {
 				}
 				DBK.getInstantzia().paramSave(since, max);
 				
-			}catch (TwitterException | SQLException sq) {
-				sq.printStackTrace();
+			} catch (TwitterException te) {
+	        	int i=te.getRateLimitStatus().getSecondsUntilReset();
+				throw new Salbuespenak(Integer.toString(i)+" segundo falta dira berriro exekutatu ahal izateko");
+				
+			}catch(SQLException sq) {
+				throw new Salbuespenak("Datu baseak errore bat du");
 		}
 	
 	
@@ -168,10 +173,11 @@ public class DeskargaKudeatzailea {
 	 * @param usr Erabiltzailearen twitter izena
 	 * @throws SQLException
 	 */
-private void sartuStatusDB(List<Status> lista,String usr) throws SQLException{
+private void sartuStatusDB(List<Status> lista,String usr){
 		//Hau DBK-n egon behar da.
 		Iterator<Status> i= lista.iterator();
-		while(i.hasNext()){
+		try{
+			while(i.hasNext()){
 			Status t= i.next();
 			if(t.getURLEntities().length==0){
 				System.out.println(t.getFavoriteCount());
@@ -181,11 +187,13 @@ private void sartuStatusDB(List<Status> lista,String usr) throws SQLException{
 			else
 				DBK.getInstantzia().saveTweetInfo(t.getText().replace("'", "''"), switchBooltoInt(t.isRetweet()), switchBooltoInt(t.isFavorited()), t.getRetweetCount(), t.getFavoriteCount(), t.getURLEntities()[0].getDisplayURL(), null, t.getId(), t.getUser().getScreenName());
 		}
+		}catch (Exception e){
+			throw new Salbuespenak(e.getMessage());
+		} 
 	}
 private int switchBooltoInt(boolean b){
 	int var = b? 1 : 0;
 	return var;
-
 }
 
 
@@ -196,16 +204,17 @@ private int switchBooltoInt(boolean b){
  * @param db gure datu basea 
  * @throws SQLException
  */
-private void sartuJErabiltzaileaDB(String izena,boolean jarraitua, DBK db) throws SQLException, IllegalStateException, TwitterException{
-		if(!jarraitua)
+private void sartuJErabiltzaileaDB(String izena,boolean jarraitua, DBK db){
+	try{	
+	if(!jarraitua)
 		db.saveFollowers(izena);
 		else
 			db.saveFollowing(izena);
+	}catch (Exception e){
+		throw new Salbuespenak(e.getMessage());
+	}
 	}
 
-	
-	
-	
 /**
  * Tweet faboritoak deskargatu eta datu basean gordetzeko metodoa.
  */
@@ -248,8 +257,9 @@ public void gustokoakJaitsi(){
 			}
 			DBK.getInstantzia().paramSave(since, max);
 			
-		}catch (TwitterException | SQLException sq) {
-			sq.printStackTrace();
+		}catch (Exception sq) {
+			throw new Salbuespenak(sq.getMessage());
+
 	}
 	
 	}
@@ -311,8 +321,8 @@ public void rtJaitsi(){
 			}
 			DBK.getInstantzia().paramSave(since, max);
 			
-		}catch (TwitterException | SQLException sq) {
-			sq.printStackTrace();
+		}catch (Exception sq) {
+			throw new Salbuespenak(sq.getMessage());
 	}
 	
 	}
@@ -379,8 +389,9 @@ public void deskargatu(String mota){
 			}
 			DBK.getInstantzia().paramSave(since, max);
 			
-		}catch (TwitterException | SQLException sq) {
-			sq.printStackTrace();
+		}catch (Exception sq) {
+			throw new Salbuespenak(sq.getMessage());
+
 	}
 	
 	}

@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import code.LoginBeharrezkoKode;
+import exception.Salbuespenak;
 import twitter4j.TwitterException;
 
 
@@ -29,9 +30,8 @@ public class DBK{
 			Class.forName("org.sqlite.JDBC").newInstance();
 			
 			conn = (Connection) DriverManager.getConnection(url);
-			System.out.println("Database connection established");
 		} catch (Exception e) {
-			System.err.println("Cannot connect to database server");
+			throw new Salbuespenak("Database connection  NOT stablished");
 		}
 		
 		
@@ -104,25 +104,15 @@ public class DBK{
 		try {
 			s = (Statement) conn.createStatement();
 			if (query.toLowerCase().indexOf("select") == 0) {
-				// select agindu bat
 				rs = this.query(s, query);
 				
 			} else {
-				// update, delete, create agindu bat
 				count = s.executeUpdate(query);
 				System.out.println(count + " rows affected");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-//		finally {
-//			if (s != null)
-//				try {
-//					s.close();
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
-//		}
 		
 		return rs;
 	}
@@ -136,11 +126,17 @@ public class DBK{
 	 * @param AccessTokenSecret
 	 * @throws SQLException
 	 */
-	public void saveToken(String Name,String AccessToken,String AccessTokenSecret) throws SQLException{
+	public void saveToken(String Name,String AccessToken,String AccessTokenSecret) {
 		
-		Statement st =conn.createStatement();
+		Statement st;
+		try {
+			st = conn.createStatement();
+		 
 		st.execute("INSERT into superuser (izena, AccessToken,AccessTokenSecret)VALUES('"+Name+"','"+AccessToken+"','"+AccessTokenSecret+"')");
-		
+		}catch (SQLException e) {
+			throw new Salbuespenak("Ezin dira tokenak gorde");
+
+		}
 	}
 	/**
 	 * Tokken-ak lortzek metodoa
