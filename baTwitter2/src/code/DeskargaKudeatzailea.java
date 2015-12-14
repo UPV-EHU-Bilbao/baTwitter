@@ -1,14 +1,11 @@
 package code;
 
-import java.nio.channels.Pipe.SinkChannel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.poi.hssf.util.HSSFColor.AQUA;
 
 import dbRelated.DBK;
 import twitter4j.IDs;
@@ -16,9 +13,7 @@ import twitter4j.Paging;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 import twitter4j.User;
-import twitter4j.conf.ConfigurationBuilder;
 
 public class DeskargaKudeatzailea {
 
@@ -26,9 +21,7 @@ public class DeskargaKudeatzailea {
 
 	public  DeskargaKudeatzailea(){
 		tw= LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
-		//t = new TwitterFactory(cb.build()).getInstance();
 	}
-//cambiar a conn
 	public void jarraitzaileak(DBK db) throws InterruptedException, SQLException{
 	      try {
 	            long cursor = -1;
@@ -104,7 +97,6 @@ public class DeskargaKudeatzailea {
 				List<Status> statuses = new ArrayList<Status>();
 				ResultSet var=DBK.getInstantzia().execSQL("Select since, max from superuser");
 				while(var.next()){
-					
 					since = var.getLong(1);
 					max= var.getLong(2);
 				}

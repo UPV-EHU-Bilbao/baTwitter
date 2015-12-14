@@ -33,7 +33,6 @@ public class Exportatzailea {
 	
 	public void exportatuTweet() throws SQLException, IOException{
 		
-		wb = new HSSFWorkbook();
 		Sheet TwitterSheet = wb.createSheet("Twitter");
 		Row headerRow = TwitterSheet.createRow(0);
 		Cell idHeaderCell = headerRow.createCell(0);
@@ -101,8 +100,9 @@ public class Exportatzailea {
 		    Cell dataFavKopCell = dataRow.createCell(6);
 		    dataFavKopCell.setCellValue(favKop);
 
+		    if(url.equals("null")){
 		    Cell dataURLCell = dataRow.createCell(7);
-		    dataURLCell.setCellValue(url);
+		    dataURLCell.setCellValue(url);}
 
 
 		    row = row + 1;
@@ -114,8 +114,7 @@ public class Exportatzailea {
 
 
 	public void exportatuErabiltzailearenDatuak() throws SQLException, IOException{
-		wb = new HSSFWorkbook();
-		Sheet UserSheet = wb.createSheet("Twitter");
+		Sheet UserSheet = wb.createSheet("User");
 		Row headerRow = UserSheet.createRow(0);
 		Cell IzenaHeaderCell = headerRow.createCell(0);
 		Cell JarraitzaileakHeaderCell = headerRow.createCell(1);
