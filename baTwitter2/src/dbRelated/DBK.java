@@ -11,11 +11,18 @@ import code.LoginBeharrezkoKode;
 import twitter4j.TwitterException;
 
 
-
+/**
+ * Datu base kudeatzailea
+ * @author 
+ *
+ */
 public class DBK{
 
 	Connection conn = null;
 
+	/**
+	 * Datu basearekin konexioa
+	 */
 	private void conOpen() {
 		try {
 			String url = "jdbc:sqlite:newTwitter.db";
@@ -37,6 +44,9 @@ public class DBK{
 		
 
 
+	/**
+	 * Konexioa itzi egiten du.
+	 */
 	private void conClose() {
 
 		if (conn != null)
@@ -51,6 +61,12 @@ public class DBK{
 
 	}
 
+	/**
+	 * Result set bat bueltatzen du egindako eskaeraren arabera.
+	 * @param s
+	 * @param query
+	 * @return
+	 */
 	private ResultSet query(Statement s, String query) {
 
 		ResultSet rs = null;
@@ -76,7 +92,10 @@ public class DBK{
 		return instantzia;
 	}
 
-	//
+	/**
+	 * Result set bat bueltatzen du egindako eskaeraren arabera.
+	 * @return ResultSet Datu basean hartutakoa
+	 */
 	public ResultSet execSQL(String query) {
 		int count = 0;
 		Statement s = null;
@@ -110,12 +129,24 @@ public class DBK{
 	
 	
 
+	/**
+	 * Tokenak gordetzeko metodoa
+	 * @param Name erabiltzaile izena
+	 * @param AccessToken 
+	 * @param AccessTokenSecret
+	 * @throws SQLException
+	 */
 	public void saveToken(String Name,String AccessToken,String AccessTokenSecret) throws SQLException{
 		
 		Statement st =conn.createStatement();
 		st.execute("INSERT into superuser (izena, AccessToken,AccessTokenSecret)VALUES('"+Name+"','"+AccessToken+"','"+AccessTokenSecret+"')");
 		
 	}
+	/**
+	 * Tokken-ak lortzek metodoa
+	 * @return Beharresko 2 tokkenak bueltatzen ditu.
+	 * @throws SQLException
+	 */
 	public String[] getATokens() throws SQLException{
        
 		Statement st =this.conn.createStatement();
@@ -139,6 +170,11 @@ public class DBK{
 		}
 		return token;
 	}
+	/**
+	 * komprobatzen du ea tokken-ak datu basean gordeta ba al dauden.
+	 * @return
+	 * @throws SQLException
+	 */
 	public boolean isAnyToken() throws SQLException{
 		Statement st =this.conn.createStatement();
 		ResultSet rs=st.executeQuery("SELECT AccessToken,AccessTokenSecret FROM superuser");
@@ -148,11 +184,28 @@ public class DBK{
 			
 			return true;
 			}
-		
 		}
+	/**
+	 *  Tweet-a datu basean gordetzeko metodoa, sartu baino lehen komprobatu egingo du ea DB-n ba al zegoen.
+	 * @param text
+	 * @param RT
+	 * @param Fav
+	 * @param RTCount
+	 * @param FAVCount
+	 * @param URL
+	 * @param Image
+	 * @param tweetID
+	 * @param superuser
+	 * @param USER_izena
+	 * @throws SQLException
+	 */
+	
+
+		
+		
 	public void saveTweetInfo(String text,int RT, int Fav, int RTCount,int FAVCount,String URL, String Image,long tweetID, String USER_izena) throws SQLException{
 		Statement st =this.conn.createStatement();
-		System.out.println(text);
+		//System.out.println(text);
 		if(!this.komprobatuTweet(tweetID)){
 			
 		this.execSQL("Insert or replace into twit (edukia,url,irudia,fav,rt,favKop,rtKop,id,USER_izena) VALUES ('"+text.replace("'", "''")+"','"+URL+"','"+Image+"',"+Fav+","+RT+","+FAVCount+","+RTCount+","+tweetID+",'"+USER_izena.replace("'", " ")+"')");
@@ -161,12 +214,21 @@ public class DBK{
 	public void paramSave(long var1, long var2) throws IllegalStateException, TwitterException{
 		execSQL("Update superuser set since="+var1+", max="+var2+" where izena='"+LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName()+"'");
 	}
+	/**
+	 * Tweet-ak hartzeko metodoa
+	 * @return tweet guztiak bueltatzen ditu.
+	 * @throws SQLException
+	 */
 	public ResultSet loadAllTweetInfo() throws SQLException{
 		Statement st =this.conn.createStatement();
 		ResultSet rs=st.executeQuery("SELECT * FROM tweet");
 		st.close();
 		return rs;
 	}
+	/**
+	 * Datu baseko datuak ezabatu
+	 * @throws SQLException
+	 */
 	public void ClearDB() throws SQLException{
 		Statement st =this.conn.createStatement();
 		st.execute("DELETE FROM twit;");
@@ -175,6 +237,7 @@ public class DBK{
 		st.close();
 
 	}
+
 	
 	public void saveFollowers(String erabiltzailea) throws SQLException{
 		try{
@@ -188,18 +251,14 @@ public class DBK{
 			}
 	}
 	
-	public void updateFollower(String izena)throws SQLException{
-	Statement st =this.conn.createStatement();
 
-	st.execute("Update user set jarraitzailea=1 where izena='"+izena+"';");
-	st.close();
+	
+	/**
+	 * Jarraitua gorde
+	 * @param izena erabiltzaile izena
+	 * @throws SQLException
+	 */
 
-}
-	
-	
-	
-	
-	
 	public void saveFollowing(String erabiltzailea) throws IllegalStateException, TwitterException, SQLException{
 		try{
 		Statement st =this.conn.createStatement();
@@ -235,8 +294,8 @@ public class DBK{
 	}
 	
 	
-	
 
+	
 }
 
 

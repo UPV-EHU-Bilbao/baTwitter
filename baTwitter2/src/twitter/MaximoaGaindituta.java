@@ -9,6 +9,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextPane;
 import javax.swing.JTextField;
 
+/**
+ * 
+ * @author 
+ *
+ */
 public class MaximoaGaindituta extends JFrame {
 
 	private JPanel contentPane;
