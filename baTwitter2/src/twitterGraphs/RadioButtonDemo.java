@@ -2,9 +2,17 @@ package twitterGraphs;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.EventHandler;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.net.MalformedURLException;
 import javax.swing.*;
+
+import code.DeskargaKudeatzailea;
+import dbRelated.DBK;
+import dbRelated.Exportatzailea;
+import twitter4j.TwitterException;
 
 public class RadioButtonDemo extends JPanel
                              implements ActionListener {
@@ -13,6 +21,7 @@ public class RadioButtonDemo extends JPanel
     static String nirea= "Nire Tweet-ak";
     static String jarraitzaileak="Jarraitzaileak";
     static String jarraituak = "Jarraituak";
+    static String exportatu= "Exportatu Datuak";
     private Osoa gurasoa;
     
     public RadioButtonDemo(Osoa guraso) {
@@ -54,7 +63,19 @@ public class RadioButtonDemo extends JPanel
         tzaileButton.addActionListener(this);
         tuakButton.addActionListener(this);
 
-        
+        JButton ex1= new JButton(exportatu);
+        ex1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try{
+					new ExpFrame().gorde();
+					
+				}catch(Exception e){
+					
+				}
+        		
+			}
+		});       
 
     
 
@@ -73,6 +94,12 @@ public class RadioButtonDemo extends JPanel
         radioPanel.add(tuakButton);
 
         add(radioPanel, BorderLayout.LINE_START);
+        
+        radioPanel.add(ex1);
+        
+        
+        //entzule bereziak
+        
         //add(table, BorderLayout.CENTER);
         setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
     }
@@ -88,7 +115,12 @@ public class RadioButtonDemo extends JPanel
 		frame.pack();
 		frame.setVisible(true);*/
     	
-    	gurasoa.bistaratu(e.getActionCommand());
+    	try {
+			gurasoa.bistaratu(e.getActionCommand());
+		} catch (IllegalStateException | SQLException | TwitterException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     	//System.out.println(e.getActionCommand());
     }
 

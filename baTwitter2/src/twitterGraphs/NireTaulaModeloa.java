@@ -1,42 +1,63 @@
 package twitterGraphs;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 
 import code.Tweet;
+import dbRelated.InformazioHartzaile;
+import twitter4j.TwitterException;
 
 public class NireTaulaModeloa extends AbstractTableModel{
 	
 	private String[] kolumnaIzenak;
 	private String mota;
+	private ArrayList<Tweet> nireak= new ArrayList<Tweet>();
+	private ArrayList<Tweet> rtak= new ArrayList<Tweet>();
+	private ArrayList<Tweet> faboritoak= new ArrayList<Tweet>();
+	private ArrayList<String> jarraitzaileak= new ArrayList<String>();
+	private ArrayList<String> jarraituak= new ArrayList<String>();
+	private InformazioHartzaile infor= new InformazioHartzaile();
+
+
 	
-	public NireTaulaModeloa(String mota){
+	public NireTaulaModeloa(String mota) throws IllegalStateException, SQLException, TwitterException{
 		this.mota=mota;
 		
 		if(mota.equals("Jarraitzaileak")||mota.equals("Jarraituak")){
 			kolumnaIzenak= new String[1];
 		}
 		else
-		kolumnaIzenak= new String[5];
+		kolumnaIzenak= new String[3];
 		
 		hasieratuKolumnak();
-		//kargatu();
+		kargatu(mota);
 	}
 	
 
 	private ArrayList<Tweet> data = new ArrayList<Tweet>();
-	private ArrayList<String> lista= new ArrayList<>();
+	private ArrayList<String> lista= new ArrayList<String>();
 	
-	public void kargatu(String mota){
-		//Hartu db-tik datuak
-		if(mota.equals("Jarraitzaileak")){}
-		else if(mota.equals("Jarraituak")){}
-		else if(mota.equals("Retweet")){}
-		else if(mota.equals("Favorito")){}
-		else{}
-
+	public void kargatu(String mota) throws SQLException, IllegalStateException, TwitterException{
+		
+		if(mota.equals("Jarraitzaileak")){
+			lista=infor.getJarraitzaileInfo();
+			
+		}
+		else if(mota.equals("Jarraituak")){
+			lista=infor.getJarraituakInfo();
+		}
+		else if(mota.equals("Favorito")){
+			data=infor.getFavInfo();
+		}
+		else if(mota.equals("Nire Tweet-ak")){
+			data=infor.getTweetInfo();
+		}
+		else if(mota.equals("ReTweet")) {
+			data=infor.getRTInfo();
+		}
 	
 	}
 	
@@ -50,8 +71,9 @@ public class NireTaulaModeloa extends AbstractTableModel{
 		kolumnaIzenak[0]="Idazlea";
 		kolumnaIzenak[1]="Textua";
 		kolumnaIzenak[2]="Rt kop";
-		kolumnaIzenak[3]="fav Kop";
-		kolumnaIzenak[4]="url";}
+		//kolumnaIzenak[3]="Idazlea";
+		//kolumnaIzenak[4]="Fav";
+		}
 
 	}
 	

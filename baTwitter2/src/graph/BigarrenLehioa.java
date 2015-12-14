@@ -95,7 +95,7 @@ public class BigarrenLehioa extends JFrame {
 					if (rdbtnGogoratuPasahitza.isSelected()) {
 						LoginBeharrezkoKode.getLoginCode().SaveToken();
 					}
-					Osoa.main(null);;
+					HirugarrenLehioa.main(null);
 					
 				} catch (Exception e) {
 					e.printStackTrace();
