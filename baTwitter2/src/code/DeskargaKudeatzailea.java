@@ -1,3 +1,4 @@
+
 package code;
 
 import java.sql.ResultSet;
@@ -15,6 +16,12 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.User;
 
+/**
+ * Tweet-ak eta erabiltzaileak deskargatzeko eta DB-n gordetzeko klase kudeatzailea.
+ * @author BATwitter
+ *
+ */
+
 public class DeskargaKudeatzailea {
 
 	private  Twitter tw;
@@ -22,6 +29,14 @@ public class DeskargaKudeatzailea {
 	public  DeskargaKudeatzailea(){
 		tw= LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
 	}
+
+
+	/**
+	 * Jarraitzaileak deskargatu eta datu basean gordetzen ditu.
+	 * @param db gure datu basea
+	 * @throws InterruptedException
+	 * @throws SQLException
+	 */
 	public void jarraitzaileak(DBK db) throws InterruptedException, SQLException{
 	      try {
 	            long cursor = -1;
@@ -52,7 +67,12 @@ public class DeskargaKudeatzailea {
 	            
 	        }
 	    }
-
+	/**
+	 * Erabiltzaileak Twitterren jarraitzen dituen erabiltzaileak deskargatu eta datu basean gordetzen ditu.
+	 * @param db gure datu basea
+	 * @throws InterruptedException
+	 * @throws SQLException
+	 */
 	public void jarraituak(DBK db) throws InterruptedException, SQLException{
 	      try {
 	            long cursor = -1;
@@ -85,7 +105,11 @@ public class DeskargaKudeatzailea {
 	        }
 	    }
 
-	
+	/**
+	 * Erabltzaileak idatzitako tweet-ak eta egindako retweetak deskargatu eta datu basean gordetzen duen metodoa.
+	 * @throws InterruptedException
+	 * @throws SQLException
+	 */
 	public void nireTweet() throws InterruptedException, SQLException, TwitterException{
 		//Twitter twitter = LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
 		boolean amaituta = false;
@@ -111,7 +135,7 @@ public class DeskargaKudeatzailea {
 					if (statuses.isEmpty()) {
 						amaituta = true;
 					} else
-						this.sartuStatusDB(DBK.getInstantzia(), statuses,user);;
+						this.sartuStatusDB(statuses,user);;
 				}
 				pagenum = 1;
 				amaituta = false;
@@ -123,7 +147,7 @@ public class DeskargaKudeatzailea {
 						amaituta = true;
 					} else
 						
-						this.sartuStatusDB(DBK.getInstantzia(), statuses, user);;
+						this.sartuStatusDB(statuses, user);;
 				}
 				DBK.getInstantzia().paramSave(since, max);
 				
@@ -138,8 +162,13 @@ public class DeskargaKudeatzailea {
 	
 	
 
-
-private void sartuStatusDB(DBK db,List<Status> lista,String usr) throws SQLException{
+	/**
+	 * Tweetak datu basean gordetzeko metodoa
+	 * @param lista tweet lista bat
+	 * @param usr Erabiltzailearen twitter izena
+	 * @throws SQLException
+	 */
+private void sartuStatusDB(List<Status> lista,String usr) throws SQLException{
 		//Hau DBK-n egon behar da.
 		Iterator<Status> i= lista.iterator();
 		while(i.hasNext()){
@@ -160,6 +189,13 @@ private int switchBooltoInt(boolean b){
 }
 
 
+/**
+ * Erabiltzaileak datu basean gordetzeko metodoa
+ * @param izena erabilztailearen twitter izena
+ * @param jarraitua Jarraitua den ala ez
+ * @param db gure datu basea 
+ * @throws SQLException
+ */
 private void sartuJErabiltzaileaDB(String izena,boolean jarraitua, DBK db) throws SQLException, IllegalStateException, TwitterException{
 		if(!jarraitua)
 		db.saveFollowers(izena);
@@ -170,7 +206,9 @@ private void sartuJErabiltzaileaDB(String izena,boolean jarraitua, DBK db) throw
 	
 	
 	
-
+/**
+ * Tweet faboritoak deskargatu eta datu basean gordetzeko metodoa.
+ */
 public void gustokoakJaitsi(){
 	Twitter twitter = LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
 	boolean amaituta = false;
@@ -195,7 +233,7 @@ public void gustokoakJaitsi(){
 				if (statuses.isEmpty()) {
 					amaituta = true;
 				} else
-					this.sartuStatusDB(DBK.getInstantzia(), statuses, LoginBeharrezkoKode.getLoginCode().twitter.verifyCredentials().getScreenName());;
+					this.sartuStatusDB(statuses, LoginBeharrezkoKode.getLoginCode().twitter.verifyCredentials().getScreenName());;
 			}
 			pagenum = 1;
 			amaituta = false;
@@ -206,7 +244,7 @@ public void gustokoakJaitsi(){
 					amaituta = true;
 				} else
 					
-					this.sartuStatusDB(DBK.getInstantzia(), statuses, LoginBeharrezkoKode.getLoginCode().twitter.getScreenName());;
+					this.sartuStatusDB(statuses, LoginBeharrezkoKode.getLoginCode().twitter.getScreenName());;
 			}
 			DBK.getInstantzia().paramSave(since, max);
 			
@@ -215,7 +253,10 @@ public void gustokoakJaitsi(){
 	}
 	
 	}
-
+/**
+ * rt guztiak deskargatzeko metodoa
+ * 
+ */
 public void rtJaitsi(){
 	Twitter twitter = LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
 	boolean amaituta = false;
@@ -249,7 +290,7 @@ public void rtJaitsi(){
 				if (statuses.isEmpty()) {
 					amaituta = true;
 				} else
-					this.sartuStatusDB(DBK.getInstantzia(), statuses, LoginBeharrezkoKode.getLoginCode().twitter.verifyCredentials().getScreenName());;
+					this.sartuStatusDB(statuses, LoginBeharrezkoKode.getLoginCode().twitter.verifyCredentials().getScreenName());;
 			}
 			pagenum = 1;
 			amaituta = false;
@@ -266,7 +307,7 @@ public void rtJaitsi(){
 					amaituta = true;
 				} else
 					
-					this.sartuStatusDB(DBK.getInstantzia(), statuses, LoginBeharrezkoKode.getLoginCode().twitter.getScreenName());;
+					this.sartuStatusDB(statuses, LoginBeharrezkoKode.getLoginCode().twitter.getScreenName());;
 			}
 			DBK.getInstantzia().paramSave(since, max);
 			
@@ -276,7 +317,11 @@ public void rtJaitsi(){
 	
 	}
 
-
+/**
+ * tweetak deskargatzeko metodo alternatiboa
+ * 3 metodo erabili ordez mota parametroa emanda mota horietako tweetak deskargatzen ditu.
+ * @param mota
+ */
 public void deskargatu(String mota){
 	Twitter twitter = LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
 	boolean amaituta = false;
@@ -313,7 +358,7 @@ public void deskargatu(String mota){
 				if (statuses.isEmpty()) {
 					amaituta = true;
 				} else
-					this.sartuStatusDB(DBK.getInstantzia(), statuses, LoginBeharrezkoKode.getLoginCode().twitter.verifyCredentials().getScreenName());;
+					this.sartuStatusDB(statuses, LoginBeharrezkoKode.getLoginCode().twitter.verifyCredentials().getScreenName());;
 			}
 			pagenum = 1;
 			amaituta = false;
@@ -330,7 +375,7 @@ public void deskargatu(String mota){
 					amaituta = true;
 				} else
 					
-					this.sartuStatusDB(DBK.getInstantzia(), statuses, LoginBeharrezkoKode.getLoginCode().twitter.getScreenName());;
+					this.sartuStatusDB(statuses, LoginBeharrezkoKode.getLoginCode().twitter.getScreenName());;
 			}
 			DBK.getInstantzia().paramSave(since, max);
 			
@@ -340,4 +385,3 @@ public void deskargatu(String mota){
 	
 	}
 }
-	
