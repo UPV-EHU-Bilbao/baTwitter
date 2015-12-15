@@ -27,7 +27,7 @@ public class InformazioHartzaile {
 		public ArrayList<Tweet> getTweetInfo(){
 			ArrayList<Tweet>lista= new ArrayList<>();
 			try{
-			ResultSet rs=DBK.getInstantzia().execSQL("Select * from twit where USER_izena!= '"+getSuperUserIzena()+"'");
+			ResultSet rs=DBK.getInstantzia().execSQL("Select * from twit where USER_izena= '"+getSuperUserIzena()+"'");
 			while (rs.next()){
 				//(String text,int RT, int Fav, int RTCount,int FAVCount,String URL, String Image,long tweetID, String USER_izena)
 				String izena=rs.getString("USER_izena");
