@@ -58,6 +58,8 @@ public class BigarrenLehioa extends JFrame {
 	 * Create the frame.
 	 */
 	public BigarrenLehioa() {
+		setResizable(false);
+		setTitle("Autorizazioa");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -79,7 +81,7 @@ public class BigarrenLehioa extends JFrame {
 		
 		
 		JRadioButton rdbtnGogoratuPasahitza = new JRadioButton("Gogoratu pasahitza");
-		rdbtnGogoratuPasahitza.setBounds(50, 169, 107, 20);
+		rdbtnGogoratuPasahitza.setBounds(50, 169, 150, 20);
 		contentPane.add(rdbtnGogoratuPasahitza);
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener() {

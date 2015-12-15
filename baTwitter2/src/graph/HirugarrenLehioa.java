@@ -54,6 +54,8 @@ public class HirugarrenLehioa extends JFrame {
 	 * Create the frame.
 	 */
 	public HirugarrenLehioa() {
+		setResizable(false);
+		setTitle("Aukera ezazu");
 		setFont(new Font("Arial Black", Font.PLAIN, 12));
 		setTitle("Tweet Kudeaketa");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
