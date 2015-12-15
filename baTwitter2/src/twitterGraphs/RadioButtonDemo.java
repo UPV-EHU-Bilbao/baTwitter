@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import graph.HirugarrenLehioa;
 import twitter4j.TwitterException;
 
 public class RadioButtonDemo extends JPanel
@@ -81,7 +82,21 @@ public class RadioButtonDemo extends JPanel
         		
 			}
 		});       
-
+       JButton atzera= new JButton("Atzera");
+       
+        atzera.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try{
+					guraso.setVisible(false);
+					guraso.dispose();
+					
+				}catch(Exception e){
+					
+				}
+        		
+			}
+		}); 
     
 
         
@@ -97,12 +112,15 @@ public class RadioButtonDemo extends JPanel
         radioPanel.add(nireaButton);
         radioPanel.add(tzaileButton);
         radioPanel.add(tuakButton);
+    
 
         add(radioPanel, BorderLayout.LINE_START);
         
+       
         radioPanel.add(ex1);
-        
-        
+        radioPanel.add(atzera);
+
+
         //entzule bereziak
         
         //add(table, BorderLayout.CENTER);

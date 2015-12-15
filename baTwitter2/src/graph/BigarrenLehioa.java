@@ -91,7 +91,8 @@ public class BigarrenLehioa extends JFrame {
 					if (rdbtnGogoratuPasahitza.isSelected()) {
 						LoginBeharrezkoKode.getLoginCode().SaveToken();
 					}
-					HirugarrenLehioa.main(null);
+					new HirugarrenLehioa().setVisible(true);
+					contentPane.setVisible(false);
 					
 				} catch (Exception e) {
 					throw new Salbuespenak("Ezin da tokena gorde");
