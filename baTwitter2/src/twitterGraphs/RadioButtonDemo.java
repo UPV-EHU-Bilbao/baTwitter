@@ -1,22 +1,27 @@
 package twitterGraphs;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.EventHandler;
-import java.io.IOException;
-import java.net.URL;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.sql.SQLException;
-import java.net.MalformedURLException;
-import javax.swing.*;
 
-import code.DeskargaKudeatzailea;
-import dbRelated.DBK;
-import dbRelated.Exportatzailea;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+
 import twitter4j.TwitterException;
 
 public class RadioButtonDemo extends JPanel
                              implements ActionListener {
-    static String fav = "Favorito";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 9184258634987688752L;
+	static String fav = "Favorito";
     static String rt= "ReTweet";
     static String nirea= "Nire Tweet-ak";
     static String jarraitzaileak="Jarraitzaileak";
@@ -105,7 +110,8 @@ public class RadioButtonDemo extends JPanel
     }
 
     /** Listens to the radio buttons. */
-    public void actionPerformed(ActionEvent e) {
+    @Override
+	public void actionPerformed(ActionEvent e) {
        // picture.setIcon(createImageIcon(  e.getActionCommand()));
 		/*TableDemo taula = new TableDemo(e.getActionCommand().toString());
     	JFrame frame = new JFrame("TableDemo");

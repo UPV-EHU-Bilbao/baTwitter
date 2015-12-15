@@ -38,7 +38,7 @@ public class DeskargaKudeatzailea {
 	 * @throws InterruptedException
 	 * @throws SQLException
 	 */
-	public void jarraitzaileak(DBK db) throws InterruptedException, SQLException{
+	public void jarraitzaileak(DBK db){
 	      try {
 	            long cursor = -1;
 	            IDs ids;
@@ -52,7 +52,6 @@ public class DeskargaKudeatzailea {
               		i=0;
               	}
 	                    User user = tw.showUser(id); 
-	                    System.out.println(user.getName());
 	                    this.sartuJErabiltzaileaDB(user.getName().replace("'", " "), false, db);
 	                    //gorde db-n
 	                    i++;
@@ -60,13 +59,12 @@ public class DeskargaKudeatzailea {
 	            System.exit(0);
 	            
 	        } 
-	        catch (TwitterException te) {
+	        catch (TwitterException te ) {
 	        	int i=te.getRateLimitStatus().getSecondsUntilReset();
-				System.out.println(Integer.toString(i)+" segundo falta dira berriro exekutatu ahal izateko");
-				i= i/60;
-				System.out.println(Integer.toString(i)+" minutu falta dira berriro exekutatu ahal izateko");
-	            
-	        }
+				throw new Salbuespenak(Integer.toString(i)+" segundu falta dira berriro exekutatu ahal izateko");
+	        } catch (InterruptedException e) {
+				throw new Salbuespenak("Arazo bat egon da Kontadorearekin, berriro saia zaitez");
+			}
 	    }
 	/**
 	 * Erabiltzaileak Twitterren jarraitzen dituen erabiltzaileak deskargatu eta datu basean gordetzen ditu.
@@ -90,7 +88,6 @@ public class DeskargaKudeatzailea {
             		i=0;
             	}
 	                    User user = tw.showUser(id); 
-	                    System.out.println(user.getName());
 	                    this.sartuJErabiltzaileaDB(user.getName().replace("'", " "), true, db);
 	                    i++;
 	                }
@@ -100,10 +97,7 @@ public class DeskargaKudeatzailea {
 	        catch (TwitterException te) {
 	        	int i=te.getRateLimitStatus().getSecondsUntilReset();
 				throw new Salbuespenak(Integer.toString(i)+" segundo falta dira berriro exekutatu ahal izateko");
-				//i= i/60;
-				//System.out.println(Integer.toString(i)+" minutu falta dira berriro exekutatu ahal izateko");
-	            
-	        }
+				}
 	    }
 
 	/**
@@ -111,22 +105,21 @@ public class DeskargaKudeatzailea {
 	 * @throws InterruptedException
 	 * @throws SQLException
 	 */
-	public void nireTweet() throws InterruptedException, SQLException, TwitterException{
-		//Twitter twitter = LoginBeharrezkoKode.getLoginCode().getTwitterInstance();
+	public void nireTweet(){
 		boolean amaituta = false;
 		int pagenum= 1;
 		long since=0;
 		long max=0;
-		String user=LoginBeharrezkoKode.getLoginCode().twitter.verifyCredentials().getScreenName();
 			try{
+				String user=LoginBeharrezkoKode.getLoginCode().getTwitterInstance().verifyCredentials().getScreenName();
 				List<Status> statuses = new ArrayList<Status>();
 				ResultSet var=DBK.getInstantzia().execSQL("Select since, max from superuser");
 				while(var.next()){
 					since = var.getLong(1);
 					max= var.getLong(2);
 				}
-				if(since==0){since=1;}
-				if(max==0){max=1;}
+				if(since==0){since=1L;}
+				if(max==0){max=Long.MAX_VALUE;}
 				
 				while (!amaituta) {
 					
@@ -180,8 +173,7 @@ private void sartuStatusDB(List<Status> lista,String usr){
 			while(i.hasNext()){
 			Status t= i.next();
 			if(t.getURLEntities().length==0){
-				System.out.println(t.getFavoriteCount());
-				System.out.println(t.getUser().getScreenName());
+				
 			DBK.getInstantzia().saveTweetInfo(t.getText().replace("'", "''"), switchBooltoInt(t.isRetweet()), switchBooltoInt(t.isFavorited()), t.getRetweetCount(), t.getFavoriteCount(),null, null, t.getId(), t.getUser().getScreenName());
 			}
 			else
@@ -191,6 +183,11 @@ private void sartuStatusDB(List<Status> lista,String usr){
 			throw new Salbuespenak(e.getMessage());
 		} 
 	}
+/**
+ * Honek Boolean balioak 1 eta 0an bihurtzen ditu datu baseak kudeatu dezan
+ * @param b
+ * @return
+ */
 private int switchBooltoInt(boolean b){
 	int var = b? 1 : 0;
 	return var;
@@ -232,8 +229,8 @@ public void gustokoakJaitsi(){
 				since = var.getLong(1);
 				max= var.getLong(2);
 			}
-			if(since==0){since=1;}
-			if(max==0){max=1;}
+			if(since==0){since=1L;}
+			if(max==0){max=Long.MAX_VALUE;}
 			
 			while (!amaituta) {
 				//statuses= twitter.getHomeTimeline(new Paging(pagenum++, 200, since));
@@ -242,7 +239,7 @@ public void gustokoakJaitsi(){
 				if (statuses.isEmpty()) {
 					amaituta = true;
 				} else
-					this.sartuStatusDB(statuses, LoginBeharrezkoKode.getLoginCode().twitter.verifyCredentials().getScreenName());;
+					this.sartuStatusDB(statuses, LoginBeharrezkoKode.getLoginCode().getTwitterInstance().verifyCredentials().getScreenName());;
 			}
 			pagenum = 1;
 			amaituta = false;
@@ -253,7 +250,7 @@ public void gustokoakJaitsi(){
 					amaituta = true;
 				} else
 					
-					this.sartuStatusDB(statuses, LoginBeharrezkoKode.getLoginCode().twitter.getScreenName());;
+					this.sartuStatusDB(statuses, LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName());;
 			}
 			DBK.getInstantzia().paramSave(since, max);
 			
@@ -286,8 +283,8 @@ public void rtJaitsi(){
 				since = var.getLong(1);
 				max= var.getLong(2);
 			}
-			if(since==0){since=1;}
-			if(max==0){max=1;}
+			if(since==0){since=1L;}
+			if(max==0){max=Long.MAX_VALUE;}
 			
 			while (!amaituta) {
 				/*
@@ -300,7 +297,7 @@ public void rtJaitsi(){
 				if (statuses.isEmpty()) {
 					amaituta = true;
 				} else
-					this.sartuStatusDB(statuses, LoginBeharrezkoKode.getLoginCode().twitter.verifyCredentials().getScreenName());;
+					this.sartuStatusDB(statuses, LoginBeharrezkoKode.getLoginCode().getTwitterInstance().verifyCredentials().getScreenName());;
 			}
 			pagenum = 1;
 			amaituta = false;
@@ -317,7 +314,7 @@ public void rtJaitsi(){
 					amaituta = true;
 				} else
 					
-					this.sartuStatusDB(statuses, LoginBeharrezkoKode.getLoginCode().twitter.getScreenName());;
+					this.sartuStatusDB(statuses, LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName());;
 			}
 			DBK.getInstantzia().paramSave(since, max);
 			
@@ -354,8 +351,8 @@ public void deskargatu(String mota){
 				since = var.getLong(1);
 				max= var.getLong(2);
 			}
-			if(since==0){since=1;}
-			if(max==0){max=1;}
+			if(since==0){since=1L;}
+			if(max==0){max=Long.MAX_VALUE;}
 			
 			while (!amaituta) {
 				/*
@@ -368,7 +365,7 @@ public void deskargatu(String mota){
 				if (statuses.isEmpty()) {
 					amaituta = true;
 				} else
-					this.sartuStatusDB(statuses, LoginBeharrezkoKode.getLoginCode().twitter.verifyCredentials().getScreenName());;
+					this.sartuStatusDB(statuses, LoginBeharrezkoKode.getLoginCode().getTwitterInstance().verifyCredentials().getScreenName());;
 			}
 			pagenum = 1;
 			amaituta = false;
@@ -385,7 +382,7 @@ public void deskargatu(String mota){
 					amaituta = true;
 				} else
 					
-					this.sartuStatusDB(statuses, LoginBeharrezkoKode.getLoginCode().twitter.getScreenName());;
+					this.sartuStatusDB(statuses, LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName());;
 			}
 			DBK.getInstantzia().paramSave(since, max);
 			

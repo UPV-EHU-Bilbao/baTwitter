@@ -1,7 +1,7 @@
 package twitterGraphs;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.FlowLayout;
+import java.sql.SQLException;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -10,16 +10,14 @@ import javax.swing.border.EmptyBorder;
 
 import twitter4j.TwitterException;
 
-import java.awt.FlowLayout;
-import java.sql.SQLException;
-
-import javax.swing.JTable;
-
 public class Osoa extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8824362418664576996L;
 	private JPanel contentPane;
 	private JPanel contentPaneT;
-	private String mezua;
 	private JComponent newContentPane;
 	private TableDemo taula;
 	/**

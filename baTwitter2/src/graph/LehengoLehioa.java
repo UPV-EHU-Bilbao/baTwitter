@@ -1,28 +1,19 @@
 package graph;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import code.LoginBeharrezkoKode;
 import dbRelated.DBK;
-import twitterGraphs.Osoa;
-
-import javax.imageio.ImageIO;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.awt.event.ActionEvent;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import exception.Salbuespenak;
 
 public class LehengoLehioa extends JFrame {
 
@@ -37,7 +28,7 @@ public class LehengoLehioa extends JFrame {
 	 */
 	 private static void createAndShowGUI() {
 	        //Create and set up the window.
-	        JFrame frame = new JFrame("RadioButtonDemo");
+	        JFrame frame = new JFrame("BATwitter");
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	        //Create and set up the content pane.
@@ -47,13 +38,15 @@ public class LehengoLehioa extends JFrame {
 	        //Display the window.
 	        frame.pack();
 	        frame.setVisible(true);
+	        frame.setResizable(false);
 	    }
 
 	    public static void main(String[] args) {
 	        //Schedule a job for the event-dispatching thread:
 	        //creating and showing this application's GUI.
 	        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-	            public void run() {
+	            @Override
+				public void run() {
 	                createAndShowGUI();
 	            }
 	        });
@@ -97,7 +90,7 @@ public class LehengoLehioa extends JFrame {
 					}
 					
 				}	catch(Exception e1){
-					e1.printStackTrace();
+					throw new Salbuespenak("Ez dago Twitter-era konexiorik edo Datu Basean errorea dago");
 				}
         		
 			}
@@ -120,7 +113,7 @@ public class LehengoLehioa extends JFrame {
 					DBK.getInstantzia().ClearDB();
 					
 				}	catch(Exception e1){
-					e1.printStackTrace();
+					throw new Salbuespenak("Ezin da datu basera sartu.");
 				}
         		
 			}

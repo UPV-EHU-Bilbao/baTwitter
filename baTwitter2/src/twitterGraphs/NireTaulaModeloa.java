@@ -3,7 +3,6 @@ package twitterGraphs;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 
 import code.Tweet;
@@ -12,12 +11,21 @@ import twitter4j.TwitterException;
 
 public class NireTaulaModeloa extends AbstractTableModel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6466465324824576663L;
 	private String[] kolumnaIzenak;
 	private String mota;
+	@SuppressWarnings("unused")
 	private ArrayList<Tweet> nireak= new ArrayList<Tweet>();
+	@SuppressWarnings("unused")
 	private ArrayList<Tweet> rtak= new ArrayList<Tweet>();
+	@SuppressWarnings("unused")
 	private ArrayList<Tweet> faboritoak= new ArrayList<Tweet>();
+	@SuppressWarnings("unused")
 	private ArrayList<String> jarraitzaileak= new ArrayList<String>();
+	@SuppressWarnings("unused")
 	private ArrayList<String> jarraituak= new ArrayList<String>();
 	private InformazioHartzaile infor= new InformazioHartzaile();
 
@@ -44,7 +52,6 @@ public class NireTaulaModeloa extends AbstractTableModel{
 		
 		if(mota.equals("Jarraitzaileak")){
 			lista=infor.getJarraitzaileInfo();
-			
 		}
 		else if(mota.equals("Jarraituak")){
 			lista=infor.getJarraituakInfo();
@@ -77,10 +84,12 @@ public class NireTaulaModeloa extends AbstractTableModel{
 
 	}
 	
+	@Override
 	public int getColumnCount(){
 		return kolumnaIzenak.length;		
 	}
 
+	@Override
 	public int getRowCount(){
 		if(mota.equals("Jarraitzaileak")||mota.equals("Jarraituak")){
 			return lista.size();
@@ -89,10 +98,12 @@ public class NireTaulaModeloa extends AbstractTableModel{
 		return data.size();
 	}
 
+	@Override
 	public String getColumnName(int i){
 		return kolumnaIzenak[i];
 	}
 
+	@Override
 	public Object getValueAt(int row, int col){
 		if(mota.equals("Jarraitzaileak")||mota.equals("Jarraituak")){
 			return lista.get(row);
@@ -104,6 +115,7 @@ public class NireTaulaModeloa extends AbstractTableModel{
 	
 
 
+	@Override
 	public boolean isCellEditable(int row, int col){
 		return false;
 	}

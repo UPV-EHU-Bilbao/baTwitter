@@ -4,30 +4,34 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import code.LoginBeharrezkoKode;
 import code.Tweet;
 import exception.Salbuespenak;
-import twitter4j.TwitterException;
 
 public class InformazioHartzaile {
 
-		private static DBK dbk;
 		
 		public InformazioHartzaile(){
-			dbk=DBK.getInstantzia();
 		}
-		
+		public String getSuperUserIzena(){
+			String superuser="";
+			try{
+				ResultSet rs= DBK.getInstantzia().execSQL("Select izena from superuser");
+				while (rs.next()){
+					superuser= rs.getString(1);
+				}
+			}catch (Exception e){
+				throw new Salbuespenak("Ezin da erabiltzailearen izena irakurri");
+			}
+			return superuser;
+		}
 		public ArrayList<Tweet> getTweetInfo(){
 			ArrayList<Tweet>lista= new ArrayList<>();
 			try{
-			String usr=LoginBeharrezkoKode.getLoginCode().getTwitterInstance().getScreenName();
-			ResultSet rs=dbk.execSQL("Select * from twit where USER_izena!='"+usr+"'" );
+			ResultSet rs=DBK.getInstantzia().execSQL("Select * from twit where USER_izena!= '"+getSuperUserIzena()+"'");
 			while (rs.next()){
 				//(String text,int RT, int Fav, int RTCount,int FAVCount,String URL, String Image,long tweetID, String USER_izena)
 				String izena=rs.getString("USER_izena");
-				String textua=rs.getString(1);
-				System.out.println(textua);
-				
+				String textua=rs.getString(1);				
 				long id = rs.getLong(8);
 				int RTKop=rs.getInt("rtKop");
 				int FavKop=rs.getInt("favKop");
@@ -59,10 +63,9 @@ public class InformazioHartzaile {
 		public ArrayList<String> getJarraitzaileInfo(){
 			ArrayList<String> lista = new ArrayList<String>();
 			try{
-			ResultSet rs=dbk.execSQL("Select * from user where jarraitzailea=1");
+			ResultSet rs=DBK.getInstantzia().execSQL("Select * from user where jarraitzailea=1");
 			while (rs.next()){
 				String izena=rs.getString(1);
-				System.out.println(izena);
 				lista.add(izena);
 				}
 			}catch(Exception e){
@@ -75,10 +78,9 @@ public class InformazioHartzaile {
 		public ArrayList<String> getJarraituakInfo() {
 			ArrayList<String> lista = new ArrayList<String>();
 			try{
-			ResultSet rs=dbk.execSQL("Select * from user where jarraitua=1");
+			ResultSet rs=DBK.getInstantzia().execSQL("Select * from user where jarraitua=1");
 			while (rs.next()){
 				String izena=rs.getString(1);
-				System.out.println(izena);
 				lista.add(izena);
 				}
 			}catch (Exception e){
@@ -92,7 +94,7 @@ public class InformazioHartzaile {
 			ArrayList<Tweet>lista= new ArrayList<>();
 
 			try{
-			ResultSet rs=dbk.execSQL("Select * from twit where fav=1");
+			ResultSet rs=DBK.getInstantzia().execSQL("Select * from twit where fav=1");
 			while (rs.next()){
 				String izena=rs.getString(9);
 				String textua=rs.getString(1);				
@@ -117,7 +119,7 @@ public class InformazioHartzaile {
 			Tweet tw= new Tweet(textua, izena, rt, fav, RTKop, FavKop, id, url);
 			lista.add(tw);
 			}
-			}catch(Exception e){
+			}catch(SQLException e){
 				throw new Salbuespenak("Ezin dira Favoritoak lortu");
 			}
 			return lista;
@@ -126,7 +128,7 @@ public class InformazioHartzaile {
 		public ArrayList<Tweet> getRTInfo(){
 			ArrayList<Tweet>lista= new ArrayList<>();
 			try{
-			ResultSet rs=dbk.execSQL("Select * from twit where rt=1");
+			ResultSet rs=DBK.getInstantzia().execSQL("Select * from twit where rt=1");
 			while (rs.next()){
 				String izena=rs.getString(9);
 				String textua=rs.getString(1);				

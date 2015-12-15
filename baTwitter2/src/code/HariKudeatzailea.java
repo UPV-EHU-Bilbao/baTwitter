@@ -1,12 +1,8 @@
 package code;
 
-import java.sql.SQLException;
-
-import dbRelated.DBK;
-import twitter4j.TwitterException;
-
 public class HariKudeatzailea {
-   private static DeskargaKudeatzailea z=new DeskargaKudeatzailea();
+   @SuppressWarnings("unused")
+private static DeskargaKudeatzailea z=new DeskargaKudeatzailea();
 
 	/* public static void main(String args[]){
 

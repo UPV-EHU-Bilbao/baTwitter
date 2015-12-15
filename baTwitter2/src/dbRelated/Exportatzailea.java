@@ -1,20 +1,9 @@
 package dbRelated;
-import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -23,9 +12,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import exception.Salbuespenak;
 
 public class Exportatzailea {
-	
-	private static Exportatzailea export = new Exportatzailea();
-	
+		
 	private Workbook wb;
 	
 	public Exportatzailea(){
@@ -123,8 +110,12 @@ public class Exportatzailea {
 		Sheet UserSheet = wb.createSheet("User");
 		Row headerRow = UserSheet.createRow(0);
 		Cell IzenaHeaderCell = headerRow.createCell(0);
+		IzenaHeaderCell.setCellValue("IZENA");
 		Cell JarraitzaileakHeaderCell = headerRow.createCell(1);
+		JarraitzaileakHeaderCell.setCellValue("JARRAITZAILEA");
 		Cell JarraituakheaderCell=headerRow.createCell(2);
+		JarraituakheaderCell.setCellValue("JARRAITUA");
+
 		
 		String sql = "Select * from user where jarraitzailea=1;";
 		try{

@@ -5,7 +5,8 @@ import java.sql.SQLException;
 
 import java.sql.Connection;
 import java.sql.Statement;
-import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 
 import code.LoginBeharrezkoKode;
 import exception.Salbuespenak;
@@ -22,14 +23,14 @@ public class DBK{
 	Connection conn = null;
 
 	/**
-	 * Datu basearekin konexioa
+	 * Datu basearekin konexioa ireki
 	 */
 	private void conOpen() {
 		try {
 			String url = "jdbc:sqlite:newTwitter.db";
 			Class.forName("org.sqlite.JDBC").newInstance();
-			
-			conn = (Connection) DriverManager.getConnection(url);
+			conn = DriverManager.getConnection(url);
+			JOptionPane.showMessageDialog(null,"Datu basera konektatu da","Konexio ezarria", JOptionPane.DEFAULT_OPTION);
 		} catch (Exception e) {
 			throw new Salbuespenak("Database connection  NOT stablished");
 		}
@@ -37,6 +38,14 @@ public class DBK{
 		
 	}
 	
+	private void taulakSortu(){
+		String sql="CREATE TABLE if not exists 'superuser' (`izena`	varchar(45),`jarraitzaileak`	integer,`jarraituak`	integer,`AccessToken`	TEXT,`AccessTokenSecret`	TEXT,`since`	INTEGER,`max`	INTEGER,PRIMARY KEY(izena))";
+		instantzia.execSQL(sql);
+		sql="CREATE TABLE if not exists'twit' (`edukia`	varchar(140),`url`	varchar(140),`irudia`	varchar(140),`fav`	NUMERIC,`rt`	NUMERIC,`favKop`	integer,`rtKop`	integer,`id`	integer,`USER_izena`	varchar(45),PRIMARY KEY(id))";
+		instantzia.execSQL(sql);
+		sql="CREATE TABLE 'user' (`izena`	varchar(45) NOT NULL,`jarraitua`	NUMERIC,`jarraitzailea`	NUMERIC,PRIMARY KEY(izena))";
+		instantzia.execSQL(sql);
+	}
 	
 
 
@@ -45,19 +54,17 @@ public class DBK{
 
 
 	/**
-	 * Konexioa itzi egiten du.
+	 * Konexioa itxi egiten du.
 	 */
+	@SuppressWarnings("unused")
 	private void conClose() {
 
 		if (conn != null)
 			try {
 				conn.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		System.out.println("Database connection terminated");
+				throw new Salbuespenak("Ezin da konexioa itxi");
+}
 
 	}
 
@@ -97,18 +104,19 @@ public class DBK{
 	 * @return ResultSet Datu basean hartutakoa
 	 */
 	public ResultSet execSQL(String query) {
+		@SuppressWarnings("unused")
 		int count = 0;
 		Statement s = null;
 		ResultSet rs = null;
 		
 		try {
-			s = (Statement) conn.createStatement();
+			s = conn.createStatement();
 			if (query.toLowerCase().indexOf("select") == 0) {
 				rs = this.query(s, query);
 				
 			} else {
 				count = s.executeUpdate(query);
-				System.out.println(count + " rows affected");
+				//System.out.println(count + " rows affected");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -154,8 +162,6 @@ public class DBK{
 				Object o = rs.getObject(i);
 				token[i-1]=o.toString();
 			}
-			System.out.println();
-			System.out.println();
 		}
 		
 		

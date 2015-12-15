@@ -1,7 +1,6 @@
 package Core;
 
 import graph.LehengoLehioa;
-import twitter4j.*;
 
 /**
  * Aplikazioa hasteko metodoa, lehenengo lehioa irekitzen du.

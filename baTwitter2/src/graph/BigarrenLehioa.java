@@ -1,23 +1,18 @@
 package graph;
 
 
-import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import code.LoginBeharrezkoKode;
-import twitterGraphs.Osoa;
-
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-
-import java.awt.event.ActionEvent;
-import javax.swing.JRadioButton;
+import exception.Salbuespenak;
 
 public class BigarrenLehioa extends JFrame {
 
@@ -51,7 +46,8 @@ public class BigarrenLehioa extends JFrame {
 	        //Schedule a job for the event-dispatching thread:
 	        //creating and showing this application's GUI.
 	        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-	            public void run() {
+	            @Override
+				public void run() {
 	                createAndShowGUI();
 	            }
 	        });
@@ -98,7 +94,7 @@ public class BigarrenLehioa extends JFrame {
 					HirugarrenLehioa.main(null);
 					
 				} catch (Exception e) {
-					e.printStackTrace();
+					throw new Salbuespenak("Ezin da tokena gorde");
 				}
 			}
 		});

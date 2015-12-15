@@ -1,21 +1,18 @@
 package graph;
 
-import javax.swing.*;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import code.DeskargaKudeatzailea;
-import code.HariKudeatzailea;
-import code.LoginBeharrezkoKode;
 import dbRelated.DBK;
-import dbRelated.InformazioHartzaile;
-import twitter4j.TwitterException;
+import exception.Salbuespenak;
 import twitterGraphs.Osoa;
-
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.awt.Window.Type;
 
 public class HirugarrenLehioa extends JFrame {
 
@@ -46,7 +43,8 @@ public class HirugarrenLehioa extends JFrame {
 	        //Schedule a job for the event-dispatching thread:
 	        //creating and showing this application's GUI.
 	        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-	            public void run() {
+	            @Override
+				public void run() {
 	                createAndShowGUI();
 	            }
 	        });
@@ -64,7 +62,7 @@ public class HirugarrenLehioa extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
+		DeskargaKudeatzailea desk= new DeskargaKudeatzailea();
 		
 		
 		JButton btnDeskargatuTW = new JButton("Deskargatu Kontuko Tweetak");
@@ -73,10 +71,9 @@ public class HirugarrenLehioa extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try{
-					DeskargaKudeatzailea desk= new DeskargaKudeatzailea();
 					desk.nireTweet();
 				}catch(Exception e){
-					e.printStackTrace();
+					throw new Salbuespenak("Twitter-era konexioa bukatu da");
 				}
 			}
 		});
@@ -87,10 +84,9 @@ public class HirugarrenLehioa extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
 
-					DeskargaKudeatzailea desk= new DeskargaKudeatzailea();
 					desk.rtJaitsi();
 				}catch(Exception e){
-					e.printStackTrace();
+					throw new Salbuespenak("Ez dago Twitter-era konexiorik");
 				}
         		
 			}
@@ -102,10 +98,9 @@ public class HirugarrenLehioa extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
 
-					DeskargaKudeatzailea desk= new DeskargaKudeatzailea();
 					desk.gustokoakJaitsi();
 					}catch(Exception e){
-					e.printStackTrace();
+					throw new Salbuespenak("Ez dago Twitter-era konexiorik");
 				}
         		
 			}
@@ -118,10 +113,9 @@ public class HirugarrenLehioa extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
 
-					DeskargaKudeatzailea desk= new DeskargaKudeatzailea();
 					desk.jarraitzaileak(DBK.getInstantzia());
 				}catch(Exception e){
-					e.printStackTrace();
+					throw new Salbuespenak("Ez dago Twitter-era konexiorik");
 				}
         		
 			}
@@ -137,10 +131,9 @@ public class HirugarrenLehioa extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try{
-					DeskargaKudeatzailea desk= new DeskargaKudeatzailea();
 					desk.jarraituak(DBK.getInstantzia());
 					}catch(Exception e){
-					e.printStackTrace();
+						throw new Salbuespenak("Ez dago Twitter-era konexiorik");
 				}
         		
 			}
@@ -155,9 +148,9 @@ public class HirugarrenLehioa extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					Osoa.main(null);
-				} catch (IllegalStateException | SQLException | TwitterException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				} catch (Exception e){
+					throw new Salbuespenak("Ezin da lehioa ireki, mesedez saia zaitez programa berhasieratzen");
+
 				}
         		
 			}

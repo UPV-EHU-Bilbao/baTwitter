@@ -1,13 +1,12 @@
 package twitter;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextPane;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.border.EmptyBorder;
 
 /**
  * 
@@ -16,6 +15,10 @@ import javax.swing.JTextField;
  */
 public class MaximoaGaindituta extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7862008761580557329L;
 	private JPanel contentPane;
 	/**
 	 * @wbp.nonvisual location=49,47
@@ -27,6 +30,7 @@ public class MaximoaGaindituta extends JFrame {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					MaximoaGaindituta frame = new MaximoaGaindituta();

@@ -1,15 +1,12 @@
 package code;
 
 import java.awt.Desktop;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
 
 import dbRelated.DBK;
 import exception.Salbuespenak;
 import twitter4j.Twitter;
-import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
@@ -27,7 +24,7 @@ public class LoginBeharrezkoKode {
 	private String CS="ZvlLujot49kqG6qd0SJp3PLFRyHUIp9XtmEw6bYOlOmqpFC1F1";
 	private AccessToken AT;
 	private RequestToken RT;
-	Twitter twitter;
+	private Twitter twitter;
 	private static LoginBeharrezkoKode nireLoginCode=new LoginBeharrezkoKode();
 	
 	
@@ -86,9 +83,6 @@ public class LoginBeharrezkoKode {
             if (Pin.length() > 0) {
             	//AT = twitter.getOAuthAccessToken(RT);
                 AT = twitter.getOAuthAccessToken(getRT(), Pin);
-                System.out.println("Got access token.");
-                System.out.println("Access token: " + AT.getToken());
-                System.out.println("Access token secret: " + AT.getTokenSecret());
             } else {
                 AT = twitter.getOAuthAccessToken(getRT());
             }
@@ -106,8 +100,7 @@ public class LoginBeharrezkoKode {
 	
 	public void showStatus(){
 		if (!twitter.getAuthorization().isEnabled()) {
-            System.out.println("OAuth consumer key/secret is not set.");
-            System.exit(-1);
+			throw new Salbuespenak("Autorizazioa ez da ziurtatu");
         }
 	}
 	public void SaveToken(){
