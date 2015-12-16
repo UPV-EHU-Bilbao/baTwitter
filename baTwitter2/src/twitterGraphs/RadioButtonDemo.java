@@ -74,7 +74,7 @@ public class RadioButtonDemo extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try{
-					new ExpFrame().gorde();
+					new ExportFrame().gorde();
 					
 				}catch(Exception e){
 					

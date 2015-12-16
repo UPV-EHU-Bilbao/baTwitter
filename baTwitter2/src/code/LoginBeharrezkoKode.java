@@ -72,7 +72,6 @@ public class LoginBeharrezkoKode {
 		twitter.setOAuthAccessToken(AT);
 	} catch (Exception e) {
 		throw new Salbuespenak("Ezin dira Kredentzialak verifikatu");
-
 		}
 		}
 	

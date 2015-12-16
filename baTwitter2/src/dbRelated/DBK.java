@@ -30,7 +30,6 @@ public class DBK{
 			String url = "jdbc:sqlite:newTwitter.db";
 			Class.forName("org.sqlite.JDBC").newInstance();
 			conn = DriverManager.getConnection(url);
-			JOptionPane.showMessageDialog(null,"Datu basera konektatu da","Konexio ezarria", JOptionPane.DEFAULT_OPTION);
 		} catch (Exception e) {
 			throw new Salbuespenak("Database connection  NOT stablished");
 		}

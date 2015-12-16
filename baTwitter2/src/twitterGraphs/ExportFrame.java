@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import dbRelated.Exportatzailea;
 import exception.Salbuespenak;
 
-public class ExpFrame {
+public class ExportFrame {
 
 	public void gorde() {
 		String path = "";
